@@ -29,9 +29,9 @@ jobs:
       - name: Install verification dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements-web.txt pytest openpyxl scipy 'jsonschema>=4,<5' httpx2
+          python -m pip install -r requirements-web.txt pytest openpyxl scipy 'jsonschema>=4,<5' 'httpx>=0.27,<1'
 
-      - name: Validate repository structure
+      - name: Validate production repository structure
         shell: bash
         run: |
           set -euo pipefail
@@ -41,6 +41,11 @@ jobs:
           test -d engine/match_analysis/analysis_lib
           test -f engine/match_analysis/analysis_lib/tracking_adapter.py
           test -f PRESENT_WINDOWS.vbs
+          test ! -f engine/match_analysis/run_stage4_from_artifacts.py
+          test ! -f engine/match_analysis/export_task3_final_demo.py
+          test ! -f engine/tracking/export_player_demo.py
+          test ! -f engine/tracking/export_five_event_compilation.py
+          test ! -f engine/football_metric_running/src/pipeline.py
           if find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print | grep -q .; then
             echo 'week-based file or directory name remains'
             find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print
@@ -48,6 +53,10 @@ jobs:
           fi
           if grep -RInE --exclude-dir=third_party --exclude-dir=vendor --exclude-dir=.pytest_cache --exclude='*.md' '(week2|week3)' app engine scripts 2>/dev/null; then
             echo 'week-based first-party code reference remains'
+            exit 1
+          fi
+          if grep -RIn 'metric_pitch_with_possession_and_passes\.mp4' app engine scripts docs README.md 2>/dev/null; then
+            echo 'duplicate metric pitch output contract remains'
             exit 1
           fi
 
