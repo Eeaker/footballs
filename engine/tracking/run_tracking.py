@@ -10,7 +10,6 @@ import sys
 
 import cv2
 import numpy as np
-import torch
 
 from tracking_lib.actor import attribute_actor, build_global_boxes, interpolate_ball
 from tracking_lib.config import get_value, load_config
@@ -190,6 +189,8 @@ def enrich_events(
 
 
 def main() -> None:
+    import torch
+
     args = parse_args()
     np.random.seed(0)
     torch.manual_seed(0)
