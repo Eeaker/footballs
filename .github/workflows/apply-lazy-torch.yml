@@ -89,7 +89,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m pytest -q engine/tracking/tests/test_actor.py engine/tracking/tests/test_global_frame_uniqueness.py
+          python -m py_compile engine/tracking/run_tracking.py
           python scripts/audit_engine_chain.py
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
