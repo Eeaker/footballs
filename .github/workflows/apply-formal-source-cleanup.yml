@@ -14,96 +14,73 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
+        with: {fetch-depth: 0}
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+        with: {python-version: '3.11'}
 
       - name: Reduce repository to formal production source
         shell: bash
         run: |
           python - <<'PY'
           from pathlib import Path
-          import hashlib, json, re, shutil
-          root=Path('.')
+          import hashlib, json, shutil
 
-          # 1) Tracking wrapper: keep only canonical tracking products.
+          # Tracking product wrapper: remove research-delivery side products.
           p=Path('engine/tracking/run_pipeline.py')
           s=p.read_text(encoding='utf-8')
-          s=s.replace('    id_focus = output / "id_focus"\n    mosaics = output / "identity_mosaics"\n    highlights = output / "candidate_highlights"\n    review = output / "human_review"\n','')
-          start=s.index('        run([\n            sys.executable, str(ROOT / "make_id_focus_clips.py"),')
-          end=s.index('        tracking_final.mkdir(parents=True, exist_ok=True)', start)
-          s=s[:start]+s[end:]
-          start=s.index('        run([\n            sys.executable, str(ROOT / "validate_delivery.py"),')
-          end=s.index('\n\n    shutil.rmtree(work)', start)
-          s=s[:start]+s[end:]
+          for line in [
+              '    id_focus = output / "id_focus"\n','    mosaics = output / "identity_mosaics"\n',
+              '    highlights = output / "candidate_highlights"\n','    review = output / "human_review"\n']:
+              s=s.replace(line,'')
+          marker='        run([\n            sys.executable, str(ROOT / "make_id_focus_clips.py"),'
+          if marker in s:
+              a=s.index(marker); b=s.index('        tracking_final.mkdir(parents=True, exist_ok=True)',a); s=s[:a]+s[b:]
+          marker='        run([\n            sys.executable, str(ROOT / "validate_delivery.py"),'
+          if marker in s:
+              a=s.index(marker); b=s.index('\n\n    shutil.rmtree(work)',a); s=s[:a]+s[b:]
           s=s.replace('"pipeline": "tracking_delivery_v3"','"pipeline": "tracking_pipeline_v4"')
           s=s.replace('            "evaluation": "closed_candidate_labels_plus_human_review_no_scoring",\n            "highlight": f"{event_count}_candidates_each_{pre_sec}s_before_and_{post_sec}s_after",\n            "validation_profile": "adaptive" if config else "v3_exact",\n','            "evaluation": "canonical_tracking_outputs_only",\n')
           s=s.replace('                output / "quality_report.json",\n                review / "events_for_human_review.json",\n','')
-          p.write_text(s, encoding='utf-8')
+          p.write_text(s,encoding='utf-8')
 
-          # 2) Integrated analysis: calculate data only; final product renders replay once later.
-          p=Path('engine/match_analysis/run_integrated_analysis.py')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace('from analysis_lib.pitch_render import render_pitch_video\n','')
-          start=s.index('    pitch_video = output / "metric_pitch_with_possession_and_passes.mp4"')
-          end=s.index('    manifest = {', start)
-          s=s[:start]+s[end:]
-          s=s.replace('"pipeline": "match_analysis_metric_pitch_v2"','"pipeline": "match_analysis_metric_running_v3"')
-          s=s.replace('        "render_report": render_report,\n','')
-          s=s.replace('            "metric_pitch_with_possession_and_passes.mp4": sha256(pitch_video),\n','')
-          p.write_text(s, encoding='utf-8')
-
-          # 3) Remove non-production / duplicate / historical entrypoints.
           obsolete=[
-            'engine/football_metric_running/src/pipeline.py',
-            'engine/football_metric_running/tests/test_frame_domain.py',
-            'engine/repository_qa',
-            'engine/match_analysis/export_acceptance_clips.py',
-            'engine/match_analysis/export_task3_final_demo.py',
-            'engine/match_analysis/prepare_reference_player_card_inputs.py',
-            'engine/match_analysis/prototypes',
-            'engine/match_analysis/reclassify_ocr_boss_compatible.py',
-            'engine/match_analysis/render_ocr_policy_contact_sheet.py',
-            'engine/match_analysis/run_stage4_from_artifacts.py',
-            'engine/tracking/export_five_event_compilation.py',
-            'engine/tracking/export_player_demo.py',
-            'engine/tracking/build_montage.py',
-            'engine/tracking/build_identity_mosaics.py',
-            'engine/tracking/generate_review_manifest.py',
-            'engine/tracking/validate_delivery.py',
+            'engine/football_metric_running/src/pipeline.py','engine/football_metric_running/tests/test_frame_domain.py',
+            'engine/football_metric_running/src/running_metrics_v1/render_demo.py','engine/football_metric_running/ARTIFACTS.md',
+            'engine/football_metric_running/.gitattributes','engine/football_metric_running/scripts',
+            'engine/repository_qa','engine/match_analysis/export_acceptance_clips.py',
+            'engine/match_analysis/export_task3_final_demo.py','engine/match_analysis/prepare_reference_player_card_inputs.py',
+            'engine/match_analysis/prototypes','engine/match_analysis/reclassify_ocr_boss_compatible.py',
+            'engine/match_analysis/render_ocr_policy_contact_sheet.py','engine/match_analysis/run_stage4_from_artifacts.py',
+            'engine/tracking/export_five_event_compilation.py','engine/tracking/export_player_demo.py',
+            'engine/tracking/build_montage.py','engine/tracking/build_identity_mosaics.py',
+            'engine/tracking/generate_review_manifest.py','engine/tracking/validate_delivery.py',
           ]
           for name in obsolete:
               q=Path(name)
               if q.is_dir(): shutil.rmtree(q)
               elif q.exists(): q.unlink()
 
-          # 4) Formal engine documentation.
-          Path('engine/football_metric_running/README.md').write_text('''# Metric Running Engine\n\n负责把追踪得到的球员脚点轨迹转换到真实球场米制坐标，并计算跑动距离、速度与逐帧米制时序。该模块不负责目标检测、人物追踪或比赛事件识别。\n\n## 正式输入\n\n- `tracking_mot.txt`：Tracking Engine 的技术 ID 轨迹；\n- 已通过验证的静态或动态 Homography 标定；\n- 帧率/抽帧步长等追踪元数据。\n\n## 正式入口\n\n```bash\nPYTHONPATH=engine/football_metric_running/src python -m running_metrics_v1.calculate_running \\\n  --mot <tracking_mot.txt> \\\n  --calibration <dynamic_calibration.json> \\\n  --outdir <output-dir>\n```\n\n主要输出：\n\n- `player_running_timeseries.csv`：逐帧米制位置与运动数据；\n- `player_running_summary.csv`：逐球员跑动汇总。\n\n## 动态标定\n\n正式产品使用多锚点动态标定：\n\n```bash\nPYTHONPATH=engine/football_metric_running/src python -m running_metrics_v1.build_multi_anchor_dynamic_calibration \\\n  --anchor <anchor1.json> --anchor <anchor2.json> --output <dynamic_calibration.json>\n```\n\n`running_metrics_v1/` 内保留 Homography、动态标定、MOT 读取、指标计算和 QA 渲染等可复用实现。历史上与 Tracking 重复的独立检测/追踪 `pipeline.py` 已移除，生产检测与追踪只有 `engine/tracking` 一条实现。\n''',encoding='utf-8')
-
-          p=Path('engine/match_analysis/README.md')
-          s=p.read_text(encoding='utf-8')
-          s=s.replace('输出包含 `analysis/`、`metric_running/`、`integrated_manifest.json` 和 2D 球场视频。','输出包含 `analysis/`、`metric_running/` 和 `integrated_manifest.json`。2D 球场回放由产品报告阶段统一调用 `render_metric_pitch.py` 生成一次，避免重复全视频渲染。')
+          # Keep documentation synchronized with the formal implementation.
+          p=Path('engine/football_metric_running/README.md'); s=p.read_text(encoding='utf-8')
+          s=s.replace('├─ evaluate_rotation_registration.py\n└─ render_demo.py','└─ evaluate_rotation_registration.py')
+          p.write_text(s,encoding='utf-8')
+          p=Path('engine/match_analysis/README.md'); s=p.read_text(encoding='utf-8')
+          s=s.replace('输出包含 `analysis/`、`metric_running/`、`integrated_manifest.json` 和 2D 球场视频。','输出包含 `analysis/`、`metric_running/` 和 `integrated_manifest.json`。2D 球场回放只在产品报告阶段通过 `render_metric_pitch.py` 生成一次。')
           p.write_text(s,encoding='utf-8')
 
-          # 5) Rebuild first-party source integrity manifest after cleanup.
+          # Rebuild canonical first-party integrity manifest.
           exts={'.py','.js','.html','.css','.yaml','.yml','.json','.toml'}
           skip={'third_party','vendor','licenses','__pycache__','.pytest_cache'}
           rows=[]
-          for base in (Path('app'),Path('engine'),Path('scripts')):
+          for base in map(Path,['app','engine','scripts']):
               for q in base.rglob('*'):
-                  if not q.is_file() or q.suffix.lower() not in exts or any(x in skip for x in q.parts): continue
-                  rows.append({'path':q.as_posix(),'sha256':hashlib.sha256(q.read_bytes()).hexdigest()})
+                  if q.is_file() and q.suffix.lower() in exts and not any(x in skip for x in q.parts):
+                      rows.append({'path':q.as_posix(),'sha256':hashlib.sha256(q.read_bytes()).hexdigest()})
           rows.sort(key=lambda x:x['path'])
-          audit={
-            'schema_version':2,'status':'passed','source_repository':'Eeaker/football',
+          audit={'schema_version':2,'status':'passed','source_repository':'Eeaker/football',
             'source_commit':'bfd54686703bd55a234b795c8123411bb30e55a2',
             'purpose':'Integrity manifest for canonical first-party production source after formal-source cleanup.',
-            'critical_files':rows,
-            'summary':{'critical_files_total':len(rows),'critical_files_matched':len(rows)}
-          }
+            'critical_files':rows,'summary':{'critical_files_total':len(rows),'critical_files_matched':len(rows)}}
           Path('CHAIN_AUDIT.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2),encoding='utf-8')
           PY
 
@@ -128,36 +105,29 @@ jobs:
           python scripts/acceptance_check.py
           python scripts/generate_release_metadata.py
 
-      - name: Final repository hygiene
+      - name: Enforce formal-source hygiene
         shell: bash
         run: |
+          set -euo pipefail
           rm -rf runtime .pytest_cache
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
-          rm -f .github/workflows/apply-formal-source-cleanup.yml
-          rm -f .github/workflows/source-cleanup-audit.yml
-          rm -f .github/workflows/source-audit-temp.yml
-          if find engine -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' | grep -q .; then
-            echo 'Non-production source naming remains:'
-            find engine -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*'
-            exit 1
-          fi
+          rm -f .github/workflows/apply-formal-source-cleanup.yml .github/workflows/source-cleanup-audit.yml .github/workflows/source-audit-temp.yml
+          bad=$(find engine -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' \) -print)
+          test -z "$bad" || { echo "$bad"; exit 1; }
           python - <<'PY'
           from pathlib import Path
           import hashlib
-          skip={'.git','third_party','vendor','licenses','demo_data','.pytest_cache'}
-          groups={}
+          skip={'.git','third_party','vendor','licenses','demo_data','.pytest_cache'}; groups={}
           for p in Path('.').rglob('*'):
-              if not p.is_file() or any(x in skip for x in p.parts) or p.stat().st_size < 100: continue
-              groups.setdefault(hashlib.sha256(p.read_bytes()).hexdigest(),[]).append(str(p))
+              if p.is_file() and p.stat().st_size>=100 and not any(x in skip for x in p.parts):
+                  groups.setdefault(hashlib.sha256(p.read_bytes()).hexdigest(),[]).append(str(p))
           dup=[v for v in groups.values() if len(v)>1]
           if dup:
-              print('Unexpected first-party exact duplicate files:')
               for g in dup: print(*g,sep='\n'); print()
-              raise SystemExit(1)
+              raise SystemExit('unexpected first-party exact duplicates remain')
           PY
 
       - name: Commit formal source cleanup
-        shell: bash
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
