@@ -1,8 +1,10 @@
 # Match Analysis Engine
 
-负责追踪后的赛后分析：队伍提示、号码 OCR、米制球权、球权转换、传球候选、2D 球场视频、球员卡和报告数据。
+负责追踪后的正式赛后分析：号码 OCR、队伍映射、米制球权、球权转换、传球候选、球员卡数据与报告输入。
 
-## 集成入口
+## 正式入口
+
+产品层调用：
 
 ```bash
 python run_integrated_analysis.py \
@@ -13,13 +15,13 @@ python run_integrated_analysis.py \
   --output <new-output-dir>
 ```
 
-输出包含 `analysis/`、`metric_running/`、`integrated_manifest.json` 和 2D 球场视频。
+该入口只生成一次正式数据结果：
 
-基础球权/传球入口：
+- `analysis/`：球权、球权转换、传球及质检数据；
+- `metric_running/`：逐帧米制坐标与跑动统计；
+- `integrated_manifest.json`：关键输入、结果与 SHA-256 清单。
 
-```bash
-python run_analysis.py --tracking-dir <tracking-output> --calibration <calibration> --video <video> --output <new-output-dir>
-```
+2D 球场回放不在此阶段重复渲染；正式产品在报告阶段由 `render_metric_pitch.py` 统一生成 `metric_pitch_replay.mp4`。
 
 号码识别入口：
 
@@ -33,10 +35,10 @@ python run_jersey_ocr.py --video <video> --mot <tracking_mot.txt> --team-hints <
 2. 距离和连续帧门槛形成稳定球权；
 3. A→B 的所有稳定球权变化记录为 transition；
 4. 只有同队、稳定且达到米制位移阈值的主动定向候选进入 pass network；
-5. 传球仍保留人工抽检，不把代理条件包装成绝对真值。
+5. 传球保留人工复核，不把代理条件包装成绝对真值。
 
 ## 共享代码
 
-`analysis_lib/tracking_adapter.py` 复用 `tracking/tracking_lib` 的 actor / homography / team-feature。这里不再保存复制版追踪源码。
+`analysis_lib/tracking_adapter.py` 复用 `tracking/tracking_lib` 的 actor / homography / team-feature 实现，不保存复制版追踪源码。
 
 第三方来源和许可证见 `THIRD_PARTY_NOTICES.md` 与 `licenses/`。
