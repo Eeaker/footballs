@@ -1,4 +1,4 @@
-name: Verify Refactored Repository
+name: Verify Formal Production Source
 
 on:
   push:
@@ -37,6 +37,7 @@ jobs:
           set -euo pipefail
           test ! -d .refactor
           test ! -d engine/football_metric_running_github
+          test ! -d engine/repository_qa
           test -d engine/tracking/tracking_lib
           test -d engine/match_analysis/analysis_lib
           test -f engine/match_analysis/analysis_lib/tracking_adapter.py
@@ -48,7 +49,6 @@ jobs:
           test ! -f engine/football_metric_running/src/pipeline.py
           if find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print | grep -q .; then
             echo 'week-based file or directory name remains'
-            find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print
             exit 1
           fi
           if grep -RInE --exclude-dir=third_party --exclude-dir=vendor --exclude-dir=.pytest_cache --exclude='*.md' '(week2|week3)' app engine scripts 2>/dev/null; then
@@ -59,6 +59,32 @@ jobs:
             echo 'duplicate metric pitch output contract remains'
             exit 1
           fi
+
+      - name: Enforce formal-source boundaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          bad=$(find engine \
+            \( -path '*/third_party/*' -o -path '*/vendor/*' -o -path '*/licenses/*' \) -prune -o \
+            -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' -o -iname '*experiment*' \) -print)
+          test -z "$bad" || { echo 'Non-production first-party source remains:'; echo "$bad"; exit 1; }
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          skip={'.git','third_party','vendor','licenses','demo_data','.pytest_cache','__pycache__'}
+          groups={}
+          for path in Path('.').rglob('*'):
+              if not path.is_file() or path.stat().st_size < 100 or any(part in skip for part in path.parts):
+                  continue
+              digest=hashlib.sha256(path.read_bytes()).hexdigest()
+              groups.setdefault(digest,[]).append(str(path))
+          duplicates=[files for files in groups.values() if len(files)>1]
+          if duplicates:
+              print('Unexpected first-party exact duplicate files:')
+              for files in duplicates:
+                  print(*files,sep='\n'); print()
+              raise SystemExit(1)
+          PY
 
       - name: Compile and integrity audit
         run: |
