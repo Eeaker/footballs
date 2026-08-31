@@ -1,8 +1,0 @@
-*.mp4 filter=lfs diff=lfs merge=lfs -text
-*.docx filter=lfs diff=lfs merge=lfs -text
-artifacts/metric_running/full_run/metrics/player_running_timeseries.csv filter=lfs diff=lfs merge=lfs -text
-*.drawio text eol=lf
-*.py text eol=lf
-*.md text eol=lf
-*.json text eol=lf
-*.csv text eol=lf

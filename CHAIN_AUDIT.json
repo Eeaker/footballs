@@ -3,7 +3,7 @@
   "status": "passed",
   "source_repository": "Eeaker/football",
   "source_commit": "bfd54686703bd55a234b795c8123411bb30e55a2",
-  "purpose": "Integrity manifest for canonical first-party source files after structural refactor.",
+  "purpose": "Integrity manifest for canonical first-party production source after formal-source cleanup.",
   "critical_files": [
     {
       "path": "app/__init__.py",
@@ -110,10 +110,6 @@
       "sha256": "04f1e1bdc1dcf7d7dfe25c747eb5347cddbe675d458e22131358d6e61f3c0f6c"
     },
     {
-      "path": "engine/football_metric_running/src/pipeline.py",
-      "sha256": "b6bdd12a1c2a56bc7ad693eb02a285940e5fa922f41e0ecebd81756cc020497b"
-    },
-    {
       "path": "engine/football_metric_running/src/running_metrics_v1/__init__.py",
       "sha256": "0a0f48603fd615f61ce966f3bee6526fe3883a31e61f2460aaffc8867b0c19b7"
     },
@@ -170,14 +166,6 @@
       "sha256": "1d4ac2f0cf10e77fead408ee9cfb9ede2bfe6365b8f5df39893f4a947f9ef506"
     },
     {
-      "path": "engine/football_metric_running/src/running_metrics_v1/render_demo.py",
-      "sha256": "4630b7acaeaa935b64d8b57573bf3a0420ca92f65837850f9d614db92139d184"
-    },
-    {
-      "path": "engine/football_metric_running/tests/test_frame_domain.py",
-      "sha256": "81b6b9c54d50c03ccd1f3d755c28edacbcbaae071d06692b2d5d0a10ea91db67"
-    },
-    {
       "path": "engine/football_metric_running/tests/test_running_metrics.py",
       "sha256": "f85ffb58f972f34c45f655f4c19b5530ef34c6ebb2f596339182f79471f8b2a6"
     },
@@ -224,30 +212,6 @@
     {
       "path": "engine/identity_audit/mode_split/transitions.py",
       "sha256": "3936dc81d03198c50f4fd4b0e3a74ce6cfab789d9219fb37f101bac041200436"
-    },
-    {
-      "path": "engine/identity_audit/reanalyze_cached_open_set.py",
-      "sha256": "0a4c11794dc8beb7d4f919db3b646d7c9ef3b7da46a2819db425f80945f23ad6"
-    },
-    {
-      "path": "engine/identity_audit/render_candidate_storyboards.py",
-      "sha256": "913d603d016c3b05ebc0621ca8f454dd207c7f6564c14808406f0e6a1708390b"
-    },
-    {
-      "path": "engine/identity_audit/render_open_set_candidates.py",
-      "sha256": "67dc6fc9c13bbc82fee09e51201bbb3f69c51b41e168d43ca97666898035e263"
-    },
-    {
-      "path": "engine/identity_audit/run_experiment.py",
-      "sha256": "a5b293d4917ed9cc2664727265e6c006e5ff9c745fca852dbb960f3a29279a92"
-    },
-    {
-      "path": "engine/identity_audit/run_local_change_experiment.py",
-      "sha256": "23a0dfb114c12fd5763956723405530c125dc3ad7260b718774ce59a7450e600"
-    },
-    {
-      "path": "engine/identity_audit/run_open_set_occlusion_experiment.py",
-      "sha256": "830e2a4b17283a8f64ee3a4f8be2751e9b96a79529efefaa39426bda7ec704cb"
     },
     {
       "path": "engine/identity_audit/tests/test_local_change.py",
@@ -318,14 +282,6 @@
       "sha256": "dcf9afea25cd58904351ee4cf6ff8fe3e0daa16929b19417695faae67a06d060"
     },
     {
-      "path": "engine/match_analysis/analysis_lib/vendor/__init__.py",
-      "sha256": "75c27d0d95f2f0904de51eb1288fdf68a02f748f22df1413a4d6270a424c72e8"
-    },
-    {
-      "path": "engine/match_analysis/analysis_lib/vendor/tryolabs_pass_rules.py",
-      "sha256": "4c8140dcad8d2beb8f9f8f732f6409d92894b714ed3d67d78f0376f49a4a6c0a"
-    },
-    {
       "path": "engine/match_analysis/assessment_report_input.schema.json",
       "sha256": "46fae32fe1ea9469bbe089df312a35544398494c1f20cbec9feeec17e18fc48a"
     },
@@ -334,16 +290,8 @@
       "sha256": "99ef48c300a3df4b52813c74a65b9fa6be4fe38630a468cfa6d3fd4b062bed56"
     },
     {
-      "path": "engine/match_analysis/export_acceptance_clips.py",
-      "sha256": "bbfe2cf839de0847527de6d53c02136d3489737eb891ad911c00adc6c85623e6"
-    },
-    {
       "path": "engine/match_analysis/export_player_card_delivery_v1.py",
       "sha256": "6e0bcf523d03f3e8c095fcd44c16839405b7e99727d71cd7287844914c2d7aca"
-    },
-    {
-      "path": "engine/match_analysis/export_task3_final_demo.py",
-      "sha256": "eee011803c67710bb882c6397bb400e0d7be4026efc18bbd2dfb557145bcc844"
     },
     {
       "path": "engine/match_analysis/extract_ball_positions.py",
@@ -358,28 +306,8 @@
       "sha256": "41239386923d94c90b9262a6d1e3c0acfbd46a55b74b45dfcdf734497b803b41"
     },
     {
-      "path": "engine/match_analysis/prepare_reference_player_card_inputs.py",
-      "sha256": "671f9db49fe3c8b95418634021132a7c98fd63fc505ce59ee71ba45436268561"
-    },
-    {
-      "path": "engine/match_analysis/prototypes/team_color_modes/logic.py",
-      "sha256": "88ec88a2edc6ee20742cc371b2b7a1e8ba4f4161b45d5928ecdb71ebbf3f04b4"
-    },
-    {
-      "path": "engine/match_analysis/prototypes/team_color_modes/render_box_comparison.py",
-      "sha256": "2d323cbed53374a71486769342857d1dfe13de5d56188279238d8d2ffda19791"
-    },
-    {
-      "path": "engine/match_analysis/prototypes/team_color_modes/run.py",
-      "sha256": "9ee3d9ba07c032acf0d4aba543ae571dace39d3eff6e7a9341585bfd4152a475"
-    },
-    {
       "path": "engine/match_analysis/pyproject.toml",
       "sha256": "2c2d96a37802c1e5d7682c1a5363ccf66df09b4eb83a7d121d7d451b3561fe5b"
-    },
-    {
-      "path": "engine/match_analysis/reclassify_ocr_boss_compatible.py",
-      "sha256": "31bd4ace93ba2535c6b79bebc7886b5b557a93531f0351ccb4417c16bc229aa5"
     },
     {
       "path": "engine/match_analysis/render_metric_pitch.py",
@@ -390,24 +318,16 @@
       "sha256": "bcfcda630975b1dbb7d71c0c89ccb3809055893c8522510f1adfe5c0cc0671cb"
     },
     {
-      "path": "engine/match_analysis/render_ocr_policy_contact_sheet.py",
-      "sha256": "e5023c203a8dd1ceb8e2795e5acff567fcbe140e529434c36bc2feb846941047"
-    },
-    {
       "path": "engine/match_analysis/run_analysis.py",
       "sha256": "35beae70ad1ba88b12f28a9116ef8c1996f0035f7587ed63d29190ca23ddffad"
     },
     {
       "path": "engine/match_analysis/run_integrated_analysis.py",
-      "sha256": "b41c73dcdff1eba594fe3626cf40ffad9bc71bed1121d7077a1a727b09350b7c"
+      "sha256": "2945a2c5beab95ef859e136bdf3b2db551b2a0c6353e52bbf91473bdb14f03e1"
     },
     {
       "path": "engine/match_analysis/run_jersey_ocr.py",
       "sha256": "336eee7d76486740c2cf8cb78c0bdb2facaa90bd59c2be683bbcab5636b5b4e8"
-    },
-    {
-      "path": "engine/match_analysis/run_stage4_from_artifacts.py",
-      "sha256": "c7669eb17b1ca89ce8ba8ef3fb6cf860d375ac41115d154a1ab34ed115e5166b"
     },
     {
       "path": "engine/match_analysis/tests/conftest.py",
@@ -424,10 +344,6 @@
     {
       "path": "engine/match_analysis/tests/test_build_machine_events.py",
       "sha256": "385ef9f57ea2ce55ffbc70665dd0ffe5b02571850b4e2c4b3bc4a5870d0e6859"
-    },
-    {
-      "path": "engine/match_analysis/tests/test_export_acceptance_clips.py",
-      "sha256": "347131df80303f511876baa27f3ccb05425581d89fcf03850e3e79e32d5ca59c"
     },
     {
       "path": "engine/match_analysis/tests/test_generate_player_card_from_mot.py",
@@ -466,16 +382,8 @@
       "sha256": "a80115f1d4d5f996571096ed1f1bed2d8a0d279d4461ccdaaf9b16c8cffe9ec9"
     },
     {
-      "path": "engine/match_analysis/tests/test_reclassify_ocr_boss_compatible.py",
-      "sha256": "f0e5bc8929aa6ab3ccca75a38e95d2e023860aee4d4415247b83121964e78608"
-    },
-    {
       "path": "engine/match_analysis/tests/test_source_migration.py",
       "sha256": "6caa72acbfcbe74e87d0468f867494f2dac2afa7434d89fd527950b9fc4b0e96"
-    },
-    {
-      "path": "engine/match_analysis/tests/test_task3_final_demo.py",
-      "sha256": "189087755b976ce2ec9757392da20406df16a48ad5c281c130cba2c94db57a24"
     },
     {
       "path": "engine/match_analysis/tests/test_teams.py",
@@ -486,24 +394,8 @@
       "sha256": "e57df885f2aa811d4f30db35d6b8a202ad2949842cc83c14f96acea5e606c419"
     },
     {
-      "path": "engine/repository_qa/test_frame_domain.py",
-      "sha256": "8d5010a0ce06b85b3fe508ed27a11abf17e3c9d2e866d09d4d6ae8e1cd176159"
-    },
-    {
-      "path": "engine/repository_qa/verify_repository.py",
-      "sha256": "adbc77c606da8f190a710c3a1db453047b48c3a58928cc41ea3e5b2403436b68"
-    },
-    {
       "path": "engine/tracking/apply_identity_map.py",
       "sha256": "a8fb5b3872b5ab94b0afe56366ccc4a2a132f18c6986bbca960977e854e60741"
-    },
-    {
-      "path": "engine/tracking/build_identity_mosaics.py",
-      "sha256": "44c0f6dba4aa2c6d7246bdb77e22874beecf13c09adcc713cee6ef590ebcb00d"
-    },
-    {
-      "path": "engine/tracking/build_montage.py",
-      "sha256": "3d5fc30a7fb039e69ecc10e80e73831e1ed5ee3274143a008ea64b4c594a15c6"
     },
     {
       "path": "engine/tracking/config/botsort_buffer.yaml",
@@ -514,10 +406,6 @@
       "sha256": "6d0fec1ee2626ecefe6dcae02553d2c842e756b5585507322defff3da67d93d7"
     },
     {
-      "path": "engine/tracking/config/labels_7d.json",
-      "sha256": "4c63b3604dbde26e5de16be37526f24a3e134aaaf7bffa885a2c5c44c685d9ac"
-    },
-    {
       "path": "engine/tracking/config/onboard_config.schema.json",
       "sha256": "024c1b3cb81c25d8644c0f71326515dded2f853b7bcba69892ed5e647a412dab"
     },
@@ -526,20 +414,12 @@
       "sha256": "222383a91368410778a9f2b301fdf80237c410a3ad04a7c52008e0d24b1db30f"
     },
     {
-      "path": "engine/tracking/export_five_event_compilation.py",
-      "sha256": "f7980195cacb73b981340ea3c51adc1be9f46191fcc4fed95f09bbe8407253e9"
-    },
-    {
-      "path": "engine/tracking/export_player_demo.py",
-      "sha256": "6935f908d7bd261e674e0e9bb8febc9762dafa12a71bd75f610a5cced08aa359"
-    },
-    {
-      "path": "engine/tracking/generate_review_manifest.py",
-      "sha256": "f2b0d5cfce98c80c0718f2f750eec99c6257536595d69a0e1141f1c2ccb8d45c"
-    },
-    {
       "path": "engine/tracking/make_id_focus_clips.py",
       "sha256": "ac42e5cb0f1ffce68945edd06a04a636566d604776d3c7dda0cf23529d808f95"
+    },
+    {
+      "path": "engine/tracking/onboard.py",
+      "sha256": "f517b247ed7502b7fe068d02506938c5712ae5de62972ac8e1af0b3122f19ed6"
     },
     {
       "path": "engine/tracking/onboard/__init__.py",
@@ -582,16 +462,12 @@
       "sha256": "1a955b561f5076c877f4ae07b57faaea8ceba8a9966e0925fde3280cac5986fe"
     },
     {
-      "path": "engine/tracking/onboard.py",
-      "sha256": "f517b247ed7502b7fe068d02506938c5712ae5de62972ac8e1af0b3122f19ed6"
-    },
-    {
       "path": "engine/tracking/pyproject.toml",
       "sha256": "4d45d13a8f21a40b35a283aed3666be876d1359fb27217ee6ea3db7690d8e362"
     },
     {
       "path": "engine/tracking/run_pipeline.py",
-      "sha256": "b2d35e515d6a21052dd78ce4628e1ab5568b2497071ed9b3c709f76a117af0c8"
+      "sha256": "b300cef71ac19b9af079392fb5ec2e68a653b9e5bc24b07ef5649e74c0b957a3"
     },
     {
       "path": "engine/tracking/run_tracking.py",
@@ -600,14 +476,6 @@
     {
       "path": "engine/tracking/tests/test_actor.py",
       "sha256": "dab8d8f5535f2a8c7847fb6373a4781d2828cd8a1e2db426d10455e9f6287683"
-    },
-    {
-      "path": "engine/tracking/tests/test_export_five_event_compilation.py",
-      "sha256": "a78acdb605623fa5649e85b144b21708f9654adc2a9f50254528e5282044a435"
-    },
-    {
-      "path": "engine/tracking/tests/test_export_player_demo.py",
-      "sha256": "aca1f982732aac5f0280881a75eea74f4e9c66a8aa2fe3cc50527415a397acb8"
     },
     {
       "path": "engine/tracking/tests/test_field_filter.py",
@@ -620,10 +488,6 @@
     {
       "path": "engine/tracking/tests/test_field_polygon.py",
       "sha256": "8e437ebfe3f19f4bd0280caa1039dea20fe3ceffd6690cf01a7eb7575a3c673f"
-    },
-    {
-      "path": "engine/tracking/tests/test_frozen_product_policy.py",
-      "sha256": "c03b042f938e38b1c87f94f682b65f9dada1b27c9dc07173ea1518b28edeae50"
     },
     {
       "path": "engine/tracking/tests/test_global_frame_uniqueness.py",
@@ -656,10 +520,6 @@
     {
       "path": "engine/tracking/tests/test_onboard_video_health.py",
       "sha256": "db55f72eeb6407a84993c2c78c2d24b0c5f1f76d91ec5256f72f384acda8a99f"
-    },
-    {
-      "path": "engine/tracking/tests/test_review_manifest.py",
-      "sha256": "cbacd64669abf22288233d2b5bf0c8a8484c097f5dd0a84f671c762e0fb95459"
     },
     {
       "path": "engine/tracking/tests/test_runtime_environment.py",
@@ -700,10 +560,6 @@
     {
       "path": "engine/tracking/tracking_lib/team_features.py",
       "sha256": "506c6b10b24a4f0a925c0c4cc1d6f500b49babf2b5442ebf39aa6d8c9937ac99"
-    },
-    {
-      "path": "engine/tracking/validate_delivery.py",
-      "sha256": "d7bb38519bad80b7a56a5befd6721d8427866b5b1559ade4bae7b43afd9152e2"
     },
     {
       "path": "scripts/acceptance_check.py",
@@ -755,7 +611,7 @@
     }
   ],
   "summary": {
-    "critical_files_matched": 187,
-    "critical_files_total": 187
+    "critical_files_total": 151,
+    "critical_files_matched": 151
   }
 }

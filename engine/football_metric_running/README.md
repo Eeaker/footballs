@@ -41,8 +41,7 @@ src/running_metrics_v1/
 ├─ build_multi_anchor_dynamic_calibration.py
 ├─ build_rotation_dynamic_calibration.py
 ├─ calibrate_pitch.py
-├─ evaluate_rotation_registration.py
-└─ render_demo.py
+└─ evaluate_rotation_registration.py
 ```
 
 `src/pipeline.py` 这类曾同时承担检测、追踪、事件和米制计算的独立历史流水线已经移除，避免与正式 Tracking / Match Analysis 重复。

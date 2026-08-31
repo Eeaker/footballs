@@ -2,7 +2,7 @@
   "schema_version": 4,
   "system": "赛场洞察 Football Insight",
   "version": "2.3.3",
-  "generated_at": "2026-08-26T07:08:53+00:00",
+  "generated_at": "2026-08-31T07:41:46+00:00",
   "product_positioning": "Windows 优先的正式足球比赛视频分析系统；demo_data 仅为只读示例，不是正式工作流依赖。",
   "formal_workflow": [
     "新建项目",
@@ -31,8 +31,8 @@
     "formal_match_report": true,
     "source_sha256_audit": {
       "status": "passed",
-      "matched": 171,
-      "total": 171
+      "matched": 151,
+      "total": 151
     }
   },
   "calibration": {
@@ -104,14 +104,14 @@
   },
   "docs": [
     "README.md",
-    "docs/DEPLOYMENT.md",
+    "docs/README.md",
     "docs/USER_GUIDE.md",
     "docs/DEPLOYMENT.md",
     "docs/OPERATIONS.md",
     "docs/ARCHITECTURE.md",
+    "docs/DEVELOPMENT.md",
     "docs/ACCEPTANCE.md",
-    "docs/DEMO_PLAYBOOK.md",
-    "docs/CHAIN_MAPPING.md",
+    "docs/MIGRATION.md",
     "CHAIN_AUDIT.json"
   ],
   "package_contents": {
@@ -125,8 +125,8 @@
       "docs",
       "examples"
     ],
-    "distributable_file_count": 706,
-    "distributable_uncompressed_bytes": 36357620,
+    "distributable_file_count": 627,
+    "distributable_uncompressed_bytes": 24898823,
     "not_bundled_by_design": [
       "Windows .venv / PyTorch / CUDA wheels (optionally cached by PREPARE_OFFLINE_WINDOWS.bat)",
       "NVIDIA driver",

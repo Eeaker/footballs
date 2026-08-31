@@ -113,10 +113,6 @@ def main() -> None:
     work = output / ".work"
     tracking_work = work / "tracking"
     tracking_final = output / "tracking"
-    id_focus = output / "id_focus"
-    mosaics = output / "identity_mosaics"
-    highlights = output / "candidate_highlights"
-    review = output / "human_review"
     tracking_work.mkdir(parents=True)
     started = time.time()
 
@@ -155,31 +151,6 @@ def main() -> None:
             metadata = json.loads((tracking_work / "tracking_run_metadata.json").read_text(encoding="utf-8"))
             export_metric_motion(tracking_work / "tracking_mot.txt", tracking_work, calibration,
                                  float(metadata["processed_fps"]), vid_stride)
-        run([
-            sys.executable, str(ROOT / "make_id_focus_clips.py"),
-            "--video", str(video), "--mot", str(tracking_work / "tracking_mot.txt"),
-            "--events", str(tracking_work / "event_index.json"),
-            "--outdir", str(id_focus), "--vid-stride", str(vid_stride),
-            "--include-review",
-        ], log)
-        run([
-            sys.executable, str(ROOT / "build_identity_mosaics.py"),
-            "--video", str(video), "--mot", str(tracking_work / "tracking_mot.txt"),
-            "--outdir", str(mosaics), "--samples", "12", "--wall-columns", "4",
-        ], log)
-        run([
-            sys.executable, str(ROOT / "export_five_event_compilation.py"),
-            "--video", str(video), "--events", str(tracking_work / "event_index.json"),
-            "--outdir", str(highlights), "--count", str(event_count),
-            "--before-seconds", str(pre_sec), "--after-seconds", str(post_sec),
-        ], log)
-        run([
-            sys.executable, str(ROOT / "generate_review_manifest.py"),
-            "--events", str(tracking_work / "event_index.json"),
-            "--clips", str(id_focus / "id_focus_clips.json"), "--outdir", str(review),
-            "--labels", str(ROOT / "config/labels_7d.json"),
-        ], log)
-
         tracking_final.mkdir(parents=True, exist_ok=True)
         for source_name, final_name in FINAL_TRACKING_FILES.items():
             source = tracking_work / source_name
@@ -190,18 +161,11 @@ def main() -> None:
             source = tracking_work / source_name
             if source.exists():
                 os.replace(source, tracking_final / source_name)
-        run([
-            sys.executable, str(ROOT / "validate_delivery.py"),
-            "--video", str(video), "--tracking-dir", str(tracking_final),
-            "--id-focus-dir", str(id_focus), "--mosaics-dir", str(mosaics),
-            "--highlights-dir", str(highlights), "--output", str(output / "quality_report.json"),
-            "--profile", "adaptive" if config else "v3_exact",
-            "--expected-highlights", str(event_count),
-        ], log)
+
 
     shutil.rmtree(work)
     manifest = {
-        "pipeline": "tracking_delivery_v3",
+        "pipeline": "tracking_pipeline_v4",
         "status": "complete",
         "input_video": str(video),
         "input_video_sha256": sha256(video),
@@ -212,17 +176,13 @@ def main() -> None:
             "players_on_field": expected_players,
             "teams": team_clusters,
             "global_id_policy": "conservative_keep_all_candidates_then_human_identity_review",
-            "evaluation": "closed_candidate_labels_plus_human_review_no_scoring",
-            "highlight": f"{event_count}_candidates_each_{pre_sec}s_before_and_{post_sec}s_after",
-            "validation_profile": "adaptive" if config else "v3_exact",
+            "evaluation": "canonical_tracking_outputs_only",
         },
         "key_artifact_hashes": {
             str(path.relative_to(output)): sha256(path) for path in [
                 tracking_final / "tracking_mot.txt",
                 tracking_final / "events.json",
                 tracking_final / "global_id_summary.json",
-                output / "quality_report.json",
-                review / "events_for_human_review.json",
             ]
         },
     }

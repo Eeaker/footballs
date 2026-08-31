@@ -1,0 +1,247 @@
+{
+  "schema_version": 2,
+  "system": "Football Insight",
+  "version": "2.3.3",
+  "generated_at": "2026-08-31T07:41:46+00:00",
+  "package_and_product_ready": true,
+  "fresh_inference_environment_ready": false,
+  "fresh_inference_verified": false,
+  "note": "fresh_inference_verified remains false until a new full match is run end-to-end on the target Windows GPU machine.",
+  "checks": [
+    {
+      "name": "app/app.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "app/static/index.html",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "app/static/app.js",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "app/static/styles.css",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "app/services/video_health.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/tracking/run_pipeline.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/tracking/onboard/video_health.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/football_metric_running/src/running_metrics_v1/build_multi_anchor_dynamic_calibration.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/match_analysis/run_integrated_analysis.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/match_analysis/run_jersey_ocr.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/match_analysis/generate_player_card.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "engine/identity_audit/mode_split/audit_mot.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "CHAIN_AUDIT.json",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "INSTALL_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "START_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "CHECK_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "DOWNLOAD_MODEL_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "RUN_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "REPAIR_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "DIAGNOSE_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "PRESENT_WINDOWS.vbs",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "STOP_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "PREPARE_OFFLINE_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "INSTALL_OFFLINE_WINDOWS.bat",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "scripts/windows_prepare_offline.ps1",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "scripts/windows_install_offline.ps1",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "scripts/windows_torch_probe.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "scripts/install_default_model.py",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/USER_GUIDE.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/DEPLOYMENT.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/OPERATIONS.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/ARCHITECTURE.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/DEVELOPMENT.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "docs/MIGRATION.md",
+      "ok": true,
+      "detail": "ready",
+      "category": "package"
+    },
+    {
+      "name": "Windows launcher encoding",
+      "ok": true,
+      "detail": "Windows launcher encoding validation: PASS\n  BAT ASCII+CRLF: 10/10\n  VBS ASCII: PASS\n  PowerShell UTF-8 BOM: 3/3\n  Script-mode app import: PASS\n",
+      "category": "package"
+    },
+    {
+      "name": "engine source SHA256 audit",
+      "ok": true,
+      "detail": "\nPASS  engine/match_analysis/export_player_card_delivery_v1.py\nPASS  engine/match_analysis/extract_ball_positions.py\nPASS  engine/match_analysis/generate_player_card.py\nPASS  engine/match_analysis/import_annotation_xlsx.py\nPASS  engine/match_analysis/pyproject.toml\nPASS  engine/match_analysis/render_metric_pitch.py\nPASS  engine/match_analysis/render_nati_standard_report.py\nPASS  engine/match_analysis/run_analysis.py\nPASS  engine/match_analysis/run_integrated_analysis.py\nPASS  engine/match_analysis/run_jersey_ocr.py\nPASS  engine/match_analysis/tests/conftest.py\nPASS  engine/match_analysis/tests/test_acceptance.py\nPASS  engine/match_analysis/tests/test_annotation_import.py\nPASS  engine/match_analysis/tests/test_build_machine_events.py\nPASS  engine/match_analysis/tests/test_generate_player_card_from_mot.py\nPASS  engine/match_analysis/tests/test_geometry.py\nPASS  engine/match_analysis/tests/test_jersey_numbers.py\nPASS  engine/match_analysis/tests/test_nati_report.py\nPASS  engine/match_analysis/tests/test_pipeline_integration.py\nPASS  engine/match_analysis/tests/test_pitch_render.py\nPASS  engine/match_analysis/tests/test_player_card.py\nPASS  engine/match_analysis/tests/test_player_card_delivery.py\nPASS  engine/match_analysis/tests/test_possession_and_passes.py\nPASS  engine/match_analysis/tests/test_source_migration.py\nPASS  engine/match_analysis/tests/test_teams.py\nPASS  engine/match_analysis/validate_player_card_acceptance.py\nPASS  engine/tracking/apply_identity_map.py\nPASS  engine/tracking/config/botsort_buffer.yaml\nPASS  engine/tracking/config/identity_map.example.json\nPASS  engine/tracking/config/onboard_config.schema.json\nPASS  engine/tracking/config/onboard_defaults.yaml\nPASS  engine/tracking/make_id_focus_clips.py\nPASS  engine/tracking/onboard.py\nPASS  engine/tracking/onboard/__init__.py\nPASS  engine/tracking/onboard/calibration.py\nPASS  engine/tracking/onboard/config_builder.py\nPASS  engine/tracking/onboard/field_setup.py\nPASS  engine/tracking/onboard/models.py\nPASS  engine/tracking/onboard/report.py\nPASS  engine/tracking/onboard/team_colors.py\nPASS  engine/tracking/onboard/tracker_trial.py\nPASS  engine/tracking/onboard/ui.py\nPASS  engine/tracking/onboard/video_health.py\nPASS  engine/tracking/pyproject.toml\nPASS  engine/tracking/run_pipeline.py\nPASS  engine/tracking/run_tracking.py\nPASS  engine/tracking/tests/test_actor.py\nPASS  engine/tracking/tests/test_field_filter.py\nPASS  engine/tracking/tests/test_field_geometry_dynamic.py\nPASS  engine/tracking/tests/test_field_polygon.py\nPASS  engine/tracking/tests/test_global_frame_uniqueness.py\nPASS  engine/tracking/tests/test_identity_map.py\nPASS  engine/tracking/tests/test_onboard_calibration.py\nPASS  engine/tracking/tests/test_onboard_colors.py\nPASS  engine/tracking/tests/test_onboard_config.py\nPASS  engine/tracking/tests/test_onboard_trial.py\nPASS  engine/tracking/tests/test_onboard_ui.py\nPASS  engine/tracking/tests/test_onboard_video_health.py\nPASS  engine/tracking/tests/test_runtime_environment.py\nPASS  engine/tracking/tracking_core.py\nPASS  engine/tracking/tracking_lib/__init__.py\nPASS  engine/tracking/tracking_lib/actor.py\nPASS  engine/tracking/tracking_lib/config.py\nPASS  engine/tracking/tracking_lib/field_filter.py\nPASS  engine/tracking/tracking_lib/field_geometry.py\nPASS  engine/tracking/tracking_lib/homography.py\nPASS  engine/tracking/tracking_lib/metric_motion.py\nPASS  engine/tracking/tracking_lib/team_features.py\nPASS  scripts/acceptance_check.py\nPASS  scripts/audit_engine_chain.py\nPASS  scripts/build_release.py\nPASS  scripts/generate_release_metadata.py\nPASS  scripts/install_default_model.py\nPASS  scripts/system_check.py\nPASS  scripts/validate_windows_launchers.py\nPASS  scripts/verify_dynamic_calibration.py\nPASS  scripts/verify_fresh_project.py\nPASS  scripts/verify_product.py\nPASS  scripts/windows_launcher.py\nPASS  scripts/windows_torch_probe.py\n============================================================================\ncritical files: 151/151\nintegrity audit: PASS\n",
+      "category": "engine"
+    },
+    {
+      "name": "formal product workflow",
+      "ok": true,
+      "detail": "Football Insight V2.3.3 product verification: PASS\n  PASS health\n  PASS system readiness\n  PASS model management validation\n  PASS user guide + formal configuration UI\n  PASS demo read-only result center\n  PASS formal video upload/probe\n  PASS portable parameter import/export\n  PASS formal dynamic calibration upload/summary/download\n  PASS formal result ingestion\n  PASS pass human review\n  PASS technical ID -> real player confirmation\n  PASS human eight-dimension player assessment\n  PASS team semantic mapping\n  PASS formal report + archive\n  PASS formal preflight\nNOTE: this verifier does not claim a fresh YOLO inference run; that requires models/yolov8x.pt.\n/opt/hostedtoolcache/Python/3.11.16/x64/lib/python3.11/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.\n  from starlette.testclient import TestClient as TestClient  # noqa\n",
+      "category": "product"
+    },
+    {
+      "name": "inference python dependencies",
+      "ok": false,
+      "detail": "torch, torchvision, ultralytics, easyocr, skimage, shapely",
+      "category": "environment"
+    },
+    {
+      "name": "YOLO weights",
+      "ok": false,
+      "detail": "not bundled; upload in System Status",
+      "category": "environment"
+    }
+  ],
+  "release_metadata_generated_at": "2026-08-31T07:41:46+00:00"
+}
