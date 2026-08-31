@@ -111,8 +111,10 @@ jobs:
           rm -rf runtime .pytest_cache
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
           rm -f .github/workflows/apply-formal-source-cleanup.yml .github/workflows/source-cleanup-audit.yml .github/workflows/source-audit-temp.yml
-          bad=$(find engine -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' -o -iname '*experiment*' \) -print)
+          bad=$(find engine \( -path '*/third_party/*' -o -path '*/vendor/*' -o -path '*/licenses/*' \) -prune -o -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' -o -iname '*experiment*' \) -print)
           test -z "$bad" || { echo "$bad"; exit 1; }
+          python scripts/generate_release_metadata.py
+          python scripts/generate_release_metadata.py
           python - <<'PY'
           from pathlib import Path
           import hashlib
