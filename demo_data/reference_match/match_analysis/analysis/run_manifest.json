@@ -1,0 +1,30 @@
+{
+  "pipeline": "week3_passing_network_alpha",
+  "status": "pending_human_review",
+  "config": {
+    "possession_distance_m": 1.5,
+    "possession_min_frames": 3,
+    "max_ball_gap_frames": 2,
+    "max_transfer_gap_seconds": 1.5,
+    "min_pass_displacement_m": 0.5,
+    "pass_review_min_displacement_m": 0.25,
+    "team_clusters": 3,
+    "team_samples_per_id": 12,
+    "acceptance_sample_size": 20,
+    "acceptance_threshold": 0.8
+  },
+  "artifacts": {
+    "acceptance_sample_20.csv": "4e53a2d7451994204dacddf296c15661590372080f895e5bc01d16effa18a0d2",
+    "pass_events.csv": "b3550296dd4f7b8ae64ba83156c14642a809f1283212d77f42862e92db90f679",
+    "pass_matrices.json": "7871c6b7972630d2bdfabe9ac41ede8dd922855ae5e165d382e07e3f6145eed8",
+    "pass_matrix_long.csv": "0c1ef2cd1818f88628f9904332a2f6d31b884fad52322fb4fa7a90a560a12b24",
+    "pass_review_candidates.csv": "6f941a800c75ee5325c17b2b0fc652e7e177f352858d506c81e0fa55e42cfaa0",
+    "player_team_map.csv": "f46266c7b1afdeb390ca36e68e05ea552e7ff0a6d69267eee2bfcd196369e033",
+    "possession_frame_evidence.csv": "39980bd0dd5e4dc8b0af5cfd63bf3d44beac94d91392d6438ef2a3e152a7960e",
+    "possession_intervals.csv": "ea12841da711372b82f75c30fe8e090f291e827ad47ba052b523b4b4bc9727bb",
+    "possession_transitions.csv": "fbb958ad0d2a6a6dde990263bbba0b2c520f517e9d827c1c3700ec26914b6acf",
+    "quality_report.json": "d1ad00f422092d5d7aca1a5f12a8651801aaf699fc14e74ce6d61cb414c968e9",
+    "quality_report.md": "7fde42bea06c7614d04d93e9655ba2f3b6b3cb9c8ebf5d3159c88b60bdcc6d9e",
+    "team_pass_summary.csv": "f2cebb7477a2bee687b8d328c5736fd5b82e3897c9a2c155b5e7269885ec5f4d"
+  }
+}

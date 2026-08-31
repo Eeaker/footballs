@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>NATI 球员评估报告 · 白队26号</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #fff; }
+  body {
+    font-family: "Noto Sans CJK SC", "Source Han Sans SC", "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    color: #162238;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .page { width: 793.7px; height: 1122.5px; position: relative; overflow: hidden; background: #fff; }
+  .report { width: 540px; margin: 18px auto 0; }
+  .header { display:flex; justify-content:space-between; align-items:flex-start; padding:0 2px 10px; border-bottom:3px solid #18253a; }
+  .brand { display:flex; align-items:baseline; white-space:nowrap; }
+  .nati { color:#00a476; font-weight:800; font-size:20px; letter-spacing:.5px; }
+  .cnbrand { color:#142037; font-weight:800; font-size:15px; margin-left:9px; }
+  .brand-sep { color:#adb4bc; margin:0 8px; font-size:10px; }
+  .eng { font-size:7px; letter-spacing:4px; color:#46505c; font-weight:500; }
+  .meta { text-align:right; font-size:7.3px; line-height:1.55; color:#313844; margin-top:1px; }
+  .meta b { color:#172237; }
+
+  .hero { text-align:center; padding-top:11px; padding-bottom:11px; }
+  .eyebrow { color:#b98c00; font-weight:800; font-size:8px; letter-spacing:7px; margin-bottom:2px; }
+  .nickname { font-size:48px; line-height:1.05; font-weight:900; letter-spacing:10px; margin-left:10px; color:#142038; }
+  .quote { color:#00a476; font-size:13.2px; font-weight:800; margin-top:3px; }
+  .identity { font-size:8.5px; color:#46505e; margin-top:6px; font-weight:600; letter-spacing:.3px; }
+  .accolade { display:inline-block; margin-top:7px; padding:5px 18px 4px; border:1.6px solid #d3a20b; color:#b68a00; border-radius:20px; font-size:8.7px; font-weight:800; letter-spacing:4px; }
+
+  .kpis { display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:2px; }
+  .kpi-card { height:83px; border:1px solid #dfe4e8; border-top:3px solid #00a476; border-radius:9px; text-align:center; padding:8px 8px 6px; box-shadow:0 1px 2px rgba(0,0,0,.02); }
+  .kpi-value { color:#00a476; font-weight:850; font-size:27px; line-height:1; }
+  .kpi-label { color:#1b2538; font-size:9px; font-weight:800; margin-top:5px; }
+  .kpi-quote { color:#9aa2ac; font-size:7px; font-style:italic; margin-top:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  .assessment { display:grid; grid-template-columns:230px 1fr; gap:12px; margin-top:12px; align-items:stretch; }
+  .card { border:1px solid #dfe4e8; border-radius:9px; background:#fff; }
+  .radar-card { height:238px; padding:10px 12px 7px; text-align:center; overflow:hidden; }
+  .card-title { font-size:10px; font-weight:850; margin-bottom:2px; }
+  .radar-dims { color:#9aa2ac; font-size:6.4px; letter-spacing:3.6px; margin-bottom:1px; white-space:nowrap; }
+  .radar-svg { width:205px; height:196px; display:block; margin:-2px auto 0; }
+  .right-assess { display:flex; flex-direction:column; gap:8px; }
+  .score-row { display:grid; grid-template-columns:1fr 1fr; gap:8px; height:52px; }
+  .score-card { border:1px solid #dfe4e8; border-radius:9px; text-align:center; padding:6px 4px 4px; }
+  .score-card.ca { border-color:#d4a10a; }
+  .score-big { font-size:26px; font-weight:850; line-height:1; }
+  .score-card.ca .score-big { color:#c7990a; }
+  .score-card.potential .score-big { color:#1a2233; }
+  .score-caption { color:#9da4ad; font-size:6.9px; margin-top:3px; }
+  .analysis-card { height:64px; padding:8px 11px 7px; position:relative; overflow:hidden; }
+  .analysis-card:before { content:""; position:absolute; left:0; top:0; bottom:0; width:3px; border-radius:9px 0 0 9px; }
+  .analysis-card.good:before { background:#00a476; }
+  .analysis-card.work:before { background:#e54752; }
+  .analysis-label { font-size:8px; font-weight:850; margin-bottom:4px; }
+  .good .analysis-label { color:#00a476; }
+  .work .analysis-label { color:#e54752; }
+  .analysis-text { font-size:7.8px; line-height:1.55; color:#313b49; }
+  .analysis-text b { color:#121d31; }
+
+  .section-head { display:flex; align-items:center; justify-content:space-between; margin:12px 0 6px; }
+  .section-title { border-left:4px solid #00a476; padding-left:8px; font-size:11px; font-weight:900; line-height:15px; }
+  .section-en { color:#aeb4bc; font-size:6.2px; letter-spacing:3px; }
+
+  .style-grid { display:grid; grid-template-columns:118px 164px 148px 92px; gap:8px; height:143px; }
+  .style-card { border:1px solid #dfe4e8; border-radius:9px; padding:8px; overflow:hidden; }
+  .tri-card { padding:6px 4px 2px; }
+  .tri-svg { width:110px; height:112px; display:block; margin:0 auto; }
+  .style-main { border-top:3px solid #17243a; padding:8px 9px 6px; }
+  .style-ref { font-size:10px; font-weight:900; margin-bottom:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .style-tag { color:#a4aab2; font-size:6.2px; margin-bottom:5px; }
+  .style-narrative { font-size:7.5px; line-height:1.52; color:#303947; }
+  .style-narrative b { font-weight:850; color:#142039; }
+  .compare-card { font-size:7.1px; line-height:1.45; color:#343d48; }
+  .compare-label { font-weight:850; margin-bottom:2px; }
+  .compare-label.sim { color:#00a476; }
+  .compare-label.diff { color:#e54752; margin-top:5px; }
+  .compare-label.target { color:#b88c00; margin-top:5px; }
+  .qr-card { text-align:center; color:#8f98a3; font-size:7px; padding-top:14px; }
+  .qrbox { width:58px; height:58px; border:1.4px dashed #b8c0c8; border-radius:7px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#bcc3c9; line-height:1.4; font-size:7px; }
+
+  .positions { display:flex; flex-direction:column; gap:6px; }
+  .position-row { height:43px; border:1px solid #e0e4e8; border-radius:8px; display:grid; grid-template-columns:48px 120px 1fr 58px; align-items:center; padding:0 10px 0 8px; }
+  .fitbox { text-align:center; line-height:1; }
+  .fitnum { font-size:16px; font-weight:850; }
+  .fitcap { color:#aab1ba; font-size:5.3px; letter-spacing:1.2px; margin-top:3px; }
+  .high .fitnum, .high .verdict { color:#00a476; }
+  .mid .fitnum { color:#596475; }
+  .low .fitnum, .low .verdict { color:#b9c0c7; }
+  .pending .fitnum, .pending .verdict { color:#aab1ba; }
+  .posname { font-size:9.2px; font-weight:850; color:#152035; }
+  .posdesc { font-size:7px; color:#4e5864; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding-right:6px; }
+  .verdict { text-align:right; font-size:7px; font-weight:800; color:#66717d; }
+
+  .messages { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+  .message { height:80px; border-radius:9px; padding:10px 12px; font-size:8.2px; line-height:1.6; color:#34404d; overflow:hidden; }
+  .message.player { background:#e9f7f1; }
+  .message.coach { background:#f4f5f7; }
+  .message-title { font-size:8.4px; font-weight:850; margin-bottom:3px; }
+  .message.player .message-title { color:#00a476; }
+  .message.coach .message-title { color:#434d5d; }
+  .message b { color:#172239; font-weight:850; }
+
+  .footer { border-top:1px solid #e1e5e8; margin-top:10px; padding-top:7px; display:flex; justify-content:space-between; gap:16px; }
+  .disclaimer { width:410px; color:#b0b6bd; font-size:5.7px; line-height:1.55; }
+  .footer-brand { text-align:right; white-space:nowrap; }
+  .footer-brand .ai { font-size:8px; font-weight:900; letter-spacing:1.5px; color:#1b2538; }
+  .footer-brand .sub { color:#9ba3ad; font-size:5.8px; margin-top:3px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <main class="report">
+    <header class="header">
+      <div class="brand"><span class="nati">NATI</span><span class="cnbrand">哪踢</span><span class="brand-sep">|</span><span class="eng">PLAYER ASSESSMENT REPORT</span></div>
+      <div class="meta">
+        报告编号 <b>#NATI-MOCK-20260820-026</b> · 评估周期 <b>2026.08.20</b><br>
+        球员档案 <b>NO.026</b> · 演示档案 · 赛季卡 2026 夏季
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="eyebrow">本 场 称 号</div>
+      <div class="nickname" style="font-size:48px;letter-spacing:10px;margin-left:10px">枢纽</div>
+      <div class="quote">“先观察，再接球；先创造角度，再向前推进。”</div>
+      <div class="identity">白队 26 号 · U12 · 中前卫 / 前腰 · 右脚 · NATI 测试队</div>
+      <div class="accolade">本场评定 · 节奏核心</div>
+    </section>
+
+    <section class="kpis">
+      <div class="kpi-card">
+        <div class="kpi-value">87%</div>
+        <div class="kpi-label">对抗护球成功率</div>
+        <div class="kpi-quote">“受压时先稳住身体，再把球交到安全侧。”</div>
+      </div>
+    
+      <div class="kpi-card">
+        <div class="kpi-value">×6</div>
+        <div class="kpi-label">接球前有效观察</div>
+        <div class="kpi-quote">“球到脚前已经看过弱侧和身后空间。”</div>
+      </div>
+    
+      <div class="kpi-card">
+        <div class="kpi-value">4</div>
+        <div class="kpi-label">向前推进</div>
+        <div class="kpi-quote">“能把安全接球转化为下一步向前选择。”</div>
+      </div>
+    </section>
+
+    <section class="assessment">
+      <div class="card radar-card">
+        <div class="card-title">八维能力雷达</div>
+        <div class="radar-dims">体 · 技 · 战 · 心 · 智 · 观 · 决 · 位</div>
+        
+    <svg viewBox="0 0 205 205" class="radar-svg" aria-label="八维能力雷达">
+      <style>
+        .radar-grid{fill:none;stroke:#d9dfe5;stroke-width:1}
+        .radar-axis{stroke:#e5e9ed;stroke-width:1}
+        .radar-area{fill:rgba(0,160,116,.18);stroke:#00a476;stroke-width:2.1}
+        .radar-dot{fill:#00a476}
+        .radar-label{font:700 10px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#1d293b}
+        .radar-low{fill:#e2454c}
+        .radar-pending{font:700 10px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#aab3bb}
+      </style>
+      <polygon points="102.5,86.0 114.2,90.8 119.0,102.5 114.2,114.2 102.5,119.0 90.8,114.2 86.0,102.5 90.8,90.8" class="radar-grid"/><polygon points="102.5,69.5 125.8,79.2 135.5,102.5 125.8,125.8 102.5,135.5 79.2,125.8 69.5,102.5 79.2,79.2" class="radar-grid"/><polygon points="102.5,53.0 137.5,67.5 152.0,102.5 137.5,137.5 102.5,152.0 67.5,137.5 53.0,102.5 67.5,67.5" class="radar-grid"/><polygon points="102.5,36.5 149.2,55.8 168.5,102.5 149.2,149.2 102.5,168.5 55.8,149.2 36.5,102.5 55.8,55.8" class="radar-grid"/><line x1="102.5" y1="102.5" x2="102.5" y2="36.5" class="radar-axis"/><line x1="102.5" y1="102.5" x2="149.2" y2="55.8" class="radar-axis"/><line x1="102.5" y1="102.5" x2="168.5" y2="102.5" class="radar-axis"/><line x1="102.5" y1="102.5" x2="149.2" y2="149.2" class="radar-axis"/><line x1="102.5" y1="102.5" x2="102.5" y2="168.5" class="radar-axis"/><line x1="102.5" y1="102.5" x2="55.8" y2="149.2" class="radar-axis"/><line x1="102.5" y1="102.5" x2="36.5" y2="102.5" class="radar-axis"/><line x1="102.5" y1="102.5" x2="55.8" y2="55.8" class="radar-axis"/>
+      <polygon points="102.5,55.0 140.3,64.7 152.7,102.5 137.0,137.0 102.5,154.6 62.4,142.6 51.7,102.5 63.8,63.8" class="radar-area"/><circle cx="102.5" cy="55.0" r="2.7" class="radar-dot"/><circle cx="140.3" cy="64.7" r="2.7" class="radar-dot"/><circle cx="152.7" cy="102.5" r="2.7" class="radar-dot"/><circle cx="137.0" cy="137.0" r="2.7" class="radar-dot"/><circle cx="102.5" cy="154.6" r="2.7" class="radar-dot"/><circle cx="62.4" cy="142.6" r="2.7" class="radar-dot"/><circle cx="51.7" cy="102.5" r="2.7" class="radar-dot"/><circle cx="63.8" cy="63.8" r="2.7" class="radar-dot"/>
+      <text x="102.5" y="21.5" text-anchor="middle" class="radar-label radar-low">体 72</text><text x="161.9" y="46.1" text-anchor="start" class="radar-label">技 81</text><text x="186.5" y="105.5" text-anchor="start" class="radar-label">战 76</text><text x="161.9" y="164.9" text-anchor="start" class="radar-label">心 74</text><text x="102.5" y="189.5" text-anchor="middle" class="radar-label">智 79</text><text x="43.1" y="164.9" text-anchor="end" class="radar-label">观 86</text><text x="18.5" y="105.5" text-anchor="end" class="radar-label">决 77</text><text x="43.1" y="46.1" text-anchor="end" class="radar-label">位 83</text>
+    </svg>
+    
+      </div>
+      <div class="right-assess">
+        <div class="score-row">
+          <div class="score-card ca"><div class="score-big">78</div><div class="score-caption">CA 综合</div></div>
+          <div class="score-card potential"><div class="score-big">A-</div><div class="score-caption">潜力 · 向 A 进发</div></div>
+        </div>
+        <div class="card analysis-card good"><div class="analysis-label">优势区</div><div class="analysis-text">观 86 · 位 83 · 技 81 —— 接球前观察充分，身体朝向稳定，能用位置选择帮助球队连续推进。</div></div>
+        <div class="card analysis-card work"><div class="analysis-label">攻坚区</div><div class="analysis-text">心 74 · 决 77 —— 丢球后的第一反应和出球后的再次移动还可更坚决，提升连续参与度。</div></div>
+      </div>
+    </section>
+
+    <div class="section-head"><div class="section-title">风格原型 · 三角定位</div><div class="section-en">STYLE ARCHETYPE</div></div>
+    <section class="style-grid">
+      <div class="style-card tri-card">
+    <svg viewBox="0 0 145 128" class="tri-svg" aria-label="风格原型三角定位">
+      <polygon points="72,18 20,106 124,106" fill="#fafbfc" stroke="#d7dde2" stroke-width="1.2"/>
+      <polygon points="72,46 43,92 101,92" fill="none" stroke="#e8ecef" stroke-width="1"/>
+      <text x="72" y="13" text-anchor="middle" class="tri-axis">战术素养</text>
+      <text x="8" y="118" text-anchor="start" class="tri-axis">身体强悍</text>
+      <text x="137" y="118" text-anchor="end" class="tri-axis">天赋</text>
+      <circle cx="72" cy="29" r="3" fill="#cfd6dc"/><text x="79" y="32" class="tri-ghost">穆勒</text>
+      <circle cx="77.3" cy="47.5" r="4.4" fill="#00a476"/><text x="70.3" y="39.5" text-anchor="middle" class="tri-player">球员</text>
+      <style>
+        .tri-axis{font:700 8px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#202b3c}
+        .tri-ghost{font:400 6px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#aab3bb}
+        .tri-player{font:700 7px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#00a476}
+        .tri-pending{font:700 8px 'Noto Sans CJK SC','Microsoft YaHei',sans-serif;fill:#aab3bb}
+      </style>
+    </svg>
+    </div>
+      <div class="style-card style-main">
+        <div class="style-ref">原型参照：佩德里</div>
+        <div class="style-tag">空间连接型 · 风格相似 ≠ 水平相当</div>
+        <div class="style-narrative">他的价值更多来自提前观察和站位，而不是连续带球解决问题。观 86 与位 83 说明他能在接球前找到下一步空间；若能把出球后的再次移动做得更主动，连接能力会更完整。</div>
+      </div>
+      <div class="style-card compare-card">
+        <div class="compare-label sim">▲ 相似点</div><div>观察频率高，善于在小范围内提供接应角度</div>
+        <div class="compare-label diff">▼ 差异点</div><div>高强度对抗后的动作连续性仍需提高</div>
+        <div class="compare-label target">◎ 本赛季解锁目标</div><div>出球后再接应 · 位 83 → 88</div>
+      </div>
+      <div class="style-card qr-card">
+        <div class="qrbox">二维码<br>预留位</div>
+        扫码看本场<br>高光片段
+      </div>
+    </section>
+
+    <div class="section-head"><div class="section-title">推荐发展位置</div><div class="section-en">BEST FIT · TOP 3</div></div>
+    <section class="positions">
+        <div class="position-row high">
+          <div class="fitbox"><div class="fitnum">88</div><div class="fitcap">MATCH %</div></div>
+          <div class="posname">中前卫 / 组织型中场</div>
+          <div class="posdesc">观察 + 接应角度 + 稳定第一脚，适合承担中路连接任务</div>
+          <div class="verdict">极高匹配</div>
+        </div>
+        
+        <div class="position-row mid">
+          <div class="fitbox"><div class="fitnum">82</div><div class="fitcap">MATCH %</div></div>
+          <div class="posname">前腰</div>
+          <div class="posdesc">弱侧发现能力较好，需继续提升最后一传与连续前插</div>
+          <div class="verdict">较好匹配</div>
+        </div>
+        
+        <div class="position-row mid">
+          <div class="fitbox"><div class="fitnum">74</div><div class="fitcap">MATCH %</div></div>
+          <div class="posname">边前卫</div>
+          <div class="posdesc">可利用观察和接应能力参与边路配合，爆发冲击不是主要优势</div>
+          <div class="verdict">可尝试</div>
+        </div>
+        </section>
+
+    <section class="messages">
+      <div class="message player"><div class="message-title">给孩子</div>你已经会用观察帮助自己踢得更从容。下一步是每次把球向前传出后，不停在原地，马上再创造一个新的接应角度。</div>
+      <div class="message coach"><div class="message-title">给家长 & 教练</div>他的观察和位置感是当前最清晰的优势。建议训练中强化扫描-接球-转移-再接应的连续任务，并加入丢球后 3 秒反应规则，8-12 周后复评。</div>
+    </section>
+
+    <footer class="footer">
+      <div class="disclaimer">演示假数据，仅用于报告版式测试，不可作为真实球员评估依据。 · 称号逐场评定，由 NATI 球探团队根据本场行为数据授予 · 风格原型为风格参照，不代表水平等同 · 百分制为行为锚定评分，参照 U12 青训比赛场景 · 完整数据锚点与事件台账备索</div>
+      <div class="footer-brand"><div class="ai">NATI · AI SCOUT</div><div class="sub">哪踢科技 · 青少年球员成长评估系统</div></div>
+    </footer>
+  </main>
+</div>
+</body>
+</html>

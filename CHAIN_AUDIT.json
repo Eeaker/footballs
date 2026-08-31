@@ -1,0 +1,761 @@
+{
+  "schema_version": 2,
+  "status": "passed",
+  "source_repository": "Eeaker/football",
+  "source_commit": "bfd54686703bd55a234b795c8123411bb30e55a2",
+  "purpose": "Integrity manifest for canonical first-party source files after structural refactor.",
+  "critical_files": [
+    {
+      "path": "app/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app/app.py",
+      "sha256": "7b892c3a6c9dd5642c29dc8f7b81d410e39967bd43ed6dca78df4e434c102859"
+    },
+    {
+      "path": "app/config.py",
+      "sha256": "8642a5c74bea6463f382763109f5a1ec3aae5c4d2d13bdf3d50f0d1b48130bcb"
+    },
+    {
+      "path": "app/services/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "app/services/calibration.py",
+      "sha256": "120a89c81f737dc1aae02950657c7438110b1ef47cb196dc1355d573d112ff9a"
+    },
+    {
+      "path": "app/services/pipeline.py",
+      "sha256": "a8de92529bf18e5bd529c5ac0316e4f501ab0fe947d4d4c9de0a362bde461442"
+    },
+    {
+      "path": "app/services/reporting.py",
+      "sha256": "b6fbae05d8a51efcf77c5d518fc803558566f18a3d0a9ebb43ba86d04eb686a2"
+    },
+    {
+      "path": "app/services/results.py",
+      "sha256": "4bd46764dd0b977d00a58f0b53f8b4dbe8b5d9a042058415e020117dab11310b"
+    },
+    {
+      "path": "app/services/reviews.py",
+      "sha256": "3d07635c9ce28238703c3c624b053e9c989bcf58bfbe1b9faa0423f7f5dffadb"
+    },
+    {
+      "path": "app/services/storage.py",
+      "sha256": "32c25dec790a815b3b69a28891a2328dbd175ad326c35b20176d764e57b534cb"
+    },
+    {
+      "path": "app/services/system_info.py",
+      "sha256": "42f714206889eea039031e68c5120c23ea3b639c4bff422c7870e8f635d7e543"
+    },
+    {
+      "path": "app/services/team_hints.py",
+      "sha256": "bbfcb7906c7044cd129e71760851f41cb2ad2946dd2ab34771d35d7679037044"
+    },
+    {
+      "path": "app/services/video.py",
+      "sha256": "04deb53a799a73fb1f23481d688a0c42956b5c727ce0f04f71880964d8618563"
+    },
+    {
+      "path": "app/services/video_health.py",
+      "sha256": "1b8f8e8bd6098449643f5303faf67676daf223c5d879d51ac9f645ea2d786b6e"
+    },
+    {
+      "path": "app/static/app.js",
+      "sha256": "e721c4a75cb00f6b66352be17ec3c3f018d138406763a41f7d1ce753c8ce23e8"
+    },
+    {
+      "path": "app/static/index.html",
+      "sha256": "67e90e25af86d3d6583189590ccda46008e5817bd8d42c87fd92061040fc21a6"
+    },
+    {
+      "path": "app/static/quick_doc.html",
+      "sha256": "3a155f9ee6822000a608269c48778d2c473ed69755b7d827c49913bf81855c18"
+    },
+    {
+      "path": "app/static/styles.css",
+      "sha256": "cbc0915aad39f6980874cf963d634498d527947fd31ac86afa7c4f5937d96ccf"
+    },
+    {
+      "path": "app/static/user_guide.html",
+      "sha256": "1f146645946228bb2a4e2d126fc9ff9940ec49d9eca189e270c09189a29fb114"
+    },
+    {
+      "path": "app/tests/test_generate_player_card.py",
+      "sha256": "e529d77fabf79bbcf9b2a36cde115d20702369e5daf27ad980e4826f3f75fde5"
+    },
+    {
+      "path": "app/tests/test_pipeline_progress.py",
+      "sha256": "e8c0589e9bf3529c9ce00a9f7369010c7b01d4b864145ec7f0c29e4e0664679b"
+    },
+    {
+      "path": "app/tests/test_results_workflow.py",
+      "sha256": "1bd69be3797f55540c284672a75f1daae78a55f8c614e6247cf4631130ab43fd"
+    },
+    {
+      "path": "app/tests/test_semantic_events.py",
+      "sha256": "fd043d3b10343dae07c91da536a216179828932f02989b4532ffe222ff79b05d"
+    },
+    {
+      "path": "app/tests/test_storage_atomic_save.py",
+      "sha256": "219245cc6debb7f3afaedb322206d8a2032ab30e2f7da35f76c2ea71ce808e61"
+    },
+    {
+      "path": "app/tests/test_team_hints.py",
+      "sha256": "88832df186606d727f6e75a49dcfcd141040eeeda57cdd9e724b3e9bd67d107c"
+    },
+    {
+      "path": "engine/football_metric_running/pyproject.toml",
+      "sha256": "04f1e1bdc1dcf7d7dfe25c747eb5347cddbe675d458e22131358d6e61f3c0f6c"
+    },
+    {
+      "path": "engine/football_metric_running/src/pipeline.py",
+      "sha256": "b6bdd12a1c2a56bc7ad693eb02a285940e5fa922f41e0ecebd81756cc020497b"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/__init__.py",
+      "sha256": "0a0f48603fd615f61ce966f3bee6526fe3883a31e61f2460aaffc8867b0c19b7"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/build_multi_anchor_dynamic_calibration.py",
+      "sha256": "59d9cf329590d51759b3193542e4542941ad35febb4687c9b59e1ef86156cb5e"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/build_rotation_dynamic_calibration.py",
+      "sha256": "df921da0938acaee961a59908814128741bb942dceb19ccdd5c8f54e2b830675"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/calculate_running.py",
+      "sha256": "c4d2569f8b6b875f8dddd284f9e378fa674b5f8a1e27a03bb6941b238a0da776"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/calibrate_pitch.py",
+      "sha256": "f2001f4f0dfe7bd2a67181c890b6a51d5c99711129ba466269022d70fff8d854"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/calibration_points.example.json",
+      "sha256": "07dc2c0dec8a94a58d1861166f562b6717903366fcc401d9dc9ba96fe5cefb46"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/dynamic_calibration.py",
+      "sha256": "0a1dc176a0bdcd927e5e3833314a07e47e41493555ab71a817640229e0f0fabf"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/dynamic_observations.example.json",
+      "sha256": "38ffc38b28dda615055217b194fe94c48e51905c45ec0dd9c2c3b9cc8daafac1"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/evaluate_rotation_registration.py",
+      "sha256": "4500dee1582ab0aeebe9c378aef8d1ed7730a8e327209db306ca8ef814a0f97d"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/homography.py",
+      "sha256": "5996af71bbb56b09e92876f0d0762ceca0fb00048e7b1d737167bd8542c31885"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/inspect_mot.py",
+      "sha256": "3c5921822ea79f391e04d455f53745889cfef6919d8de76691708c5f0b03a7b0"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/metrics.py",
+      "sha256": "75b67a97e6d25f6d02fbf183f4200142134e4290ef279a4c3200acfa9874d573"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/mot.py",
+      "sha256": "1a5929b7e620d6ef9372b114df0b60bd36ccae51322c7e00bbedc00ff9274e41"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/prepare_dynamic_calibration.py",
+      "sha256": "1d4ac2f0cf10e77fead408ee9cfb9ede2bfe6365b8f5df39893f4a947f9ef506"
+    },
+    {
+      "path": "engine/football_metric_running/src/running_metrics_v1/render_demo.py",
+      "sha256": "4630b7acaeaa935b64d8b57573bf3a0420ca92f65837850f9d614db92139d184"
+    },
+    {
+      "path": "engine/football_metric_running/tests/test_frame_domain.py",
+      "sha256": "81b6b9c54d50c03ccd1f3d755c28edacbcbaae071d06692b2d5d0a10ea91db67"
+    },
+    {
+      "path": "engine/football_metric_running/tests/test_running_metrics.py",
+      "sha256": "f85ffb58f972f34c45f655f4c19b5530ef34c6ebb2f596339182f79471f8b2a6"
+    },
+    {
+      "path": "engine/identity_audit/apply_team_partition.py",
+      "sha256": "570aa52c00e239787dd5dad429f21781a6f28274f23fbe8f118edd4926dbda14"
+    },
+    {
+      "path": "engine/identity_audit/apply_validated_team_switches.py",
+      "sha256": "a0d46b3f3dfa2d57044a09145250c9b893364e4e0249b0db1fffdda215917306"
+    },
+    {
+      "path": "engine/identity_audit/build_partition_team_map.py",
+      "sha256": "b545cc249f3760b6a43727bec8bb24327631d77b48143a8a4e03cb3d928d1755"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/__init__.py",
+      "sha256": "97f8ad6370085cae9e2bb20fbe324620157c0aba0026032994c2cda3f885f408"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/audit_local_change.py",
+      "sha256": "567ae82c98c5de90c29b1ec756fbacec890ce2f1d7eaf58faf28b2ccd096912f"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/audit_mot.py",
+      "sha256": "f967be83564fdcb7f6d251ae6b9fc3cae851f6684d9fdf86dc6c8c53abe75ef2"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/audit_open_set.py",
+      "sha256": "16dda9e31d5bc0bf0b91e732b93fd00ff70c0c3e8cf55b31c442465013c8cb5d"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/local_change.py",
+      "sha256": "2ce2c6f4c41532081720893e06cd95e2e4c7598e80e86d49e6d4f3dd4a6e7227"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/open_set_team.py",
+      "sha256": "3558faa0803e69390a49304c574e99d921a660c7cf2d233dd101564b52ec7da9"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/quality_gate.py",
+      "sha256": "2b0a444b3429a2e344a61364a733c8d415af64cee42e76179cef30fb53708457"
+    },
+    {
+      "path": "engine/identity_audit/mode_split/transitions.py",
+      "sha256": "3936dc81d03198c50f4fd4b0e3a74ce6cfab789d9219fb37f101bac041200436"
+    },
+    {
+      "path": "engine/identity_audit/reanalyze_cached_open_set.py",
+      "sha256": "0a4c11794dc8beb7d4f919db3b646d7c9ef3b7da46a2819db425f80945f23ad6"
+    },
+    {
+      "path": "engine/identity_audit/render_candidate_storyboards.py",
+      "sha256": "913d603d016c3b05ebc0621ca8f454dd207c7f6564c14808406f0e6a1708390b"
+    },
+    {
+      "path": "engine/identity_audit/render_open_set_candidates.py",
+      "sha256": "67dc6fc9c13bbc82fee09e51201bbb3f69c51b41e168d43ca97666898035e263"
+    },
+    {
+      "path": "engine/identity_audit/run_experiment.py",
+      "sha256": "a5b293d4917ed9cc2664727265e6c006e5ff9c745fca852dbb960f3a29279a92"
+    },
+    {
+      "path": "engine/identity_audit/run_local_change_experiment.py",
+      "sha256": "23a0dfb114c12fd5763956723405530c125dc3ad7260b718774ce59a7450e600"
+    },
+    {
+      "path": "engine/identity_audit/run_open_set_occlusion_experiment.py",
+      "sha256": "830e2a4b17283a8f64ee3a4f8be2751e9b96a79529efefaa39426bda7ec704cb"
+    },
+    {
+      "path": "engine/identity_audit/tests/test_local_change.py",
+      "sha256": "8448deba97d6997b2c6d42460378090c71a9ccdfb25038fa23ce511b371aa594"
+    },
+    {
+      "path": "engine/identity_audit/tests/test_open_set_team.py",
+      "sha256": "c4cdbd9728a144bab701918baebc98c2d20f892387be9fbe31d0a946eba94c61"
+    },
+    {
+      "path": "engine/identity_audit/tests/test_quality_gate.py",
+      "sha256": "e38569d8755ba888b7080e7473b2e163d0cc0f934c62e20848d3532959137847"
+    },
+    {
+      "path": "engine/identity_audit/tests/test_transitions.py",
+      "sha256": "d99021ddd700c34594f7378ee7a35e09c7f24b1c875f3574ac078a01e5ed1abf"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/__init__.py",
+      "sha256": "3b0c6197d1e8cb9d7edd082644ca4225b5f26152fe574a87a29a557d439aecf4"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/acceptance.py",
+      "sha256": "b63dc60dddb1a4955556cee871d734c4968b3ea2bab8024ca8476f9c4e4345a9"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/geometry.py",
+      "sha256": "d560ac60176b5ed434e0812666e2ee6cbe493be1a946e20ca5c299704d923cf9"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/io.py",
+      "sha256": "a97ccb4ed7a88e72d0d5e82371a7487a2701a7d43f28cfb50cd56788f5a36484"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/jersey_numbers.py",
+      "sha256": "5134dc28f7c0ba2e6783df0ae60aefaaa3fe9635cc15c28e8359dd47cb22d04c"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/passes.py",
+      "sha256": "2951868a335abac964a9811990d0bea23483ea2a26bd762c6c4a005d7fdb58e0"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/pipeline.py",
+      "sha256": "e334952d33c344fd43c8de02af7701154a5eb00f33e98166165974c8bc701755"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/pitch_render.py",
+      "sha256": "2aa777b285c9cc779cf5b6602a73f30f89483dd25cc4a65d3188ce305536f739"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/player_card.py",
+      "sha256": "10cbc32ecadfb9090ff1c17a6589614efe50111d26819dba8d9ee9acd2f9f681"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/possession.py",
+      "sha256": "2862027fcc1774baa07133647fd9a7a8da2498496561eeaf3c3cbe4a653a60eb"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/semantic_events.py",
+      "sha256": "4513aeb4a77240119f85fff6cc30c8ff16248ce0ff9da1e24684a577aebde946"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/teams.py",
+      "sha256": "1eb905e874865554e7ca2f6394d7f55855b6f87681e0010566c515ead387655d"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/tracking_adapter.py",
+      "sha256": "dcf9afea25cd58904351ee4cf6ff8fe3e0daa16929b19417695faae67a06d060"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/vendor/__init__.py",
+      "sha256": "75c27d0d95f2f0904de51eb1288fdf68a02f748f22df1413a4d6270a424c72e8"
+    },
+    {
+      "path": "engine/match_analysis/analysis_lib/vendor/tryolabs_pass_rules.py",
+      "sha256": "4c8140dcad8d2beb8f9f8f732f6409d92894b714ed3d67d78f0376f49a4a6c0a"
+    },
+    {
+      "path": "engine/match_analysis/assessment_report_input.schema.json",
+      "sha256": "46fae32fe1ea9469bbe089df312a35544398494c1f20cbec9feeec17e18fc48a"
+    },
+    {
+      "path": "engine/match_analysis/build_machine_events.py",
+      "sha256": "99ef48c300a3df4b52813c74a65b9fa6be4fe38630a468cfa6d3fd4b062bed56"
+    },
+    {
+      "path": "engine/match_analysis/export_acceptance_clips.py",
+      "sha256": "bbfe2cf839de0847527de6d53c02136d3489737eb891ad911c00adc6c85623e6"
+    },
+    {
+      "path": "engine/match_analysis/export_player_card_delivery_v1.py",
+      "sha256": "6e0bcf523d03f3e8c095fcd44c16839405b7e99727d71cd7287844914c2d7aca"
+    },
+    {
+      "path": "engine/match_analysis/export_task3_final_demo.py",
+      "sha256": "eee011803c67710bb882c6397bb400e0d7be4026efc18bbd2dfb557145bcc844"
+    },
+    {
+      "path": "engine/match_analysis/extract_ball_positions.py",
+      "sha256": "633f593971ac447af002e043adee55936f88913e5a805193a9cd0a6a74013798"
+    },
+    {
+      "path": "engine/match_analysis/generate_player_card.py",
+      "sha256": "3871941207ce3379e94275c37274d220721bf55f4d66f318f1b660e4f1c25d73"
+    },
+    {
+      "path": "engine/match_analysis/import_annotation_xlsx.py",
+      "sha256": "41239386923d94c90b9262a6d1e3c0acfbd46a55b74b45dfcdf734497b803b41"
+    },
+    {
+      "path": "engine/match_analysis/prepare_reference_player_card_inputs.py",
+      "sha256": "671f9db49fe3c8b95418634021132a7c98fd63fc505ce59ee71ba45436268561"
+    },
+    {
+      "path": "engine/match_analysis/prototypes/team_color_modes/logic.py",
+      "sha256": "88ec88a2edc6ee20742cc371b2b7a1e8ba4f4161b45d5928ecdb71ebbf3f04b4"
+    },
+    {
+      "path": "engine/match_analysis/prototypes/team_color_modes/render_box_comparison.py",
+      "sha256": "2d323cbed53374a71486769342857d1dfe13de5d56188279238d8d2ffda19791"
+    },
+    {
+      "path": "engine/match_analysis/prototypes/team_color_modes/run.py",
+      "sha256": "9ee3d9ba07c032acf0d4aba543ae571dace39d3eff6e7a9341585bfd4152a475"
+    },
+    {
+      "path": "engine/match_analysis/pyproject.toml",
+      "sha256": "2c2d96a37802c1e5d7682c1a5363ccf66df09b4eb83a7d121d7d451b3561fe5b"
+    },
+    {
+      "path": "engine/match_analysis/reclassify_ocr_boss_compatible.py",
+      "sha256": "31bd4ace93ba2535c6b79bebc7886b5b557a93531f0351ccb4417c16bc229aa5"
+    },
+    {
+      "path": "engine/match_analysis/render_metric_pitch.py",
+      "sha256": "4e094747e7a0ce583769aef1e7d22c8071bcd25f70103e4cc218d472ac8a80c3"
+    },
+    {
+      "path": "engine/match_analysis/render_nati_standard_report.py",
+      "sha256": "bcfcda630975b1dbb7d71c0c89ccb3809055893c8522510f1adfe5c0cc0671cb"
+    },
+    {
+      "path": "engine/match_analysis/render_ocr_policy_contact_sheet.py",
+      "sha256": "e5023c203a8dd1ceb8e2795e5acff567fcbe140e529434c36bc2feb846941047"
+    },
+    {
+      "path": "engine/match_analysis/run_analysis.py",
+      "sha256": "35beae70ad1ba88b12f28a9116ef8c1996f0035f7587ed63d29190ca23ddffad"
+    },
+    {
+      "path": "engine/match_analysis/run_integrated_analysis.py",
+      "sha256": "b41c73dcdff1eba594fe3626cf40ffad9bc71bed1121d7077a1a727b09350b7c"
+    },
+    {
+      "path": "engine/match_analysis/run_jersey_ocr.py",
+      "sha256": "336eee7d76486740c2cf8cb78c0bdb2facaa90bd59c2be683bbcab5636b5b4e8"
+    },
+    {
+      "path": "engine/match_analysis/run_stage4_from_artifacts.py",
+      "sha256": "c7669eb17b1ca89ce8ba8ef3fb6cf860d375ac41115d154a1ab34ed115e5166b"
+    },
+    {
+      "path": "engine/match_analysis/tests/conftest.py",
+      "sha256": "649d278ada25ccdb89c99663fecf841ccd3276e9018550e7b17ea171557e8ee1"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_acceptance.py",
+      "sha256": "7ad60f0e8c4621a3b1ee201788f2231e116586f546d152c490cd46730d1043ce"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_annotation_import.py",
+      "sha256": "91599e49a86aa7176a69a03934a4962ef1bc6058bfe7b2ebd36a0beb509c2297"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_build_machine_events.py",
+      "sha256": "385ef9f57ea2ce55ffbc70665dd0ffe5b02571850b4e2c4b3bc4a5870d0e6859"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_export_acceptance_clips.py",
+      "sha256": "347131df80303f511876baa27f3ccb05425581d89fcf03850e3e79e32d5ca59c"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_generate_player_card_from_mot.py",
+      "sha256": "6e141d5719f512f85c8943aa2c9bf1550abc7f49f67438ca2cf8d7a8c87d1c62"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_geometry.py",
+      "sha256": "4f60eb3c4fa886224cc4111a0f99951c7d373690f74a7aded040ac8c6e3b7ecc"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_jersey_numbers.py",
+      "sha256": "826e324fbf052412db6db9b3c87077c5f4db7444951e04a1bb0b3d184bca58fa"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_nati_report.py",
+      "sha256": "10ee9dbcf92aaa9471c4bdc4379071c5a24d1c00d30d64ad32d09494d07e721c"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_pipeline_integration.py",
+      "sha256": "c98afeaf88a02dc0ac97a04208076afadfc40018428ba2a2911277be6f41b543"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_pitch_render.py",
+      "sha256": "c7f4a9692cec54184b9619a6744786833ad2541769e269d7788a3c282a267ddf"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_player_card.py",
+      "sha256": "8f7dd3e15738d1fd52447f573901920995c618239c2ab050c179e967cc0ee028"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_player_card_delivery.py",
+      "sha256": "00dc11ac55ca4159c2db6e760aa566739a755c208c287b5c9b6c331de492cb5c"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_possession_and_passes.py",
+      "sha256": "a80115f1d4d5f996571096ed1f1bed2d8a0d279d4461ccdaaf9b16c8cffe9ec9"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_reclassify_ocr_boss_compatible.py",
+      "sha256": "f0e5bc8929aa6ab3ccca75a38e95d2e023860aee4d4415247b83121964e78608"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_source_migration.py",
+      "sha256": "6caa72acbfcbe74e87d0468f867494f2dac2afa7434d89fd527950b9fc4b0e96"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_task3_final_demo.py",
+      "sha256": "189087755b976ce2ec9757392da20406df16a48ad5c281c130cba2c94db57a24"
+    },
+    {
+      "path": "engine/match_analysis/tests/test_teams.py",
+      "sha256": "d644d82a3df3dd7d57654322e55d4c26662efead74f4c0bb0c5eab49e2a7734f"
+    },
+    {
+      "path": "engine/match_analysis/validate_player_card_acceptance.py",
+      "sha256": "e57df885f2aa811d4f30db35d6b8a202ad2949842cc83c14f96acea5e606c419"
+    },
+    {
+      "path": "engine/repository_qa/test_frame_domain.py",
+      "sha256": "8d5010a0ce06b85b3fe508ed27a11abf17e3c9d2e866d09d4d6ae8e1cd176159"
+    },
+    {
+      "path": "engine/repository_qa/verify_repository.py",
+      "sha256": "adbc77c606da8f190a710c3a1db453047b48c3a58928cc41ea3e5b2403436b68"
+    },
+    {
+      "path": "engine/tracking/apply_identity_map.py",
+      "sha256": "a8fb5b3872b5ab94b0afe56366ccc4a2a132f18c6986bbca960977e854e60741"
+    },
+    {
+      "path": "engine/tracking/build_identity_mosaics.py",
+      "sha256": "44c0f6dba4aa2c6d7246bdb77e22874beecf13c09adcc713cee6ef590ebcb00d"
+    },
+    {
+      "path": "engine/tracking/build_montage.py",
+      "sha256": "3d5fc30a7fb039e69ecc10e80e73831e1ed5ee3274143a008ea64b4c594a15c6"
+    },
+    {
+      "path": "engine/tracking/config/botsort_buffer.yaml",
+      "sha256": "70a66cf5f6ab6a0f581b8235406ce80f3fcb6456caf025f39f2016c954a57d26"
+    },
+    {
+      "path": "engine/tracking/config/identity_map.example.json",
+      "sha256": "6d0fec1ee2626ecefe6dcae02553d2c842e756b5585507322defff3da67d93d7"
+    },
+    {
+      "path": "engine/tracking/config/labels_7d.json",
+      "sha256": "4c63b3604dbde26e5de16be37526f24a3e134aaaf7bffa885a2c5c44c685d9ac"
+    },
+    {
+      "path": "engine/tracking/config/onboard_config.schema.json",
+      "sha256": "024c1b3cb81c25d8644c0f71326515dded2f853b7bcba69892ed5e647a412dab"
+    },
+    {
+      "path": "engine/tracking/config/onboard_defaults.yaml",
+      "sha256": "222383a91368410778a9f2b301fdf80237c410a3ad04a7c52008e0d24b1db30f"
+    },
+    {
+      "path": "engine/tracking/export_five_event_compilation.py",
+      "sha256": "f7980195cacb73b981340ea3c51adc1be9f46191fcc4fed95f09bbe8407253e9"
+    },
+    {
+      "path": "engine/tracking/export_player_demo.py",
+      "sha256": "6935f908d7bd261e674e0e9bb8febc9762dafa12a71bd75f610a5cced08aa359"
+    },
+    {
+      "path": "engine/tracking/generate_review_manifest.py",
+      "sha256": "f2b0d5cfce98c80c0718f2f750eec99c6257536595d69a0e1141f1c2ccb8d45c"
+    },
+    {
+      "path": "engine/tracking/make_id_focus_clips.py",
+      "sha256": "ac42e5cb0f1ffce68945edd06a04a636566d604776d3c7dda0cf23529d808f95"
+    },
+    {
+      "path": "engine/tracking/onboard/__init__.py",
+      "sha256": "0919387710b54e474019d55f4d37828fb748a96a272926b3bb7fc2f8da11290a"
+    },
+    {
+      "path": "engine/tracking/onboard/calibration.py",
+      "sha256": "0cf0cfd52417b833d7e2440b61390a5b8f04f4dbfbec5ea8874608c9b03e653c"
+    },
+    {
+      "path": "engine/tracking/onboard/config_builder.py",
+      "sha256": "cd1ee0e5a171b188c71a23f85d5c2c6420e34bb39621b4e4dd5bf26b2add2c0f"
+    },
+    {
+      "path": "engine/tracking/onboard/field_setup.py",
+      "sha256": "b876410467e1cff9d6326294f4fa5f5bcaa86bc43ede9262f14b4302d96fbc9d"
+    },
+    {
+      "path": "engine/tracking/onboard/models.py",
+      "sha256": "8e8159f00a938d631e74fb5063fcae1b8f9d2c3de21764c23c4a1a01305ced47"
+    },
+    {
+      "path": "engine/tracking/onboard/report.py",
+      "sha256": "6437a1939bbdc6b3aa8828bcabfb25b5250cfefb2177be7bdfb7bc05d58e71d6"
+    },
+    {
+      "path": "engine/tracking/onboard/team_colors.py",
+      "sha256": "ba7fc0e252b8e71043f388bfea12ba38a920374862f8490909e85ed9453a1902"
+    },
+    {
+      "path": "engine/tracking/onboard/tracker_trial.py",
+      "sha256": "0946bc062aef11dbe71e8713a1498e1bf14f47b4a8e8fe6dbe80f0ff1f3da81c"
+    },
+    {
+      "path": "engine/tracking/onboard/ui.py",
+      "sha256": "793037002bf840c898e4527100afd1eca138f8449cb48ac0d19c10fd2440eef1"
+    },
+    {
+      "path": "engine/tracking/onboard/video_health.py",
+      "sha256": "1a955b561f5076c877f4ae07b57faaea8ceba8a9966e0925fde3280cac5986fe"
+    },
+    {
+      "path": "engine/tracking/onboard.py",
+      "sha256": "f517b247ed7502b7fe068d02506938c5712ae5de62972ac8e1af0b3122f19ed6"
+    },
+    {
+      "path": "engine/tracking/pyproject.toml",
+      "sha256": "4d45d13a8f21a40b35a283aed3666be876d1359fb27217ee6ea3db7690d8e362"
+    },
+    {
+      "path": "engine/tracking/run_pipeline.py",
+      "sha256": "b2d35e515d6a21052dd78ce4628e1ab5568b2497071ed9b3c709f76a117af0c8"
+    },
+    {
+      "path": "engine/tracking/run_tracking.py",
+      "sha256": "90275bcf5097db891747caff08c927be87f22c0e7d51812b2f35be1d1a0a9e7b"
+    },
+    {
+      "path": "engine/tracking/tests/test_actor.py",
+      "sha256": "dab8d8f5535f2a8c7847fb6373a4781d2828cd8a1e2db426d10455e9f6287683"
+    },
+    {
+      "path": "engine/tracking/tests/test_export_five_event_compilation.py",
+      "sha256": "a78acdb605623fa5649e85b144b21708f9654adc2a9f50254528e5282044a435"
+    },
+    {
+      "path": "engine/tracking/tests/test_export_player_demo.py",
+      "sha256": "aca1f982732aac5f0280881a75eea74f4e9c66a8aa2fe3cc50527415a397acb8"
+    },
+    {
+      "path": "engine/tracking/tests/test_field_filter.py",
+      "sha256": "c59d2ea03935861a7d523a4c152440141f805ad5805376ae5e5963396bb17b4b"
+    },
+    {
+      "path": "engine/tracking/tests/test_field_geometry_dynamic.py",
+      "sha256": "5a2266b4686e4f28acce6794136e8777c58140fc21569024a66d956c2a3c0b21"
+    },
+    {
+      "path": "engine/tracking/tests/test_field_polygon.py",
+      "sha256": "8e437ebfe3f19f4bd0280caa1039dea20fe3ceffd6690cf01a7eb7575a3c673f"
+    },
+    {
+      "path": "engine/tracking/tests/test_frozen_product_policy.py",
+      "sha256": "c03b042f938e38b1c87f94f682b65f9dada1b27c9dc07173ea1518b28edeae50"
+    },
+    {
+      "path": "engine/tracking/tests/test_global_frame_uniqueness.py",
+      "sha256": "b536dd271079b4679a7ef32fec9c49c076e31226cc3eefcdf6ff7cf92d2f9ab7"
+    },
+    {
+      "path": "engine/tracking/tests/test_identity_map.py",
+      "sha256": "5743450cb92d06d8608021b6c9ea66d7f226acf7b4f2778c789130c6a632e5a5"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_calibration.py",
+      "sha256": "1e09709173f64938f780a4e0d177fb61adc6de7bd0ff8a34b857d69fb23bd478"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_colors.py",
+      "sha256": "fb4add19f2e4b03b82d175cd5118830189eb914dcc1bc907092c47b5eba18d44"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_config.py",
+      "sha256": "611b1066129cb8f4a3e1a7fb7ad3bf15248c541ccfba1e9dfd3fd0cf10e5a758"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_trial.py",
+      "sha256": "6b8b26bd2fe33c4473ce387fe532ef87c6ba6d64e29a8bfe37e67ca7fc1b3c92"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_ui.py",
+      "sha256": "c03a1a1e156f3d07912761a1b78f704868b226eaf3e80778d50080f00d063b4c"
+    },
+    {
+      "path": "engine/tracking/tests/test_onboard_video_health.py",
+      "sha256": "db55f72eeb6407a84993c2c78c2d24b0c5f1f76d91ec5256f72f384acda8a99f"
+    },
+    {
+      "path": "engine/tracking/tests/test_review_manifest.py",
+      "sha256": "cbacd64669abf22288233d2b5bf0c8a8484c097f5dd0a84f671c762e0fb95459"
+    },
+    {
+      "path": "engine/tracking/tests/test_runtime_environment.py",
+      "sha256": "281b756ef1c70c83ddf980872294d33035aa92b1da22ec3763f6bc8a7599c64f"
+    },
+    {
+      "path": "engine/tracking/tracking_core.py",
+      "sha256": "224d3dea32347647f66f1ce891c0bca66af6ed18b55b6bd8f3986f9f1a9ceb62"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/__init__.py",
+      "sha256": "299c1a72654ac2c017d995cad9421be7c0e2079686feb55d505cb6cd1515abfc"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/actor.py",
+      "sha256": "ef1b9304896496f7e7491d93357d067844f850c963f1f65b4e26b2f8a14cf001"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/config.py",
+      "sha256": "a970cbe7f0d1ab86cbc9b32e5b582fa24596f404e4c4d184369c242ae734e746"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/field_filter.py",
+      "sha256": "2a3cf36b737b709602d5b9261f16aeec4c92cda3e5fb70e3d35ca2ebc1ce70d4"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/field_geometry.py",
+      "sha256": "05e5a92d61bd6a155abb67553bb59e20129d8d6fb528bf9dcd9da554ca5ea42d"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/homography.py",
+      "sha256": "6b085f1f88ffbf122ea66c28b1ebbdcee1c1fb07535c396d8c1959acfdada6b0"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/metric_motion.py",
+      "sha256": "3029a5c0d31228df6025a8e70e399852242ff44fb3b34352cf092497bb02be6c"
+    },
+    {
+      "path": "engine/tracking/tracking_lib/team_features.py",
+      "sha256": "506c6b10b24a4f0a925c0c4cc1d6f500b49babf2b5442ebf39aa6d8c9937ac99"
+    },
+    {
+      "path": "engine/tracking/validate_delivery.py",
+      "sha256": "d7bb38519bad80b7a56a5befd6721d8427866b5b1559ade4bae7b43afd9152e2"
+    },
+    {
+      "path": "scripts/acceptance_check.py",
+      "sha256": "9e9fa6cee4ac929508b432deac6f99659d8708add41c0680f8cde968aaee6c20"
+    },
+    {
+      "path": "scripts/audit_engine_chain.py",
+      "sha256": "a8c7e036dec540760b4baba6b775b8d79760e737179b3d18650edb6965f92ce9"
+    },
+    {
+      "path": "scripts/build_release.py",
+      "sha256": "8f406f4fb9ed35ef94aa4c662a9af73e2b728f26a049d92bf7c1b8715bb2db3d"
+    },
+    {
+      "path": "scripts/generate_release_metadata.py",
+      "sha256": "5b95cfde00745e88cf6bef24a82be4b8b66cd0776c34163d3fa6231be2b4ad93"
+    },
+    {
+      "path": "scripts/install_default_model.py",
+      "sha256": "e828b0bd2aede3613e38e7fd640337dad422a6967de32b63ec3710c83ab5646d"
+    },
+    {
+      "path": "scripts/system_check.py",
+      "sha256": "0c26d19c45f58443251835b5d6fca4b18e10e351506eedc680f489b3639d8295"
+    },
+    {
+      "path": "scripts/validate_windows_launchers.py",
+      "sha256": "0c060807bedc0a23a99d781a4005b2a3ff9c6d781e96afcc7873bf6affae32f3"
+    },
+    {
+      "path": "scripts/verify_dynamic_calibration.py",
+      "sha256": "ce55dfd97d158faac890e297972ff369d4708e80252fbd52aa2d7699d8d3728f"
+    },
+    {
+      "path": "scripts/verify_fresh_project.py",
+      "sha256": "ade1c81c1bac8d986b1ad91b26340e087525dc6b3b058bf78d17857d1e6c9c12"
+    },
+    {
+      "path": "scripts/verify_product.py",
+      "sha256": "1696ae5983f3b3867ceef54f2f0a3ee4865a1ec9dafaa7f81d32eeb9286849c5"
+    },
+    {
+      "path": "scripts/windows_launcher.py",
+      "sha256": "038affe956d862f04f7ce19e9c9eb64d24fbdb03f85a1b62751e1a6dfce40f8a"
+    },
+    {
+      "path": "scripts/windows_torch_probe.py",
+      "sha256": "67cb8466c3915d32cd2a9423a78ba61baa4bc52535a8e380a967f0852a09a066"
+    }
+  ],
+  "summary": {
+    "critical_files_matched": 187,
+    "critical_files_total": 187
+  }
+}

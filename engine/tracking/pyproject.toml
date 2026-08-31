@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "football-tracking"
+version = "1.2.0"
+description = "Reproducible player tracking, candidate events and human-review delivery"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "numpy>=1.24,<3",
+  "opencv-python>=4.8",
+  "torch>=2.1",
+  "torchvision>=0.16",
+  "ultralytics>=8.3,<9",
+  "PyYAML>=6,<7",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tracking_lib*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

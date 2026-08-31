@@ -1,0 +1,31 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+*.egg-info/
+build/
+dist/
+
+# Local inputs and model weights are intentionally not published.
+*.pt
+*.pth
+*.onnx
+raw_videos/
+input_videos/
+
+# Reproducible temporary outputs.
+outputs/
+run_artifacts/
+*_raw.mp4
+*.tmp
+*.log
+
+# Editor and OS files.
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "profile": "adaptive",
+  "checks": {
+    "tracking_has_player_boxes": true,
+    "no_same_frame_duplicate_global_id": true,
+    "candidate_ids_present": true,
+    "identity_mosaic_count_matches_ids": true,
+    "id_focus_manifest_present": true,
+    "expected_highlight_candidates_present": true,
+    "no_direct_multimodal_scoring": true
+  },
+  "metrics": {
+    "mot_rows": 489571,
+    "frames_with_boxes": 62184,
+    "empty_frames": 20,
+    "mean_boxes_per_frame": 7.8704,
+    "median_boxes_per_frame": 8,
+    "max_boxes_per_frame": 17,
+    "global_ids": 39,
+    "duplicate_same_frame_id_extra_rows": 0
+  },
+  "artifacts": {
+    "event_candidates": 180,
+    "id_focus_clips": 172,
+    "identity_mosaics": 39,
+    "highlight_candidates": 20
+  },
+  "v3_comparison": {
+    "total_processed_frames": {
+      "v3_reference": 33829,
+      "actual": 62204,
+      "delta": 28375
+    },
+    "mot_rows": {
+      "v3_reference": 353317,
+      "actual": 489571,
+      "delta": 136254
+    },
+    "mean_boxes_per_frame": {
+      "v3_reference": 10.4442,
+      "actual": 7.8704,
+      "delta": -2.5738
+    },
+    "global_ids": {
+      "v3_reference": 43,
+      "actual": 39,
+      "delta": -4
+    },
+    "event_candidates": {
+      "v3_reference": 54,
+      "actual": 180,
+      "delta": 126
+    },
+    "id_focus_clips": {
+      "v3_reference": 48,
+      "actual": 172,
+      "delta": 124
+    },
+    "duplicate_same_frame_id_extra_rows": {
+      "v3_reference": 0,
+      "actual": 0,
+      "delta": 0
+    }
+  }
+}

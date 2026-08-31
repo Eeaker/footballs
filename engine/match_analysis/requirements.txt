@@ -1,0 +1,9 @@
+numpy>=1.24,<3
+opencv-python>=4.8
+PyYAML>=6,<7
+easyocr==1.7.2
+python-bidi>=0.6.6
+pyclipper>=1.3.0.post6
+scikit-image>=0.25.2
+shapely>=2.1.1
+openpyxl>=3.1,<4

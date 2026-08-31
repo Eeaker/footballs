@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "tracking 场地适配配置",
+  "type": "object",
+  "required": ["schema_version", "venue", "video", "scene", "detector", "tracker", "identity", "calibration", "events", "highlights"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "venue": {"type": "string", "minLength": 1},
+    "video": {
+      "type": "object",
+      "required": ["path", "fps", "width", "height"],
+      "properties": {
+        "path": {"type": "string"}, "fps": {"type": "number", "exclusiveMinimum": 0},
+        "width": {"type": "integer", "minimum": 1}, "height": {"type": "integer", "minimum": 1}
+      }
+    },
+    "scene": {
+      "type": "object",
+      "required": ["camera_motion", "expected_on_field_players", "referee_present"],
+      "properties": {
+        "camera_motion": {"enum": ["fixed", "pan_rotate", "handheld_translate", "unknown"]},
+        "expected_on_field_players": {"type": "integer", "minimum": 1},
+        "referee_present": {"type": "boolean"}
+      }
+    },
+    "detector": {"type": "object", "required": ["weights", "confidence", "imgsz"]},
+    "tracker": {"type": "object", "required": ["config_file", "vid_stride"]},
+    "field_filter": {
+      "type": "object",
+      "required": ["enabled", "min_turf_score", "min_track_turf_ratio", "min_geometry_ratio", "geometry"],
+      "properties": {
+        "enabled": {"type": "boolean"},
+        "min_turf_score": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_track_turf_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "min_geometry_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "geometry": {"type": "object", "required": ["enabled", "mode"]}
+      }
+    },
+    "identity": {
+      "type": "object", "required": ["max_ids", "keep_all_clusters", "team_clusters"],
+      "properties": {"team_clusters": {"type": "integer", "enum": [2, 3]}}
+    },
+    "calibration": {
+      "type": "object", "required": ["enabled", "mode", "keyframes", "validated"],
+      "properties": {
+        "enabled": {"type": "boolean"}, "mode": {"type": "string"},
+        "validated": {"type": "boolean"}, "keyframes": {"type": "array"}
+      }
+    },
+    "events": {"type": "object", "required": ["percentile", "minimum_gap_seconds", "edge_margin_seconds"]},
+    "highlights": {"type": "object", "required": ["event_count", "seconds_before_event", "seconds_after_event"]}
+  }
+}

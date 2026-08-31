@@ -1,0 +1,6 @@
+{
+  "assignments": {
+    "0": {"player_id": 0, "team": "yellow", "reviewed": false},
+    "1": {"player_id": 8, "team": "opponent_team", "reviewed": false}
+  }
+}

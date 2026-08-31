@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "status": "pending_human_review",
+  "task_contract": {
+    "possession": "ball-to-player-footpoint distance < 1.5 m for >= 3 consecutive frames",
+    "possession_transition": "every stable A-to-B possession change within the transfer gap, including opponents and short/ID-jitter candidates",
+    "pass_network": "same-team stable A-to-B transfer with metric displacement >= 0.5 m; tactical-intent proxy, human review required",
+    "acceptance": "deterministic time-spread sample of 20; human agreement >= 80%"
+  },
+  "inputs": {
+    "tracking_dir": "/root/autodl-tmp/0724_full_rerun_final_20260825/tracking",
+    "mot": "/root/autodl-tmp/0724_full_rerun_final_20260825/tracking/tracking/tracking_mot.txt",
+    "mot_sha256": "d53fcf55df331ef9f0a304d951d616071631f7b03184ee46946ce7beafb7090c",
+    "ball": "/root/autodl-tmp/0724_full_rerun_final_20260825/tracking/tracking/ball_positions_observed.csv",
+    "ball_sha256": "d7dc32994e41581991e5f4d93b2301dd7322ccc11388d8bc951b8b0d6b47fe6c",
+    "calibration": "/root/autodl-tmp/0724_full_rerun_final_20260825/calibration/dynamic_calibration_45x25.json",
+    "calibration_sha256": "9352792242b6e44f26c72bd681538b73ca16b012e40baa81b33c467f7f0704ff",
+    "video": "/root/football/input.mp4",
+    "team_map": null
+  },
+  "frame_domain": {
+    "processed_fps": 30.0,
+    "vid_stride": 1,
+    "mot_is_1_based": true,
+    "internal_frame_proc_is_0_based": true
+  },
+  "counts": {
+    "mot_rows": 489571,
+    "global_ids": 39,
+    "ball_points_after_bounded_interpolation": 22276,
+    "stable_possession_frames": 12180,
+    "possession_intervals": 790,
+    "possession_transitions": 290,
+    "pass_events": 79,
+    "pass_review_gray_zone": 9,
+    "opponent_possession_changes": 148,
+    "short_or_stationary_same_team_changes": 63,
+    "unknown_team_transitions": 0
+  },
+  "projection": {
+    "ball_frames": 22276,
+    "ball_frames_with_players": 22276,
+    "ball_frames_with_homography": 22276,
+    "candidate_match_frames": 13031,
+    "ball_points_outside_calibrated_field": 2511,
+    "player_points_outside_calibrated_field": 25387
+  },
+  "geometry_checks": {
+    "all_passes_have_confirmed_receiver_and_nonnegative_gap": true
+  },
+  "human_acceptance": {
+    "status": "pending_human_review",
+    "required_labels": 20,
+    "available_sample_events": 20,
+    "valid_labels": 0,
+    "agreement_count": 0,
+    "agreement_rate": null,
+    "threshold": 0.8,
+    "passed": false
+  },
+  "warnings": [
+    "global_id remains a run-local candidate identity; ID switches directly affect the pass matrix.",
+    "K-means team numbers are cluster labels, not semantic home/away names.",
+    "Possession transitions and pass-network edges are separate outputs; turnovers and ID jitter never enter the pass matrix.",
+    "The 0.25-0.5m same-team gray zone is exported only for human review and never counted in the formal pass network.",
+    "Tactical intent is represented only by an auditable same-team+stable-control+metric-displacement proxy, not claimed as ground truth."
+  ],
+  "elapsed_seconds": 1.461
+}

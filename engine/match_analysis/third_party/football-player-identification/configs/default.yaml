@@ -1,0 +1,394 @@
+model_path: ../models/best_yolo26x_gsr_light.pt
+video_path: ../input_videos/08fd33_4.mp4
+output_path: output_videos/ft_output.mp4
+artifacts_dir: artifacts/ft_run
+roster_path: configs/roster.example.json
+max_frames: 300
+
+run:
+  validate_inputs: true
+  unknown_config_keys: warn
+
+detection:
+  confidence: 0.05
+  ball_confidence: 0.002
+  ball_max_area_ratio: 0.0015
+  ball_size_penalty: 0.5
+  ball_temporal_consistency: false
+  ball_temporal_max_distance: 120.0
+  ball_temporal_max_distance_cap: 120.0
+  ball_temporal_distance_penalty: 0.35
+  ball_temporal_reject_outliers: true
+  ball_min_acquisition_confidence: 0.05
+  ball_low_confidence_max_distance: 30.0
+  ball_temporal_min_confidence_after_miss: 0.05
+  ball_temporal_miss_reset: 12
+  ball_kalman_enabled: false
+  ball_kalman_max_lost_frames: 8
+  ball_kalman_process_noise_scale: 50.0
+  ball_kalman_measurement_noise_scale: 5.0
+  ball_kalman_high_speed_threshold: 30.0
+  ball_kalman_high_speed_area_multiplier: 3.0
+
+tracking:
+  backend: bytetrack
+  track_activation_threshold: 0.10
+  lost_track_buffer: 150
+  minimum_matching_threshold: 0.95
+  frame_rate: 25
+  minimum_consecutive_frames: 2
+  progress_every: 250
+  inference_mode: true
+  half_precision: false
+  # Annotates detections with PRTReID evidence but does not affect ByteTrack.
+  # Requires prtreid.enabled=true when explicitly enabled.
+  prtreid_detection_enrichment: false
+linking:
+  enabled: true
+  max_gap: 90
+  max_distance: 160.0
+  min_frames: 4
+  team_gate_enabled: true
+  team_gate_min_confidence: 0.65
+  appearance_gate_enabled: true
+  appearance_min_similarity: 0.72
+  pitch_gate:
+    enabled: false
+    mode: audit
+    max_speed_mps: 14.0
+    fps: 25.0
+    pitch_length: 105.0
+    pitch_width: 68.0
+    bounds_tolerance: 2.0
+    require_in_bounds: true
+    require_source_prefix: "tvcalib:"
+  pitch_reranking:
+    enabled: false
+    mode: audit
+    weight: 0.10
+    baseline_distance_scale: 160.0
+    pitch_distance_scale: 10.0
+    require_all_candidates_usable: true
+  max_rejection_records: 5000
+
+jersey_identity_linking:
+  enabled: true
+  max_gap: 90
+  max_distance: 140.0
+  min_frames: 3
+  min_confidence: 0.20
+  min_head_confidence: 0.55
+  min_winner_margin: 0.10
+  min_votes: 5
+  team_gate_min_confidence: 0.60
+  max_rejection_records: 5000
+
+calibration:
+  enabled: true
+  path: null
+  auto: true
+  auto_frame: 50
+  auto_recalibrate_every: 0
+  pitch_length: 105.0
+  pitch_width: 68.0
+  tvcalib:
+    enabled: false
+    path: null
+    per_frame: true
+    coordinate_system: tvcalib_centered
+    invert: false
+    temporal_index: 0
+    frame_offset: 0
+    nearest_frame: true
+    max_frame_gap: null
+    image_id: null
+    frame: null
+
+team:
+  enabled: true
+  max_seed_frames: 12
+  min_seed_colors: 8
+  min_cluster_separation: 30.0
+  min_classification_margin: 12.0
+  min_tracklet_colors: 3
+  kmeans_random_states: [0, 42, 7, 13]
+  roster_color_min_fraction: 0.16
+  roster_color_min_margin: 0.04
+  prefer_roster_palette: true
+  trusted_palette_min_fraction: 0.18
+  trusted_palette_min_margin: 0.04
+  trusted_palette_min_samples: 3
+
+visual:
+  cache_enabled: true
+  embedding_mode: hsv
+
+referee:
+  enabled: true
+  min_color_fraction: 0.28
+  min_tracklet_frames: 10
+  reclassify_player_candidates: true
+  player_candidate_min_color_fraction: 0.28
+  player_candidate_max_team_confidence: 0.50
+  require_palette_color: true
+  trusted_color_min_fraction: 0.28
+  trusted_color_override_team_confidence: true
+
+goalkeeper:
+  enabled: true
+  min_color_fraction: 0.20
+  min_tracklet_frames: 2
+  assign_team_from_color: true
+  team_correction_min_score: 0.55
+
+jersey_ocr:
+  enabled: true
+  # If MMOCR is installed, this combines MMOCR and EasyOCR proposals before
+  # tracklet voting. Without MMOCR it records the failed import and falls back
+  # to EasyOCR, so existing environments still run.
+  backend: mmocr_easyocr
+  min_confidence: 0.25
+  max_crops_per_tracklet: 20
+  temporal_passes: 3
+  augment: true
+  min_crop_quality: 0.08
+  min_votes: 2
+  min_raw_confidence: 0.05
+  min_winner_margin: 0.15
+  easyocr_gpu: true
+  roster_aware: true
+  roster_filter_mode: drop
+  roster_unknown_team_policy: keep
+  roster_degrade_confidence_scale: 0.60
+  promote_roster_candidate: true
+  min_promoted_candidate_confidence: 0.12
+  min_promoted_candidate_votes: 1
+  # Disabled: writes up to ~12 debug image variants per OCR crop
+  # (jersey_ocr_debug/) that are never inspected in practice and accumulate
+  # fast (16G across this session's runs alone). Re-enable per-run only when
+  # actually debugging OCR variant selection.
+  debug_crops: false
+  # GSR OCR evaluation showed template-only votes over-predict "1"; keep it opt-in
+  # until the template candidate is confirmed by OCR or has very strong evidence.
+  template_matching: false
+  template_font_image: docs/numberFont.jpg
+  template_min_score: 0.62
+  template_weight: 0.03
+  template_max_candidates: 4
+  aggregate_by_crop: true
+  max_candidates_per_crop: 3
+  min_crop_candidate_ratio: 0.35
+  # If the first (cheaper) crop sample doesn't reach min_votes, pull more
+  # crops from the unused pool and retry -- only for tracklets that need it.
+  escalate_on_unassigned: false
+  escalation_max_extra_crops: 20
+  mmocr_device: cuda:0
+  mmocr_det: dbnet_resnet18_fpnc_1200e_icdar2015
+  mmocr_rec: SAR
+  mmocr_rec_weights: null
+  mmocr_rec_weights_sha256: null
+  mmocr_batch_size: 8
+  mmocr_direct_recognition: null
+  progress_every: 5
+  cache_enabled: true
+  cache_dir: .ft_cache/ocr
+  number_roi_enabled: false
+  number_roi_upscale: 3
+  number_roi_clahe: true
+  super_resolution_enabled: false
+  super_resolution_scale: 4
+  super_resolution_max_side: 100
+  demote_direct_only_single_digits: true
+  prefer_two_digit_candidates: true
+  strict_numeric_only: false
+  apply_to_goalkeepers: false
+
+# Optional second recognizer. It can emit diagnostics/proposals but is never
+# allowed to modify jersey assignments or identity evidence.
+jersey_ocr_secondary_audit:
+  enabled: false
+  mode: audit
+  backend: mmocr_rec
+  mmocr_rec: SAR
+  mmocr_rec_weights: null
+  mmocr_rec_weights_sha256: null
+  min_votes: 4
+  min_winner_margin: 0.08
+  cache_dir: .ft_cache/ocr_secondary_audit
+  debug_crops: false
+
+# Frozen YOLO number-region + numeric CTC recognizer, pretrained on SJN-210k
+# and fine-tuned on GSR. Promoted to decide jersey_number ahead of the SAR OCR
+# (see decision_policy below) after the held-out policy experiment showed a
+# large, statistically significant gain on both the offline and pipeline
+# surfaces (evaluation/jersey_heldout_manifests/jersey_policy_heldout_v1*).
+# Still audit_only at this stage: it never mutates state directly, it only
+# emits evidence that the decision layer arbitrates.
+jersey_region_ctc_audit:
+  enabled: true
+  mode: audit
+  audit_only: true
+  ctc_checkpoint: /home/cappetti/FT/models/jersey_number_ctc_sjn_to_gsr_v1.pth
+  ctc_checkpoint_sha256: 11c6356895c94e734b795d9ca2403580187d1d726c5aada51273738042c7c1c5
+  detector_checkpoint: /home/cappetti/FT/runs/jersey_number_region/yolo26s_smoke_v1/weights/best.pt
+  detector_checkpoint_sha256: ec3c4d06df75aff92f49779827e6cff96d99b84da496ced8a76ecfbb12c02ae4
+  detector_confidence: 0.25
+  box_padding: 0.25
+  batch_size: 64
+  detector_batch_size: 8
+  device: cuda
+  detector_device: "0"
+  min_override_confidence: 0.90
+  fusion_preview_enabled: false
+  max_crops_per_tracklet: 5
+  min_frame_gap: 5
+
+# Which producer's evidence becomes the jersey_number decision. jersey_region_ctc
+# decides first; the SAR primary is the fallback where the CTC abstains (e.g.
+# no legible region crop). Promoted from the conservative fallback-only default
+# after evaluation/jersey_heldout_manifests/jersey_policy_heldout_v1_preregistration.md
+# arm B: +37 correct tracklets vs 3 regressions on the pipeline surface
+# (p=1.9e-8), +46 vs 2 on the offline surface (p=8.4e-12). Do not revert this
+# without re-running the held-out benchmark.
+decision_policy:
+  jersey_number:
+    sources: [jersey_region_ctc, jersey_ocr_primary]
+    on_abstain: fallback
+
+# Optional SoccerNet legibility selector. Its upstream checkpoint is CC BY-NC
+# 3.0 and remains external to this repository.
+jersey_frame_selection:
+  enabled: false
+  model_type: legibility_resnet34
+  mode: audit
+  checkpoint: null
+  checkpoint_sha256: b9c61dabaea4a6ec99528c5ae394f5875aecb8207de38484eccb0f977a373e41
+  device: cuda
+  batch_size: 32
+  top_k: 5
+  min_legibility_score: 0.50
+  min_selection_score: null
+  min_frame_gap: 5
+  min_winner_votes: 2
+  min_margin: 0.0
+  allowed_roles: [player]
+  gate_each_frame_role: true
+  clean_back_weight: 0.70
+  sharpness_weight: 0.15
+  size_weight: 0.05
+  crop_quality_weight: 0.10
+  sharpness_scale: 100.0
+  size_scale: 160.0
+  use_torso_crop: true
+  torso_x_min: 0.15
+  torso_x_max: 0.85
+  torso_y_min: 0.08
+  torso_y_max: 0.68
+
+# Optional PRTReID crop-consistency filter. Method and external checkpoint are
+# CC BY-NC 3.0; research/non-commercial use only. No weights are vendored.
+jersey_subject_filter:
+  enabled: false
+  mode: audit
+  checkpoint: null
+  checkpoint_sha256: null
+  device: cuda
+  batch_size: 32
+  allowed_roles: [player]
+  min_crop_quality: 0.08
+  min_samples: 3
+  min_remaining: 2
+  rounds: 3
+  std_threshold: 3.5
+
+jersey_prefix_consolidation:
+  enabled: false
+  mode: audit
+  min_long_votes: 2
+  short_vote_weights: [1.0, 0.75, 0.50, 0.25]
+  selected_short_vote_weight: null
+
+identity:
+  unknown_threshold: 0.55
+  candidate_top_k: 8
+  enforce_unique_team_jersey: true
+  reliable_jersey_min_votes: 5
+  reliable_jersey_min_confidence: 0.20
+  reliable_jersey_min_head_confidence: 0.55
+  reliable_jersey_min_winner_margin: 0.10
+  position_prior_max_cost: 0.08
+  position_prior_tiebreak_only: true
+  require_assignment_evidence: true
+  reliable_jersey_min_candidate_score: 0.45
+  narrow_region_jersey_score_penalty: 0.15
+  strong_evidence_min_team_confidence: 0.75
+  strong_evidence_min_visual_similarity: 0.82
+  strong_evidence_min_tracklet_frames: 45
+  strong_evidence_max_position_distance: 18.0
+  goalkeeper_singleton_gate: true
+  goalkeeper_singleton_min_team_confidence: 0.75
+  goalkeeper_singleton_min_tracklet_frames: 30
+  assignment_scope: global
+  number_region_cost_enabled: false
+  number_region_bonus_weight: 0.20
+  number_region_mismatch_penalty: 0.20
+  number_region_min_votes: 2
+  number_region_min_mean_confidence: 0.20
+  number_region_min_consecutive_support: 1
+  frame_team_consistency: true
+  frame_team_min_confidence: 0.70
+  frame_team_split_enabled: true
+  frame_team_split_min_frames: 8
+  frame_team_split_max_gap: 4
+  global_team_jersey_owner: true
+  goalkeeper_number_one_prior: true
+  number_one_goalkeeper_bonus: 0.08
+  number_one_non_goalkeeper_penalty: 0.08
+  candidate_fallback:
+    enabled: true
+    min_confidence: 0.35
+    max_cost: 0.85
+    min_margin: 0.0
+
+overlay:
+  show_display_id: true
+  show_jersey: true
+  show_jersey_winner: false
+  show_jersey_min_confidence: 0.30
+  show_jersey_min_votes: 3
+  show_jersey_min_stable_votes: 20
+  show_jersey_min_winner_margin: 0.10
+  show_jersey_min_head_votes: 3
+  show_jersey_min_head_confidence: 0.55
+  require_ocr_jersey_evidence: true
+  show_player_id: false
+  show_player_id_min_confidence: 0.80
+  show_identity_confidence: false
+
+wandb:
+  enabled: true
+  project: football-tracking
+  entity: null
+  name: null
+  init_timeout: 180
+  tags: []
+  notes: null
+  log_artifacts: false
+  log_video: false
+  alert_on_finish: true
+  alert_on_failure: true
+
+progress:
+  artifact_rows: 5000
+
+export:
+  save_crops: true
+  deduplicate_crops: true
+  save_pre_identity_json: false
+  save_pre_identity_csv: true
+  # Disabled: duplicates *_tracklets.csv (same data, JSON-serialized) and is
+  # never read by any script in this repo -- 125 files, 9.7G found
+  # accumulated across this session's runs alone before being deleted.
+  save_final_json: false
+  save_final_csv: true
+  save_video: true

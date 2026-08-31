@@ -1,0 +1,6 @@
+-r requirements-web.txt
+-r requirements-ai.txt
+# Manual non-Windows installs may install PyTorch from the default index.
+# Windows users should run INSTALL_WINDOWS.bat so the CUDA/CPU wheel channel is selected explicitly.
+torch>=2.1
+torchvision>=0.16

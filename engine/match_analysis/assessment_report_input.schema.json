@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "assessment_report_input.schema.json",
+  "title": "NATI player assessment report input",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "data_status",
+    "player",
+    "match",
+    "headline",
+    "key_metrics",
+    "radar",
+    "overall",
+    "analysis",
+    "style_archetype",
+    "position_recommendations",
+    "messages",
+    "evidence"
+  ],
+  "properties": {
+    "schema_version": {"const": "nati-assessment-input-v1"},
+    "data_status": {"enum": ["mock", "partial", "evaluation_pending", "final"]},
+    "player": {"type": "object"},
+    "match": {"type": "object"},
+    "headline": {"type": "object"},
+    "key_metrics": {"type": "array", "maxItems": 3},
+    "radar": {"type": "object"},
+    "overall": {"type": "object"},
+    "analysis": {"type": "object"},
+    "style_archetype": {"type": "object"},
+    "position_recommendations": {"type": "array", "maxItems": 3},
+    "messages": {"type": "object"},
+    "evidence": {"type": "object"}
+  }
+}

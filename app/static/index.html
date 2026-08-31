@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <link rel="icon" href="data:," />
+  <title>赛场洞察 · 足球智能分析系统</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">赛</div><div><strong>赛场洞察</strong><span>足球视频智能分析</span></div></div>
+      <nav class="nav" id="nav">
+        <button class="nav-item active" data-page="projects"><span class="nav-icon">⌂</span>项目中心</button>
+        <button class="nav-item" data-page="setup"><span class="nav-icon">＋</span>新建 / 配置分析</button>
+        <button class="nav-item" data-page="progress"><span class="nav-icon">◷</span>分析进度</button>
+        <button class="nav-item" data-page="results"><span class="nav-icon">▦</span>结果中心</button>
+        <button class="nav-item" data-page="system"><span class="nav-icon">⚙</span>系统状态</button>
+      </nav>
+      <div class="sidebar-spacer"></div>
+      <a class="nav-item link" href="/docs/quick" target="_blank"><span class="nav-icon">▤</span>A4 使用说明</a><a class="nav-item link" href="/static/user_guide.html" target="_blank"><span class="nav-icon">?</span>用户手册</a>
+      <div class="server-pill"><i id="serverDot"></i><div><b>分析服务</b><span id="serverText">正在检查…</span></div></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div><div class="eyebrow">足球视频智能分析系统</div><h1 id="pageTitle">项目中心</h1></div>
+        <div class="top-actions"><select id="projectSelect" aria-label="当前项目"></select><button id="refreshBtn" class="icon-btn" title="刷新">↻</button></div>
+      </header>
+
+      <!-- PROJECT CENTER -->
+      <section id="page-projects" class="page active">
+        <div class="hero-strip">
+          <div class="hero-copy"><span class="badge blue">正式分析工作台</span><h2>一场视频，从上传到比赛报告完整跑通。</h2><p>视频上传 → 参数与名单 → 多视角动态标定 → AI 分析 → 2D 回放 / 高光 / 球员卡 / 数据报告</p><div class="hero-points"><span>✓ 固定机位旋转视角</span><span>✓ 正式项目持久保存</span><span>✓ 失败步骤可重试</span><span>✓ 完整结果可归档</span></div></div>
+          <button id="heroNewBtn" class="btn primary large">＋ 新建比赛分析</button>
+        </div>
+        <div class="section-head"><div><h3>比赛项目</h3><p>正式项目与示例项目使用同一套结果中心；示例只用于快速熟悉系统。</p></div><div class="segmented"><button class="active" data-project-filter="all">全部</button><button data-project-filter="analysis">正式项目</button><button data-project-filter="complete">已完成</button></div></div>
+        <div id="projectCards" class="project-grid"></div>
+      </section>
+
+      <!-- SETUP -->
+      <section id="page-setup" class="page">
+        <div id="setupEmpty" class="empty-state hidden"><div class="empty-icon">＋</div><h3>先新建一个正式比赛项目</h3><p>示例项目不能修改配置。</p><button class="btn primary" id="setupCreateBtn">新建比赛分析</button></div>
+        <div id="setupContent">
+          <div class="workflow-steps">
+            <div class="workflow-step active"><b>1</b><span>比赛资料</span></div><i></i><div class="workflow-step"><b>2</b><span>分析参数</span></div><i></i><div class="workflow-step"><b>3</b><span>动态标定</span></div><i></i><div class="workflow-step"><b>4</b><span>正式分析</span></div>
+          </div>
+
+          <div class="setup-layout">
+            <div class="panel upload-panel">
+              <div class="panel-title"><div><span class="step-no">01</span><div><h3>比赛视频与资料</h3><p>正式项目的唯一输入源。</p></div></div><span id="videoState" class="state-chip">未上传</span></div>
+              <label class="dropzone" id="videoDrop"><input id="videoInput" type="file" accept="video/mp4,video/quicktime,video/x-msvideo,video/x-matroska,.m4v" hidden /><div class="upload-icon">⇧</div><strong>上传比赛视频</strong><span>MP4 · MOV · AVI · MKV · M4V</span><small>上传后自动读取 FPS、分辨率、时长与帧数</small></label>
+              <video id="videoPreview" class="source-preview hidden" controls preload="metadata"></video>
+              <div id="videoMeta" class="meta-grid"></div>
+              <div class="mini-divider"></div>
+              <div class="subhead"><div><strong>比赛信息</strong><span>用于结果页与报告标题</span></div><button id="saveMetaBtn" class="btn ghost small">保存资料</button></div>
+              <div id="matchMetaForm" class="form-grid compact"></div>
+              <div class="roster-box"><div><strong>球员名单（可选）</strong><p>上传 CSV / JSON 后，后续可以把已确认号码映射到真实姓名。</p></div><label class="btn secondary small">上传名单<input id="rosterInput" type="file" accept=".csv,.json" hidden /></label><span id="rosterState" class="state-chip neutral">未上传</span></div>
+            </div>
+
+            <div class="panel parameters-panel">
+              <div class="panel-title"><div><span class="step-no">02</span><div><h3>分析参数</h3><p>常用设置默认展开，复杂参数放进高级区。</p></div></div><span class="state-chip neutral">三档分析策略</span></div>
+              <div class="preset-row"><button class="preset active" data-preset="quality"><b>高质量</b><span>正式报告</span></button><button class="preset" data-preset="balanced"><b>平衡</b><span>常规分析</span></button><button class="preset" data-preset="fast"><b>快速</b><span>预检/调试</span></button></div>
+              <div class="config-actions"><div><strong>参数模板</strong><span>同类比赛可复用；模型路径不会写入模板。</span></div><div class="inline-actions"><a id="exportSettingsBtn" class="btn ghost small" href="#">导出参数 JSON</a><label class="btn secondary small">导入参数 JSON<input id="settingsImportInput" type="file" accept="application/json,.json" hidden /></label></div></div>
+              <div id="settingsForm" class="settings-grid"></div>
+              <details class="advanced"><summary>高级参数 <span>检测、事件、动态标定与输出控制</span></summary><div id="advancedSettings" class="settings-grid advanced-grid"></div></details>
+              <div class="form-actions"><span class="form-note">旋转机位的正式分析固定使用原始帧域，避免标定与轨迹时间轴错位。</span><button id="saveSettingsBtn" class="btn secondary">保存参数</button></div>
+            </div>
+          </div>
+
+          <div class="panel calibration-panel">
+            <div class="panel-title"><div><span class="step-no">03</span><div><h3>多视角动态标定</h3><p>你们的素材是固定机位但会旋转：建议在左 / 中 / 右等典型视角分别建立锚点，再生成全片逐帧米制映射。</p></div></div><div class="inline-actions"><a id="downloadCalibrationBtn" class="btn ghost small hidden" href="#">下载标定配置</a><span id="calibrationState" class="state-chip">未标定</span></div></div>
+            <div class="calib-summary"><div><span>标定模式</span><b>固定光心 · 旋转视角 · 逐帧 Homography</b></div><div><span>推荐锚点</span><b>2–4 个典型机位角度</b></div><div><span>独立尺度验证</span><b>每个锚点至少 1 条已知线段</b></div><div><span>有效覆盖要求</span><b id="coverageRequirement">≥ 80%</b></div></div>
+            <div class="calib-tabs"><button class="calib-tab active" data-calib="manual">创建 / 管理视角锚点</button><button class="calib-tab" data-calib="upload">上传已有动态标定</button></div>
+            <div id="calibManual" class="calib-pane active">
+              <div class="anchor-strip"><div><strong>已保存视角锚点</strong><span>至少 1 个可运行，旋转范围越大越建议增加锚点。</span></div><div id="anchorList" class="anchor-list"></div></div>
+              <div class="calib-toolbar"><label>当前帧 <input id="calibFrame" type="number" min="0" step="1" value="0" /></label><button id="loadFrameBtn" class="btn secondary small">定位到帧</button><span class="toolbar-spacer"></span><label>场长(m)<input id="fieldLength" type="number" value="45" step="0.5" min="10" /></label><label>场宽(m)<input id="fieldWidth" type="number" value="25" step="0.5" min="8" /></label><label>误差阈值(m)<input id="calibTolerance" type="number" value="0.5" step="0.05" min="0.05" /></label></div>
+              <div class="calib-workspace">
+                <div class="calib-main"><div class="calib-canvas-wrap"><img id="calibImage" alt="场地标定参考帧" /><video id="calibScrubVideo" class="calib-scrub-video" muted playsinline preload="metadata"></video><svg id="calibOverlay" class="calib-overlay"></svg><div id="calibFrameBadge" class="calib-frame-badge hidden"></div><div id="dynamicCalibBadge" class="dynamic-calib-badge hidden"><i></i><span>逐帧动态标定</span><b>正在读取</b></div><div id="calibHint" class="calib-hint">读取一个典型旋转视角，开始创建锚点</div></div>
+                  <div class="calib-timeline" id="calibTimeline"><div class="calib-transport"><button id="calibTimelinePlay" class="timeline-play" type="button">▶</button><button class="timeline-skip" data-calib-step="-1" type="button">−1 帧</button><button class="timeline-skip" data-calib-step="1" type="button">+1 帧</button><div class="timeline-clock"><b id="calibTimelineCurrent">00:00.00</b><span id="calibTimelineDuration">/ 00:00.00</span></div><div class="timeline-mode"><i></i><span>动态标定预览</span></div></div><div class="timeline-ruler" id="calibTimelineRuler"></div><div class="timeline-filmstrip-wrap"><div id="calibTimelineStrip" class="timeline-filmstrip"></div><input id="calibTimelineSlider" type="range" min="0" max="0" value="0" step="1" aria-label="选择标定帧" /><div id="calibTimelinePlayhead" class="timeline-playhead"><i></i></div></div></div>
+                  <div class="click-actions"><div class="world-inputs"><span>下一个场地点的米制坐标：</span><label>X<input id="worldX" type="number" value="0" step="0.1" /></label><label>Y<input id="worldY" type="number" value="0" step="0.1" /></label></div><button id="armFitPoint" class="btn secondary small">＋ 点选标定点</button><button id="armValidation" class="btn secondary small">↔ 点选验证线段</button><label class="validation-length">已知长度<input id="validationLength" type="number" value="9.5" step="0.1" />m</label></div>
+                </div>
+                <div class="calib-side"><div class="mini-head"><strong>本锚点对应点</strong><span>4–8 对</span></div><div id="fitPointsList" class="point-list"></div><div class="mini-head"><strong>独立验证</strong><span>≥1 条</span></div><div id="validationList" class="point-list"></div><div class="calib-actions"><button id="resetPointsBtn" class="btn ghost small">清空本帧点位</button><button id="saveAnchorBtn" class="btn primary small">验证并保存锚点</button></div></div>
+              </div>
+              <div id="referenceResult" class="calib-result hidden"></div>
+              <div class="dynamic-build"><div><strong>生成全片动态标定</strong><p>系统会按时间选择最接近的视角锚点，对旋转过程逐帧注册并检查有效覆盖。标定不过线时，米制跑动和传球分析不会启动。</p></div><button id="buildDynamicBtn" class="btn primary" disabled>生成逐帧动态标定 →</button></div>
+            </div>
+            <div id="calibUpload" class="calib-pane"><div class="config-drop"><div><strong>已有同一视频的逐帧动态标定 JSON？</strong><p>上传后系统会校验分辨率、FPS、帧数、帧域、独立验证结果和有效覆盖率。</p></div><label class="btn secondary">选择动态标定 JSON<input id="calibFileInput" type="file" accept="application/json,.json" hidden /></label></div><section id="uploadedCalibrationSummary" class="uploaded-calibration hidden" aria-live="polite"><div class="uploaded-calibration-head"><span class="calibration-ok-mark">✓</span><div><span>已验证动态标定</span><strong id="uploadedCalibrationName">dynamic_calibration.json</strong><small id="uploadedCalibrationMeta"></small></div></div><div id="uploadedCalibrationFacts" class="calibration-facts"></div><details class="calibration-details"><summary>查看标定与验证详情</summary><div id="uploadedCalibrationDetails"></div></details></section></div>
+          </div>
+
+          <div class="panel start-panel"><div class="panel-title"><div><span class="step-no">04</span><div><h3>启动正式分析</h3><p>开始前系统自动检查视频、动态标定、分析模型、视频工具与结果空间。</p></div></div><button id="runPreflightBtn" class="btn ghost small">重新检查</button></div><div id="preflightGrid" class="preflight-grid"></div><div class="start-bottom"><div><strong id="startHeadline">等待准备</strong><span id="startChecklist">完成必要配置后即可运行。</span></div><button id="startRunBtn" class="btn primary large" disabled>开始 AI 分析 →</button></div></div>
+        </div>
+      </section>
+
+      <!-- PROGRESS -->
+      <section id="page-progress" class="page">
+        <div class="progress-hero panel"><div class="ring" id="progressRing"><span id="progressPercent">0%</span></div><div class="progress-copy"><span class="badge blue">正式分析任务</span><h2 id="progressTitle">等待开始</h2><p id="progressMessage">配置完成后开始处理。</p><div id="runMeta" class="run-meta"></div></div><div class="progress-actions"><button id="retryBtn" class="btn secondary hidden">从失败步骤继续</button><button id="cancelBtn" class="btn danger hidden">取消任务</button></div></div>
+        <div id="progressSteps" class="progress-steps"></div>
+        <div class="two-col progress-lower"><div class="panel"><div class="panel-title"><div><h3>任务说明</h3><p>面向使用者只显示产品流程，不显示命令行与底层模型调试信息。</p></div></div><div class="product-flow"><span>追踪中</span><i>→</i><span>号码识别</span><i>→</i><span>事件检测</span><i>→</i><span>报告生成</span></div></div><div class="panel"><div class="panel-title"><div><h3>运行历史</h3><p>失败、取消或服务器重启后都保留历史，可从对应阶段重试。</p></div></div><div id="runHistory" class="history-list"></div></div></div>
+      </section>
+
+      <!-- RESULTS -->
+      <section id="page-results" class="page">
+        <div id="resultEmpty" class="empty-state hidden"><div class="empty-icon">▦</div><h3>当前项目还没有完整分析结果</h3><p>正式项目跑完后，所有结果会在这里按层级展示。</p><button class="btn primary" data-go-setup>前往配置</button></div>
+        <div id="resultContent">
+          <div class="result-header"><div><span class="badge green">分析结果</span><h2 id="resultProjectName">比赛结果中心</h2><p id="resultSubtitle">比赛 → 空间 → 事件 → 球员 → 质检 → 报告 → 导出</p></div><div class="result-actions"><a id="downloadZip" class="btn secondary" href="#">打包全部结果</a><button class="btn primary" data-result-jump="report">查看球员报告</button></div></div>
+          <div class="result-tabs" id="resultTabs"><button class="result-tab active" data-result="overview">比赛总览</button><button class="result-tab" data-result="replay">比赛回放</button><button class="result-tab" data-result="events">事件中心</button><button class="result-tab" data-result="highlights">高光剪辑</button><button class="result-tab" data-result="players">球员中心</button><button class="result-tab" data-result="quality">质量 / 复核</button><button class="result-tab report-tab" data-result="report">正式报告</button><button class="result-tab" data-result="exports">数据导出</button></div>
+
+          <div id="result-overview" class="result-pane active">
+            <div id="overviewStory" class="insight-strip"></div>
+            <div id="overviewMetrics" class="metric-cards"></div>
+            <div class="overview-grid"><div class="panel pitch-panel"><div class="panel-title"><div><h3>全场空间概览</h3><p>球员轨迹叠加在真实米制球场平面。</p></div><button class="btn ghost small" data-result-jump="replay">进入动态回放 →</button></div><canvas id="overviewPitch" class="pitch-canvas" width="960" height="540"></canvas><div id="pitchLegend" class="pitch-legend"></div></div><div class="panel"><div class="panel-title"><div><h3>球队对比</h3><p>跑动、球权与传球的同屏比较。</p></div></div><div id="teamComparison" class="team-comparison"></div></div></div>
+            <div class="overview-grid lower"><div class="panel"><div class="panel-title"><div><h3>球员排行榜</h3><p>点击球员进入个人卡。</p></div></div><div class="leader-tabs"><button class="active" data-leader="distance">跑动距离</button><button data-leader="speed">最高速度</button><button data-leader="sprints">冲刺次数</button></div><div id="leaderList" class="leader-list"></div></div><div class="panel"><div class="panel-title"><div><h3>比赛事件时间线</h3><p>优先显示传球候选和球权转换。</p></div><button class="btn ghost small" data-result-jump="events">查看全部 →</button></div><div id="overviewTimeline" class="event-timeline"></div></div></div>
+          </div>
+
+          <div id="result-replay" class="result-pane">
+            <div class="panel replay-panel"><div class="panel-title"><div><h3>比赛可视化回放</h3><p>左侧逐帧查看实景与战术画面，右侧同步显示当前帧数据。</p></div><div class="inline-actions"><div class="replay-mode-switch"><button class="active" data-replay-mode="live">实景跟踪</button><button data-replay-mode="pitch">实景 + 2D 对照</button></div><a id="replayVideoLink" class="btn ghost small" target="_blank">打开导出视频</a></div></div><div class="replay-workspace"><div class="replay-main"><div id="liveReplayStage" class="live-replay-stage"><video id="analysisVideo" preload="metadata" muted playsinline></video><canvas id="analysisOverlay" width="1920" height="1080"></canvas><div class="live-replay-title"><span>赛场洞察</span><b>球员追踪 · 传球识别</b></div><div id="livePossession" class="live-possession"></div><div id="liveEventChip" class="live-event-chip hidden"></div><button id="liveFullscreen" class="replay-fullscreen-btn" type="button">⛶ 放大</button></div><div class="pitch-canvas-wrapper hidden" id="pitchCanvasWrapper"><canvas id="replayCanvas" class="replay-canvas" width="1200" height="660"></canvas><button id="pitchFullscreen" class="replay-fullscreen-btn" type="button">⛶ 放大</button></div><div class="replay-controls"><button id="replayPlay" class="round-btn">▶</button><div class="replay-time"><b id="replayTime">00:00</b><span id="replayDuration">/ 00:00</span></div><input id="replaySlider" type="range" min="0" max="0" value="0" step="1" /><select id="replaySpeed"><option value="0.5">0.5×</option><option value="1" selected>1×</option><option value="2">2×</option><option value="4">4×</option></select></div><div id="replayLegend" class="pitch-legend"></div></div><aside id="replayRealtime" class="replay-realtime"><div class="realtime-head"><span>当前帧</span><b>实时数据</b></div><div class="realtime-empty">正在读取逐帧数据…</div></aside></div></div>
+          </div>
+
+          <div id="result-events" class="result-pane"><div class="panel"><div class="panel-title"><div><h3>比赛事件中心</h3><p>机器候选与自动事件分开标注，便于人工复核。</p></div><div class="event-filters"><select id="eventTypeFilter"><option value="all">全部事件</option><option value="shield">对抗护球</option><option value="counterpress">丢球反抢</option><option value="goal">进球候选</option><option value="pass">传球候选</option><option value="turnover">球权转换</option><option value="key">关键动作</option></select><input id="eventSearch" placeholder="搜索球员 ID / 队伍" /></div></div><div id="eventTable" class="data-table"></div></div></div>
+
+          <div id="result-highlights" class="result-pane"><div class="panel"><div class="panel-title"><div><h3>球员高光中心</h3><p>优先展示对抗护球、丢球反抢和进球候选，再展示其他带目标标记的片段。</p></div></div><div id="highlightGrid" class="highlight-grid"></div></div></div>
+
+          <div id="result-players" class="result-pane"><div class="player-layout"><aside class="panel player-list-panel"><div class="panel-title"><div><h3>球员列表</h3><p>同一真实球员可由多个已关联技术 ID 汇总。</p></div></div><input id="playerSearch" class="search-input" placeholder="搜索号码 / ID / 队伍" /><div id="playerList" class="player-list"></div></aside><div class="player-detail-stack"><div class="panel player-card-panel"><div id="playerCard"></div></div><div id="playerEvidence" class="panel player-evidence"></div></div></div></div>
+
+          <div id="result-quality" class="result-pane"><div id="qualityContent" class="quality-layout"></div></div>
+
+          <div id="result-report" class="result-pane"><div class="panel report-panel"><div class="panel-title"><div><h3>单球员正式报告</h3><p>选择球员后预览球员卡式 PDF；报告汇总其全部已关联技术 ID、客观数据和人工标注。</p></div><div class="inline-actions"><select id="reportPlayerSelect" aria-label="选择报告球员"></select><a id="openReportBtn" class="btn secondary small" target="_blank">新窗口打开</a><a id="downloadPlayerPdfBtn" class="btn primary small">生成 / 下载 PDF</a><button id="printReportBtn" class="hidden" aria-hidden="true"></button></div></div><iframe id="reportFrame" title="单球员正式报告"></iframe></div></div>
+
+          <div id="result-exports" class="result-pane"><div class="export-layout"><div class="panel"><div class="panel-title"><div><h3>完整归档</h3><p>不包含原始比赛视频；包含配置、动态标定、所有结果、复核文件和完整性清单。</p></div></div><div class="archive-card"><div class="archive-icon">ZIP</div><div><strong>项目完整结果包</strong><p>适合交付、迁移和后续复盘。</p></div><a id="archiveDownload" class="btn primary">下载完整结果</a></div></div><div class="panel"><div class="panel-title"><div><h3>单项结果</h3><p>按报告、球员数据、事件、标定和质检分类下载。</p></div></div><div id="fileList" class="file-list"></div></div></div></div>
+        </div>
+      </section>
+
+      <!-- SYSTEM -->
+      <section id="page-system" class="page"><div class="system-hero panel"><div><span class="badge blue">部署状态</span><h2>正式分析环境</h2><p>这里用于部署与运维检查，不进入老板的 10 分钟产品演示流程。</p></div><button id="refreshSystemBtn" class="btn secondary">重新检查环境</button></div><div id="systemCards" class="system-grid"></div><div class="panel"><div class="panel-title"><div><h3>分析模型管理</h3><p>正式环境可直接在这里安装或替换默认 YOLO 权重；上传完成后启动检查会自动刷新。</p></div><label class="btn secondary small">上传 yolov8x.pt<input id="modelInput" type="file" accept=".pt" hidden /></label></div><div id="modelInstallState" class="form-note">模型文件保存在系统 models/ 目录，不进入项目结果包。</div></div><div class="panel"><div class="panel-title"><div><h3>完整分析链路</h3><p>这里检查系统包实际包含的生产模块，不以 Demo 数据是否存在作为判断依据。</p></div><a class="btn ghost small" href="/api/system/chain" target="_blank">查看链路审计 JSON</a></div><div id="engineMatrix" class="boundary-grid"></div></div><div class="panel"><div class="panel-title"><div><h3>正式系统边界</h3><p>系统会明确告诉用户“结果已确认 / 候选 / 待复核”，不会把未验证信息包装成确定事实。</p></div></div><div class="boundary-grid"><div><b>动态标定</b><span>未通过尺度与覆盖检查时，禁止进入米制跑动。</span></div><div><b>球员身份</b><span>技术 ID 与真实身份分层，名单和号码只作为确认依据。</span></div><div><b>事件</b><span>传球、号码等候选保留人工复核入口。</span></div><div><b>归档</b><span>正式输出保留参数、标定、质检与 SHA256 完整性清单。</span></div></div></div></section>
+    </main>
+  </div>
+
+  <dialog id="newProjectDialog" class="dialog"><form id="newProjectForm" method="dialog"><div class="dialog-head"><div><span class="badge blue">新比赛</span><h2>新建比赛分析</h2><p>创建后先上传比赛视频，再完成动态标定。</p></div><button type="button" id="closeDialog" class="icon-btn">×</button></div><label>项目名称<input id="newProjectName" required placeholder="例如：U12 联赛 8月26日" /></label><div class="dialog-grid"><label>主队<input id="newHomeTeam" value="主队" /></label><label>客队<input id="newAwayTeam" value="客队" /></label><label>年龄组<input id="newAgeGroup" placeholder="U8 / U10 / U12" /></label></div><div class="dialog-actions"><button type="button" class="btn ghost" id="cancelDialog">取消</button><button class="btn primary" type="submit">创建项目</button></div></form></dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

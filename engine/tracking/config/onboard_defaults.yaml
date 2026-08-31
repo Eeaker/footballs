@@ -1,0 +1,9 @@
+sample_frames: 50
+motion_sample_pairs: 36
+calibration_validation_threshold_m: 0.5
+trial_start_seconds: 300
+trial_duration_seconds: 120
+expected_on_field_players: 16
+referee_present: false
+team_clusters: auto
+

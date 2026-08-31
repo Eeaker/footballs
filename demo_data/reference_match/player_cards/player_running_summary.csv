@@ -1,0 +1,3 @@
+﻿player_id,jersey_number,team,total_distance,sprint_count,max_speed_mps,speed_p95_mps,tracked_visible_time_sec,metric_global_ids,identity_resolution_status,heatmap_data_path,data_quality
+blue_23,23,blue,938.293,8,6.721,5.041,636.667,5,single_verified_id,blue_23/heatmap.png,measured_with_quality_filters
+yellow_2,2,yellow,976.928,14,7.387,5.476,600.4,6,single_verified_id,yellow_2/heatmap.png,measured_with_quality_filters

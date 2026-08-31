@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ft_cache/
+.venv/
+venv/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local data and generated outputs
+artifacts/
+output_videos/
+evaluation_outputs/
+logs/
+wandb/
+runs/
+README_WORKFLOW.md
+handoff.md
+tmp/
+
+# Thesis writeup material, kept locally only
+docs/thesis/
+docs/project_brief_for_llm.md
+
+# Custom local inputs. Keep only the placeholder/readme.
+costume-video/**
+!costume-video/
+!costume-video/README.md
+!costume-video/.gitkeep
+
+# Model weights and large ML artifacts
+*.pt
+*.pth
+*.onnx
+*.engine
+*.weights
+*.tgz
+
+# Local secrets
+.env
+*.env
+.venv-local-test/

@@ -1,0 +1,414 @@
+{
+  "schema_version": "clip-eligibility-v1",
+  "eligible_confirmed": [
+    {
+      "global_id": 5,
+      "team": "blue",
+      "confidence": 0.99878133,
+      "support_count": 2,
+      "support_frames": "11729;26880",
+      "source_status": "confirmed",
+      "decision_rule": "boss_compatible_two_frame_confirmation",
+      "final_number": 23,
+      "status": "eligible_confirmed"
+    },
+    {
+      "global_id": 6,
+      "team": "yellow",
+      "confidence": 0.78797794,
+      "support_count": 2,
+      "support_frames": "44400;51670",
+      "source_status": "confirmed",
+      "decision_rule": "boss_compatible_two_frame_confirmation",
+      "final_number": 2,
+      "status": "eligible_confirmed"
+    }
+  ],
+  "excluded_conflict": [
+    {
+      "global_id": 11,
+      "team": "yellow",
+      "confidence": 0.8636551,
+      "support_count": 2,
+      "support_frames": "18602;51441",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    },
+    {
+      "global_id": 14,
+      "team": "blue",
+      "confidence": 0.82015737,
+      "support_count": 2,
+      "support_frames": "11160;23853",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    },
+    {
+      "global_id": 17,
+      "team": "blue",
+      "confidence": 0.97417588,
+      "support_count": 2,
+      "support_frames": "33060;39843",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    },
+    {
+      "global_id": 20,
+      "team": "blue",
+      "confidence": 0.93961302,
+      "support_count": 2,
+      "support_frames": "10666;10675",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    },
+    {
+      "global_id": 36,
+      "team": "yellow",
+      "confidence": 0.68326655,
+      "support_count": 2,
+      "support_frames": "11955;31559",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    },
+    {
+      "global_id": 38,
+      "team": "yellow",
+      "confidence": 0.34969513,
+      "support_count": 1,
+      "support_frames": "23697",
+      "source_status": "conflict",
+      "decision_rule": "competing_numbers_have_independent_frame_support",
+      "predicted_number": null
+    }
+  ],
+  "excluded_mismatch": [],
+  "excluded_unreadable": [
+    {
+      "global_id": 0,
+      "team": "yellow",
+      "confidence": 0.99651615,
+      "support_count": 1,
+      "support_frames": "42677",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 1,
+      "team": "yellow",
+      "confidence": 0.95863506,
+      "support_count": 1,
+      "support_frames": "7850",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 2,
+      "team": "blue",
+      "confidence": 0.9986155,
+      "support_count": 1,
+      "support_frames": "26775",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 3,
+      "team": "yellow",
+      "confidence": 0.56483612,
+      "support_count": 2,
+      "support_frames": "7161;24317",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 4,
+      "team": "blue",
+      "confidence": 0.84924919,
+      "support_count": 1,
+      "support_frames": "15333",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 8,
+      "team": "yellow",
+      "confidence": 0.50031641,
+      "support_count": 1,
+      "support_frames": "26733",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 10,
+      "team": "blue",
+      "confidence": 0.9969266,
+      "support_count": 1,
+      "support_frames": "26900",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 12,
+      "team": "blue",
+      "confidence": 0.99999874,
+      "support_count": 1,
+      "support_frames": "14054",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 13,
+      "team": "blue",
+      "confidence": 0.999456,
+      "support_count": 1,
+      "support_frames": "12827",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 15,
+      "team": "yellow",
+      "confidence": 0.09018555,
+      "support_count": 2,
+      "support_frames": "25260;33388",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 16,
+      "team": "yellow",
+      "confidence": 0.83033973,
+      "support_count": 1,
+      "support_frames": "53707",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 18,
+      "team": "blue",
+      "confidence": 0.52615559,
+      "support_count": 3,
+      "support_frames": "3046;14011;54295",
+      "source_status": "tentative",
+      "decision_rule": "boss_compatible_fleeting_multiframe_candidate",
+      "status": "unreadable",
+      "candidate_number": 2,
+      "candidate_status": "tentative"
+    },
+    {
+      "global_id": 19,
+      "team": "yellow",
+      "confidence": 0.71491025,
+      "support_count": 1,
+      "support_frames": "59401",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 21,
+      "team": "yellow",
+      "confidence": 0.5875104,
+      "support_count": 2,
+      "support_frames": "48198;48301",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 22,
+      "team": "blue",
+      "confidence": 0.33423668,
+      "support_count": 3,
+      "support_frames": "14196;17451;61907",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 23,
+      "team": "yellow",
+      "confidence": 0.99408443,
+      "support_count": 1,
+      "support_frames": "43214",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 24,
+      "team": "yellow",
+      "confidence": 0.62433678,
+      "support_count": 2,
+      "support_frames": "14035;31365",
+      "source_status": "tentative",
+      "decision_rule": "boss_compatible_fleeting_multiframe_candidate",
+      "status": "unreadable",
+      "candidate_number": 1,
+      "candidate_status": "tentative"
+    },
+    {
+      "global_id": 25,
+      "team": "blue",
+      "confidence": 0.82955367,
+      "support_count": 1,
+      "support_frames": "25000",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 26,
+      "team": "yellow",
+      "confidence": 0.99991883,
+      "support_count": 1,
+      "support_frames": "34857",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 27,
+      "team": "yellow",
+      "confidence": 0.69217251,
+      "support_count": 2,
+      "support_frames": "993;16222",
+      "source_status": "tentative",
+      "decision_rule": "boss_compatible_fleeting_multiframe_candidate",
+      "status": "unreadable",
+      "candidate_number": 4,
+      "candidate_status": "tentative"
+    },
+    {
+      "global_id": 28,
+      "team": "yellow",
+      "confidence": 0.69861393,
+      "support_count": 3,
+      "support_frames": "2066;7895;15535",
+      "source_status": "tentative",
+      "decision_rule": "boss_compatible_fleeting_multiframe_candidate",
+      "status": "unreadable",
+      "candidate_number": 4,
+      "candidate_status": "tentative"
+    },
+    {
+      "global_id": 29,
+      "team": "blue",
+      "confidence": 0.82102138,
+      "support_count": 1,
+      "support_frames": "59681",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 30,
+      "team": "yellow",
+      "confidence": 0.15017786,
+      "support_count": 1,
+      "support_frames": "15785",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 31,
+      "team": "yellow",
+      "confidence": 0.70547319,
+      "support_count": 1,
+      "support_frames": "19276",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 32,
+      "team": "yellow",
+      "confidence": 0.99919478,
+      "support_count": 1,
+      "support_frames": "47557",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 33,
+      "team": "yellow",
+      "confidence": 0.56569089,
+      "support_count": 1,
+      "support_frames": "19263",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 35,
+      "team": "yellow",
+      "confidence": 0.90704368,
+      "support_count": 1,
+      "support_frames": "16098",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    },
+    {
+      "global_id": 37,
+      "team": "yellow",
+      "confidence": 0.71432385,
+      "support_count": 1,
+      "support_frames": "41518",
+      "source_status": "unreadable",
+      "decision_rule": "boss_compatible_evidence_gate_not_met",
+      "status": "unreadable"
+    }
+  ],
+  "excluded_nonplayer": [
+    {
+      "global_id": 7,
+      "team": "nonplayer",
+      "confidence": 0.42097037,
+      "support_count": 3,
+      "support_frames": "491;41824;52898",
+      "source_status": "nonplayer",
+      "decision_rule": "semantic_team_label_nonplayer"
+    },
+    {
+      "global_id": 9,
+      "team": "nonplayer",
+      "confidence": 0.15829622,
+      "support_count": 1,
+      "support_frames": "52848",
+      "source_status": "nonplayer",
+      "decision_rule": "semantic_team_label_nonplayer"
+    },
+    {
+      "global_id": 34,
+      "team": "nonplayer",
+      "confidence": 0.81442616,
+      "support_count": 1,
+      "support_frames": "60419",
+      "source_status": "nonplayer",
+      "decision_rule": "semantic_team_label_nonplayer"
+    }
+  ],
+  "provenance": {
+    "source_ocr": "/root/autodl-tmp/0724_full_rerun_final_20260825/number_ocr_raw",
+    "policy": "boss frozen delivery compatible confirmed/tentative/unreadable replay",
+    "note": "原始 STEP1-STEP5 源码缺失；本适配只重判现有同场帧级 OCR 证据，不复用其他视频号码。"
+  }
+}

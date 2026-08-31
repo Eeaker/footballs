@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+*.whl
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Runtime data
+runtime/
+output/
+tmp/
+*.tmp
+
+# Models (large files)
+models/*.pt
+models/*.pth
+models/*.onnx
+
+# Logs
+*.log
+logs/
+
+# Cache
+.pytest_cache/
+.mypy_cache/
+
+# Built files
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.m4v
+
+# Demo data videos
+demo_data/**/*.mp4
+demo_data/**/*.avi
+
+# Generated heatmaps
+app/static/generated_heatmaps/
+
+# Project previews
+app/static/project_previews/
+
+# Windows batch files (keep scripts but not generated)
+*.vbs
+!PRESENT_WINDOWS.vbs
+
+# Local browser test snapshots
+.playwright-cli/

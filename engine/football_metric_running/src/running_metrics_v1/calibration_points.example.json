@@ -1,0 +1,12 @@
+{
+  "image_points": [[300, 800], [1500, 800], [1200, 350], [700, 350]],
+  "world_points_m": [[0, 0], [40, 0], [40, 20], [0, 20]],
+  "validation_segments": [
+    {
+      "name": "independent_known_line",
+      "image_points": [[600, 600], [900, 600]],
+      "known_length_m": 10.0
+    }
+  ]
+}
+
