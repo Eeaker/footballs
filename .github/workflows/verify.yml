@@ -1,0 +1,88 @@
+name: Verify Refactored Repository
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            requirements-web.txt
+            engine/match_analysis/requirements.txt
+
+      - name: Install verification dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-web.txt pytest openpyxl scipy
+
+      - name: Validate repository structure
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -d .refactor
+          test ! -d engine/football_metric_running_github
+          test -d engine/tracking/tracking_lib
+          test -d engine/match_analysis/analysis_lib
+          test -f engine/match_analysis/analysis_lib/tracking_adapter.py
+          test -f PRESENT_WINDOWS.vbs
+          if find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print | grep -q .; then
+            echo 'week-based file or directory name remains'
+            find . -path './.git' -prune -o -path './.github' -prune -o -iname '*week*' -print
+            exit 1
+          fi
+          if grep -RInE --exclude-dir=third_party --exclude-dir=vendor --exclude-dir=.pytest_cache --exclude='*.md' '(week2|week3)' app engine scripts 2>/dev/null; then
+            echo 'week-based first-party code reference remains'
+            exit 1
+          fi
+
+      - name: Compile and integrity audit
+        run: |
+          python -m compileall -q app engine scripts
+          python scripts/audit_engine_chain.py
+          python scripts/validate_windows_launchers.py
+
+      - name: Product tests
+        run: python -m pytest -q app/tests
+
+      - name: Tracking tests
+        working-directory: engine/tracking
+        run: python -m pytest -q
+
+      - name: Identity audit tests
+        working-directory: engine/identity_audit
+        env:
+          PYTHONPATH: ../tracking:.
+        run: python -m pytest -q
+
+      - name: Match analysis tests
+        working-directory: engine/match_analysis
+        env:
+          PYTHONPATH: .
+        run: python -m pytest -q
+
+      - name: Metric running algorithm tests
+        working-directory: engine/football_metric_running
+        env:
+          PYTHONPATH: src
+        run: python -m pytest -q tests/test_running_metrics.py
+
+      - name: Product API acceptance
+        run: |
+          python scripts/verify_product.py
+          python scripts/acceptance_check.py
