@@ -25,12 +25,8 @@ jobs:
           from pathlib import Path
           import hashlib, json, shutil
 
-          # Tracking product wrapper: remove research-delivery side products.
-          p=Path('engine/tracking/run_pipeline.py')
-          s=p.read_text(encoding='utf-8')
-          for line in [
-              '    id_focus = output / "id_focus"\n','    mosaics = output / "identity_mosaics"\n',
-              '    highlights = output / "candidate_highlights"\n','    review = output / "human_review"\n']:
+          p=Path('engine/tracking/run_pipeline.py'); s=p.read_text(encoding='utf-8')
+          for line in ['    id_focus = output / "id_focus"\n','    mosaics = output / "identity_mosaics"\n','    highlights = output / "candidate_highlights"\n','    review = output / "human_review"\n']:
               s=s.replace(line,'')
           marker='        run([\n            sys.executable, str(ROOT / "make_id_focus_clips.py"),'
           if marker in s:
@@ -47,20 +43,29 @@ jobs:
             'engine/football_metric_running/src/pipeline.py','engine/football_metric_running/tests/test_frame_domain.py',
             'engine/football_metric_running/src/running_metrics_v1/render_demo.py','engine/football_metric_running/ARTIFACTS.md',
             'engine/football_metric_running/.gitattributes','engine/football_metric_running/scripts',
-            'engine/repository_qa','engine/match_analysis/export_acceptance_clips.py',
-            'engine/match_analysis/export_task3_final_demo.py','engine/match_analysis/prepare_reference_player_card_inputs.py',
-            'engine/match_analysis/prototypes','engine/match_analysis/reclassify_ocr_boss_compatible.py',
-            'engine/match_analysis/render_ocr_policy_contact_sheet.py','engine/match_analysis/run_stage4_from_artifacts.py',
+            'engine/repository_qa',
+            'engine/match_analysis/export_acceptance_clips.py','engine/match_analysis/export_task3_final_demo.py',
+            'engine/match_analysis/prepare_reference_player_card_inputs.py','engine/match_analysis/prototypes',
+            'engine/match_analysis/reclassify_ocr_boss_compatible.py','engine/match_analysis/render_ocr_policy_contact_sheet.py',
+            'engine/match_analysis/run_stage4_from_artifacts.py',
+            'engine/match_analysis/tests/test_export_acceptance_clips.py',
+            'engine/match_analysis/tests/test_reclassify_ocr_boss_compatible.py',
+            'engine/match_analysis/tests/test_task3_final_demo.py',
             'engine/tracking/export_five_event_compilation.py','engine/tracking/export_player_demo.py',
             'engine/tracking/build_montage.py','engine/tracking/build_identity_mosaics.py',
             'engine/tracking/generate_review_manifest.py','engine/tracking/validate_delivery.py',
+            'engine/tracking/tests/test_export_five_event_compilation.py','engine/tracking/tests/test_export_player_demo.py',
+            'engine/tracking/tests/test_frozen_product_policy.py','engine/tracking/tests/test_review_manifest.py',
+            'engine/tracking/config/labels_7d.json',
+            'engine/identity_audit/run_experiment.py','engine/identity_audit/run_local_change_experiment.py',
+            'engine/identity_audit/run_open_set_occlusion_experiment.py','engine/identity_audit/reanalyze_cached_open_set.py',
+            'engine/identity_audit/render_candidate_storyboards.py','engine/identity_audit/render_open_set_candidates.py',
           ]
           for name in obsolete:
               q=Path(name)
               if q.is_dir(): shutil.rmtree(q)
               elif q.exists(): q.unlink()
 
-          # Keep documentation synchronized with the formal implementation.
           p=Path('engine/football_metric_running/README.md'); s=p.read_text(encoding='utf-8')
           s=s.replace('├─ evaluate_rotation_registration.py\n└─ render_demo.py','└─ evaluate_rotation_registration.py')
           p.write_text(s,encoding='utf-8')
@@ -68,19 +73,13 @@ jobs:
           s=s.replace('输出包含 `analysis/`、`metric_running/`、`integrated_manifest.json` 和 2D 球场视频。','输出包含 `analysis/`、`metric_running/` 和 `integrated_manifest.json`。2D 球场回放只在产品报告阶段通过 `render_metric_pitch.py` 生成一次。')
           p.write_text(s,encoding='utf-8')
 
-          # Rebuild canonical first-party integrity manifest.
-          exts={'.py','.js','.html','.css','.yaml','.yml','.json','.toml'}
-          skip={'third_party','vendor','licenses','__pycache__','.pytest_cache'}
-          rows=[]
+          exts={'.py','.js','.html','.css','.yaml','.yml','.json','.toml'}; skip={'third_party','vendor','licenses','__pycache__','.pytest_cache'}; rows=[]
           for base in map(Path,['app','engine','scripts']):
               for q in base.rglob('*'):
                   if q.is_file() and q.suffix.lower() in exts and not any(x in skip for x in q.parts):
                       rows.append({'path':q.as_posix(),'sha256':hashlib.sha256(q.read_bytes()).hexdigest()})
           rows.sort(key=lambda x:x['path'])
-          audit={'schema_version':2,'status':'passed','source_repository':'Eeaker/football',
-            'source_commit':'bfd54686703bd55a234b795c8123411bb30e55a2',
-            'purpose':'Integrity manifest for canonical first-party production source after formal-source cleanup.',
-            'critical_files':rows,'summary':{'critical_files_total':len(rows),'critical_files_matched':len(rows)}}
+          audit={'schema_version':2,'status':'passed','source_repository':'Eeaker/football','source_commit':'bfd54686703bd55a234b795c8123411bb30e55a2','purpose':'Integrity manifest for canonical first-party production source after formal-source cleanup.','critical_files':rows,'summary':{'critical_files_total':len(rows),'critical_files_matched':len(rows)}}
           Path('CHAIN_AUDIT.json').write_text(json.dumps(audit,ensure_ascii=False,indent=2),encoding='utf-8')
           PY
 
@@ -112,15 +111,14 @@ jobs:
           rm -rf runtime .pytest_cache
           find . -type d -name __pycache__ -prune -exec rm -rf {} +
           rm -f .github/workflows/apply-formal-source-cleanup.yml .github/workflows/source-cleanup-audit.yml .github/workflows/source-audit-temp.yml
-          bad=$(find engine -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' \) -print)
+          bad=$(find engine -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*boss*' -o -iname '*stage4*' -o -iname '*experiment*' \) -print)
           test -z "$bad" || { echo "$bad"; exit 1; }
           python - <<'PY'
           from pathlib import Path
           import hashlib
           skip={'.git','third_party','vendor','licenses','demo_data','.pytest_cache'}; groups={}
           for p in Path('.').rglob('*'):
-              if p.is_file() and p.stat().st_size>=100 and not any(x in skip for x in p.parts):
-                  groups.setdefault(hashlib.sha256(p.read_bytes()).hexdigest(),[]).append(str(p))
+              if p.is_file() and p.stat().st_size>=100 and not any(x in skip for x in p.parts): groups.setdefault(hashlib.sha256(p.read_bytes()).hexdigest(),[]).append(str(p))
           dup=[v for v in groups.values() if len(v)>1]
           if dup:
               for g in dup: print(*g,sep='\n'); print()
