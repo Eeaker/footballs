@@ -1,0 +1,81 @@
+name: Migrate Refactored Repository
+
+on:
+  push:
+    paths:
+      - '.github/workflows/migrate-refactor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Rebuild refactor script
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .refactor/refactor_script.part1.b64 \
+              .refactor/refactor_script.part2.b64 \
+              .refactor/refactor_script.part3.b64 \
+            | base64 --decode | xz --decompress > /tmp/refactor_repository.py
+          python -m py_compile /tmp/refactor_repository.py
+
+      - name: Read source repository at audited commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --depth 1 https://github.com/Eeaker/football.git /tmp/football-source
+          cd /tmp/football-source
+          test "$(git rev-parse HEAD)" = "bfd54686703bd55a234b795c8123411bb30e55a2"
+
+      - name: Apply structural refactor
+        shell: bash
+        run: |
+          set -euo pipefail
+          python /tmp/refactor_repository.py /tmp/football-source \
+            --source-commit bfd54686703bd55a234b795c8123411bb30e55a2
+          rsync -a --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='.refactor/' \
+            /tmp/football-source/ ./
+
+      - name: Validate refactored tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m compileall -q app engine scripts
+          python scripts/audit_engine_chain.py
+          python scripts/validate_windows_launchers.py
+          if find . -path './.git' -prune -o -path './.refactor' -prune -o -iname '*week*' -print | grep -q .; then
+            echo 'week-based path remains after refactor'
+            exit 1
+          fi
+          test ! -d engine/football_metric_running_github
+          test -d engine/match_analysis
+          test -d engine/tracking/tracking_lib
+          test -f PRESENT_WINDOWS.vbs
+
+      - name: Commit refactored project to footballs only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git status --short
+          if git diff --cached --quiet; then
+            echo 'No project changes to commit.'
+            exit 0
+          fi
+          git commit -m 'refactor: reorganize project and remove duplicate implementations'
+          git push origin HEAD:main
