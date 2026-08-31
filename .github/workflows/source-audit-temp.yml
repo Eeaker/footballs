@@ -1,0 +1,30 @@
+name: Temporary Source Audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/source-audit-temp.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build source snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/source-snapshot
+          rsync -a --exclude='.git' --exclude='runtime' --exclude='__pycache__' --exclude='.pytest_cache' ./ /tmp/source-snapshot/
+      - name: Upload snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: footballs-current-source
+          path: /tmp/source-snapshot
+          include-hidden-files: true
+          retention-days: 1
