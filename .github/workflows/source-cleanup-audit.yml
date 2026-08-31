@@ -1,0 +1,53 @@
+name: Formal Source Cleanup Audit
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit source roles and references
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo '=== Python entrypoints ==='
+          find app engine scripts -type f -name '*.py' | sort
+          echo '=== Candidate legacy/demo/prototype paths ==='
+          find engine -type f \( -iname '*demo*' -o -iname '*prototype*' -o -iname '*legacy*' -o -iname '*boss*' -o -iname '*stage4*' -o -iname '*acceptance*' \) | sort || true
+          echo '=== References to candidate entrypoints ==='
+          for f in \
+            export_task3_final_demo.py \
+            prepare_reference_player_card_inputs.py \
+            reclassify_ocr_boss_compatible.py \
+            render_ocr_policy_contact_sheet.py \
+            run_stage4_from_artifacts.py \
+            export_player_demo.py \
+            export_five_event_compilation.py \
+            build_montage.py \
+            build_identity_mosaics.py \
+            generate_review_manifest.py \
+            validate_delivery.py; do
+            echo "--- $f"
+            grep -RIn --exclude-dir=.git --exclude="$f" "$f" . || true
+          done
+          echo '=== Duplicate file hashes >=100 bytes (first-party only) ==='
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          root=Path('.')
+          skip={'.git','third_party','vendor','licenses','demo_data'}
+          groups={}
+          for p in root.rglob('*'):
+              if not p.is_file() or any(x in skip for x in p.parts) or p.stat().st_size < 100:
+                  continue
+              h=hashlib.sha256(p.read_bytes()).hexdigest()
+              groups.setdefault(h,[]).append(str(p))
+          for files in groups.values():
+              if len(files)>1:
+                  print('\n'.join(files)); print()
+          PY
