@@ -12,6 +12,9 @@ jobs:
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      GITEE_TOKEN_PRIMARY: ${{ secrets.GITEE_TOKEN }}
+      GITEE_TOKEN_FALLBACK: ${{ secrets.GITEE_ACCESS_TOKEN }}
     steps:
       - name: Checkout release branch
         uses: actions/checkout@v4
@@ -35,7 +38,6 @@ jobs:
           excluded_prefixes = ('demo_data/',)
           excluded_exact = {'.github/workflows/prepare-gitee-release.yml'}
           tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
-          copied = []
           for rel in tracked:
               if not rel or rel in excluded_exact or rel.startswith(excluded_prefixes):
                   continue
@@ -45,7 +47,6 @@ jobs:
               dst = out / rel
               dst.parent.mkdir(parents=True, exist_ok=True)
               shutil.copy2(src, dst)
-              copied.append(rel)
 
           forbidden_suffixes = {
               '.mp4', '.avi', '.mov', '.mkv', '.m4v', '.pkl', '.npy',
@@ -123,12 +124,9 @@ jobs:
 
       - name: Push clean snapshot to Gitee branch
         id: gitee_push
-        if: ${{ secrets.GITEE_TOKEN != '' || secrets.GITEE_ACCESS_TOKEN != '' }}
+        if: ${{ env.GITEE_TOKEN_PRIMARY != '' || env.GITEE_TOKEN_FALLBACK != '' }}
         continue-on-error: true
         shell: bash
-        env:
-          GITEE_TOKEN_PRIMARY: ${{ secrets.GITEE_TOKEN }}
-          GITEE_TOKEN_FALLBACK: ${{ secrets.GITEE_ACCESS_TOKEN }}
         run: |
           set -euo pipefail
           TOKEN="${GITEE_TOKEN_PRIMARY:-${GITEE_TOKEN_FALLBACK:-}}"
@@ -148,15 +146,15 @@ jobs:
         shell: bash
         env:
           PUSH_OUTCOME: ${{ steps.gitee_push.outcome }}
-          HAS_PRIMARY: ${{ secrets.GITEE_TOKEN != '' }}
-          HAS_FALLBACK: ${{ secrets.GITEE_ACCESS_TOKEN != '' }}
         run: |
           python - <<'PY'
           from pathlib import Path
           import json, os
           p = Path('dist/gitee-snapshot-report.json')
+          if not p.is_file():
+              raise SystemExit(0)
           data = json.loads(p.read_text(encoding='utf-8'))
-          has_token = os.environ.get('HAS_PRIMARY') == 'true' or os.environ.get('HAS_FALLBACK') == 'true'
+          has_token = bool(os.environ.get('GITEE_TOKEN_PRIMARY') or os.environ.get('GITEE_TOKEN_FALLBACK'))
           if not has_token:
               status = 'not_attempted_no_gitee_token_secret'
           else:
