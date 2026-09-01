@@ -1,0 +1,179 @@
+name: Prepare and Deliver Gitee Production Snapshot
+
+on:
+  push:
+    branches:
+      - release/gitee-wangmingcheng-20260901
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Build clean production-source snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib, json, shutil, subprocess, zipfile
+
+          root = Path.cwd()
+          dist = root / 'dist'
+          out = dist / 'nati-tech-vision'
+          shutil.rmtree(dist, ignore_errors=True)
+          out.mkdir(parents=True, exist_ok=True)
+
+          excluded_prefixes = ('demo_data/',)
+          excluded_exact = {'.github/workflows/prepare-gitee-release.yml'}
+          tracked = subprocess.check_output(['git', 'ls-files', '-z']).decode().split('\0')
+          copied = []
+          for rel in tracked:
+              if not rel or rel in excluded_exact or rel.startswith(excluded_prefixes):
+                  continue
+              src = root / rel
+              if not src.is_file():
+                  continue
+              dst = out / rel
+              dst.parent.mkdir(parents=True, exist_ok=True)
+              shutil.copy2(src, dst)
+              copied.append(rel)
+
+          forbidden_suffixes = {
+              '.mp4', '.avi', '.mov', '.mkv', '.m4v', '.pkl', '.npy',
+              '.pt', '.pth', '.onnx', '.engine', '.key', '.pem'
+          }
+          forbidden_names = {'.env', 'secrets.json', 'secrets.yaml', 'secrets.yml'}
+          demo_hits, forbidden, large = [], [], []
+          files = [p for p in out.rglob('*') if p.is_file()]
+          for p in files:
+              rel = p.relative_to(out).as_posix()
+              if 'demo_data' in p.parts:
+                  demo_hits.append(rel)
+              if p.suffix.lower() in forbidden_suffixes or p.name.lower() in forbidden_names or p.name.lower().startswith('.env.'):
+                  forbidden.append(rel)
+              if p.stat().st_size > 10 * 1024 * 1024:
+                  large.append((rel, p.stat().st_size))
+
+          if demo_hits:
+              raise SystemExit('Demo files leaked into snapshot: ' + ', '.join(demo_hits[:20]))
+          if forbidden:
+              raise SystemExit('Forbidden production-source files: ' + ', '.join(forbidden[:20]))
+          if large:
+              raise SystemExit('Files exceed 10 MiB gate: ' + repr(large[:20]))
+
+          def sha256(path: Path) -> str:
+              h = hashlib.sha256()
+              with path.open('rb') as f:
+                  for block in iter(lambda: f.read(1024 * 1024), b''):
+                      h.update(block)
+              return h.hexdigest()
+
+          checksums = []
+          for p in sorted(files):
+              checksums.append(f"{sha256(p)}  {p.relative_to(out).as_posix()}")
+          (dist / 'SHA256SUMS.txt').write_text('\n'.join(checksums) + '\n', encoding='utf-8')
+
+          total = sum(p.stat().st_size for p in files)
+          report = {
+              'source_repository': 'Eeaker/footballs',
+              'source_branch': 'release/gitee-wangmingcheng-20260901',
+              'source_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip(),
+              'target_repository': 'nati_tech_1/nati-tech-vision',
+              'target_branch': '王明诚',
+              'policy': 'production source only; no Demo/data/models/secrets; clean snapshot history; max file size 10 MiB',
+              'file_count': len(files),
+              'uncompressed_bytes': total,
+              'demo_files': 0,
+              'forbidden_files': 0,
+              'files_over_10_mib': 0,
+              'gitee_push': 'pending'
+          }
+          (dist / 'gitee-snapshot-report.json').write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          zip_path = dist / 'nati-tech-vision-王明诚.zip'
+          with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_DEFLATED, compresslevel=9) as zf:
+              for p in files:
+                  zf.write(p, p.relative_to(out).as_posix())
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          print('zip_bytes=', zip_path.stat().st_size)
+          PY
+
+      - name: Compile production Python sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd dist/nati-tech-vision
+          python -m compileall -q app engine scripts
+
+      - name: Verify first-party integrity manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd dist/nati-tech-vision
+          python scripts/audit_engine_chain.py
+
+      - name: Push clean snapshot to Gitee branch
+        id: gitee_push
+        if: ${{ secrets.GITEE_TOKEN != '' || secrets.GITEE_ACCESS_TOKEN != '' }}
+        continue-on-error: true
+        shell: bash
+        env:
+          GITEE_TOKEN_PRIMARY: ${{ secrets.GITEE_TOKEN }}
+          GITEE_TOKEN_FALLBACK: ${{ secrets.GITEE_ACCESS_TOKEN }}
+        run: |
+          set -euo pipefail
+          TOKEN="${GITEE_TOKEN_PRIMARY:-${GITEE_TOKEN_FALLBACK:-}}"
+          test -n "$TOKEN"
+          cd dist/nati-tech-vision
+          git init -q
+          git config user.name "NATI Vision Release"
+          git config user.email "noreply@nati-tech.local"
+          git checkout -q -b "王明诚"
+          git add -A
+          git commit -q -m "[release] 提交正式视觉分析源码 — 移除 Demo 并完善上线文档"
+          git remote add gitee "https://oauth2:${TOKEN}@gitee.com/nati_tech_1/nati-tech-vision.git"
+          git push --force gitee HEAD:refs/heads/王明诚
+
+      - name: Record Gitee delivery result
+        if: always()
+        shell: bash
+        env:
+          PUSH_OUTCOME: ${{ steps.gitee_push.outcome }}
+          HAS_PRIMARY: ${{ secrets.GITEE_TOKEN != '' }}
+          HAS_FALLBACK: ${{ secrets.GITEE_ACCESS_TOKEN != '' }}
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json, os
+          p = Path('dist/gitee-snapshot-report.json')
+          data = json.loads(p.read_text(encoding='utf-8'))
+          has_token = os.environ.get('HAS_PRIMARY') == 'true' or os.environ.get('HAS_FALLBACK') == 'true'
+          if not has_token:
+              status = 'not_attempted_no_gitee_token_secret'
+          else:
+              status = os.environ.get('PUSH_OUTCOME') or 'unknown'
+          data['gitee_push'] = status
+          p.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print('gitee_push=', status)
+          PY
+
+      - name: Upload release artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nati-tech-vision-wangmingcheng-release
+          path: |
+            dist/nati-tech-vision-王明诚.zip
+            dist/gitee-snapshot-report.json
+            dist/SHA256SUMS.txt
+          if-no-files-found: error
+          retention-days: 7

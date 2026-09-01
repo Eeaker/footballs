@@ -6,62 +6,71 @@ __pycache__/
 dist/
 build/
 *.whl
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
 
-# Virtual environment
+# Virtual environments
 .venv/
 venv/
 env/
 
-# IDE
+# IDE / OS
 .vscode/
 .idea/
 *.swp
 *.swo
-
-# OS
 .DS_Store
 Thumbs.db
 desktop.ini
 
-# Runtime data
+# Runtime data and generated artifacts
 runtime/
 output/
+outputs*/
+run_artifacts/
+clips/
 tmp/
 *.tmp
-
-# Models (large files)
-models/*.pt
-models/*.pth
-models/*.onnx
-
-# Logs
 *.log
 logs/
+*.pkl
+*.npy
+tracks_mot*.txt
+tracking_mot*.txt
+event_index*.csv
+event_index*.json
+app/static/generated_heatmaps/
+app/static/project_previews/
 
-# Cache
-.pytest_cache/
-.mypy_cache/
-
-# Built files
+# Videos / player material
 *.mp4
+*.MP4
 *.avi
 *.mov
+*.MOV
 *.mkv
 *.m4v
 
-# Demo data videos
-demo_data/**/*.mp4
-demo_data/**/*.avi
+# Demo / reference match data is not part of production source
+demo_data/
 
-# Generated heatmaps
-app/static/generated_heatmaps/
+# Model weights / engines
+*.pt
+*.pth
+*.onnx
+*.engine
 
-# Project previews
-app/static/project_previews/
+# Secrets
+.env
+.env.*
+*.key
+*.pem
+secrets.*
 
-# Windows batch files (keep scripts but not generated)
+# Local browser snapshots
+.playwright-cli/
+
+# Windows launchers: keep intentional VBS launcher
 *.vbs
 !PRESENT_WINDOWS.vbs
-
-# Local browser test snapshots
-.playwright-cli/
