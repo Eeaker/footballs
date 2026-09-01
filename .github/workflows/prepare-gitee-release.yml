@@ -133,11 +133,19 @@ jobs:
           test -n "$TOKEN"
           cd dist/nati-tech-vision
           git init -q
-          git config user.name "NATI Vision Release"
-          git config user.email "noreply@nati-tech.local"
+          git config user.name "王明诚"
+          git config user.email "2315919892@qq.com"
+          export GIT_AUTHOR_NAME="王明诚"
+          export GIT_AUTHOR_EMAIL="2315919892@qq.com"
+          export GIT_COMMITTER_NAME="王明诚"
+          export GIT_COMMITTER_EMAIL="2315919892@qq.com"
           git checkout -q -b "王明诚"
           git add -A
-          git commit -q -m "[release] 提交正式视觉分析源码 — 移除 Demo 并完善上线文档"
+          git commit -q --author="王明诚 <2315919892@qq.com>" -m "[release] 提交正式视觉分析源码 — 移除 Demo 并完善上线文档"
+          test "$(git log -1 --format='%an')" = "王明诚"
+          test "$(git log -1 --format='%ae')" = "2315919892@qq.com"
+          test "$(git log -1 --format='%cn')" = "王明诚"
+          test "$(git log -1 --format='%ce')" = "2315919892@qq.com"
           git remote add gitee "https://oauth2:${TOKEN}@gitee.com/nati_tech_1/nati-tech-vision.git"
           git push --force gitee HEAD:refs/heads/王明诚
 
