@@ -1897,6 +1897,12 @@ a {
   font-size: 22px;
   font-weight: 900;
 }
+
+.player-avatar-photo {
+  object-fit: cover;
+  object-position: center 28%;
+  padding: 0;
+}
 .player-identity h2 {
   margin: 6px 0 4px;
   font-size: 21px;
@@ -2969,7 +2975,7 @@ a {
   }
 }
 
-/* V2.3.3 product hierarchy + reusable configuration */
+/* V3.0.0 venue product hierarchy + reusable configuration */
 .config-actions {
   display: flex;
   align-items: center;

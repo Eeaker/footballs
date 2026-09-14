@@ -19,7 +19,7 @@ def main() -> int:
         from ultralytics import YOLO
     except Exception as exc:
         print(f"[ERROR] ultralytics 未安装: {exc}")
-        print("请先运行 INSTALL_WINDOWS.bat 安装完整 AI 环境。")
+        print("请先双击 DEPLOY_ONE_CLICK_WINDOWS.bat 安装完整 AI 环境。")
         return 2
 
     old_cwd = Path.cwd()

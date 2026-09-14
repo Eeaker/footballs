@@ -1,0 +1,34 @@
+{
+  "seed": 20260908,
+  "epochs": 30,
+  "patience": 6,
+  "warmup_epochs": 2,
+  "backbone_lr": 1e-05,
+  "head_lr": 0.0001,
+  "weight_decay": 0.01,
+  "instances_per_identity": 4,
+  "batch_identities": 9,
+  "autotune_k": [
+    4,
+    8
+  ],
+  "max_vram_fraction": 0.9,
+  "steps_per_epoch": 30,
+  "image_size": [
+    256,
+    128
+  ],
+  "stride": [
+    12,
+    12
+  ],
+  "workers": 4,
+  "eval_batch": 64,
+  "same_kit_far_target": 0.01,
+  "weight_file": "weights/jx_vit_base_p16_224-80ecf9dd.pth",
+  "blur_probability": 0.2,
+  "blur_sigma": [
+    0.1,
+    1.0
+  ]
+}

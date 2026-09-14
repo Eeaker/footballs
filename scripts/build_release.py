@@ -35,7 +35,7 @@ def sha256(path: Path) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--output", default=str(ROOT.parent / "football_insight_system_v2_3_3_windows_full.zip"))
+    ap.add_argument("--output", default=str(ROOT.parent / "football_insight_system_v3_0_0_venue.zip"))
     args = ap.parse_args()
     out = Path(args.output).resolve()
     out.parent.mkdir(parents=True, exist_ok=True)

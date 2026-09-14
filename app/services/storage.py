@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Any
 
 from app.config import DEFAULT_SETTINGS, PIPELINE_STEPS, PROJECTS_ROOT, DEMO_ROOT, SYSTEM_VERSION
+from app.features.projects.repository import database_enabled, repository
 
 
 _SAVE_LOCK = threading.RLock()
@@ -114,6 +115,8 @@ def save_project(project: dict[str, Any]) -> dict[str, Any]:
     with _SAVE_LOCK:
         project = normalize_project(project)
         project["updated_at"] = now_iso()
+        if database_enabled():
+            return repository.save(project)
         root = project_dir(project["id"])
         root.mkdir(parents=True, exist_ok=True)
         destination = root / "project.json"
@@ -134,6 +137,12 @@ def save_project(project: dict[str, Any]) -> dict[str, Any]:
 
 
 def load_project(project_id: str) -> dict[str, Any]:
+    if database_enabled():
+        raw = repository.load(project_id)
+        project = normalize_project(raw)
+        from app.features.artifacts.store import hydrate_project_tree
+        hydrate_project_tree(project_id, project_dir(project_id))
+        return project
     path = project_json(project_id)
     if not path.is_file():
         raise FileNotFoundError(project_id)
@@ -145,6 +154,8 @@ def load_project(project_id: str) -> dict[str, Any]:
 
 
 def list_projects() -> list[dict[str, Any]]:
+    if database_enabled():
+        return [normalize_project(item) for item in repository.list()]
     items = []
     for path in PROJECTS_ROOT.glob("*/project.json"):
         try:
@@ -191,9 +202,19 @@ def create_project(name: str, match: dict[str, Any] | None = None) -> dict[str, 
 
 
 def delete_project(project_id: str) -> None:
+    if database_enabled():
+        repository.delete(project_id)
+        from app.features.artifacts.store import delete_project_tree
+        delete_project_tree(project_id)
     root = project_dir(project_id)
     if root.exists():
         shutil.rmtree(root)
+
+
+def persist_project_workspace(project_id: str) -> None:
+    """Flush transient processing files to S3-compatible durable storage."""
+    from app.features.artifacts.store import upload_project_tree
+    upload_project_tree(project_id, project_dir(project_id))
 
 
 def mark_stale_running_projects_interrupted() -> None:

@@ -1,0 +1,7 @@
+{
+  "cpu_forward_backward_passed": true,
+  "embedding_dimension": 3840,
+  "total_parameters": 100799464,
+  "pretrained_loaded": true,
+  "training_run": false
+}

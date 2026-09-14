@@ -1,0 +1,15 @@
+.git
+.github
+.venv
+runtime
+wheelhouse
+**/__pycache__
+**/.pytest_cache
+**/*.pyc
+**/runs
+**/output
+**/data/images
+*.zip
+*.mp4
+deploy/.env
+

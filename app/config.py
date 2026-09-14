@@ -16,7 +16,7 @@ TEMPLATES_DIR = APP_DIR / "templates"
 PROJECTS_ROOT.mkdir(parents=True, exist_ok=True)
 MODELS_ROOT.mkdir(parents=True, exist_ok=True)
 
-SYSTEM_VERSION = "2.3.3"
+SYSTEM_VERSION = "3.0.0"
 ALLOWED_VIDEO_SUFFIXES = {".mp4", ".mov", ".avi", ".mkv", ".m4v"}
 
 DEFAULT_SETTINGS = {
@@ -48,6 +48,11 @@ DEFAULT_SETTINGS = {
     # Identity quality audit (does not mutate upstream MOT)
     "identity_audit_enabled": True,
     "identity_audit_sample_stride": 30,
+    # Production identity resolution. expected_players is a prior, never a quota.
+    "identity_resolution_enabled": True,
+    "reid_full_finetune": True,
+    "reid_precision": "bf16",
+    "reid_backbone_identities": 10,
     # Metric pitch / calibration
     "field_length_m": 45.0,
     "field_width_m": 25.0,

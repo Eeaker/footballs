@@ -6,12 +6,17 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 BAT_FILES = [
-    "RUN_WINDOWS.bat", "INSTALL_WINDOWS.bat", "START_WINDOWS.bat", "CHECK_WINDOWS.bat",
-    "DOWNLOAD_MODEL_WINDOWS.bat", "PREPARE_OFFLINE_WINDOWS.bat", "INSTALL_OFFLINE_WINDOWS.bat",
+    "DEPLOY_ONE_CLICK_WINDOWS.bat", "DEPLOY_DOCKER_WINDOWS.bat",
+    "CHECK_WINDOWS.bat", "DOWNLOAD_MODEL_WINDOWS.bat",
+    "PREPARE_OFFLINE_WINDOWS.bat", "INSTALL_OFFLINE_WINDOWS.bat",
     "STOP_WINDOWS.bat", "REPAIR_WINDOWS.bat", "DIAGNOSE_WINDOWS.bat",
 ]
+REMOVED_LAUNCHERS = ["RUN_WINDOWS.bat", "INSTALL_WINDOWS.bat", "START_WINDOWS.bat"]
 PS1_FILES = [
-    "scripts/windows_install.ps1", "scripts/windows_prepare_offline.ps1", "scripts/windows_install_offline.ps1",
+    "deploy.ps1",
+    "scripts/windows_install.ps1",
+    "scripts/windows_prepare_offline.ps1",
+    "scripts/windows_install_offline.ps1",
 ]
 
 
@@ -45,20 +50,72 @@ def main() -> None:
         if not data.startswith(b"\xef\xbb\xbf"):
             fail(f"{rel} must use UTF-8 BOM for Windows PowerShell 5.1")
 
+    deploy = (ROOT / "deploy.ps1").read_text(encoding="utf-8-sig")
+    if "docker info *> $null" in deploy:
+        fail("deploy.ps1 treats an inactive Docker engine as a terminating PowerShell error")
+    required_bootstrap_markers = (
+        "function Test-DockerEngine",
+        "function Start-DockerDesktop",
+        "docker info 1>nul 2>nul",
+        "Docker Desktop 启动超时",
+    )
+    if any(marker not in deploy for marker in required_bootstrap_markers):
+        fail("deploy.ps1 is missing automatic Docker Desktop startup/readiness handling")
+
     installer = (ROOT / "scripts/windows_install.ps1").read_text(encoding="utf-8-sig")
     if 'print("Python"' in installer or "print('Python'" in installer:
         fail("installer contains the legacy PowerShell 5.1 native-quoting bug")
     if "--version" not in installer or "football_insight_install.mode" not in installer:
         fail("installer is missing robust version detection/completion marker")
+    python_bootstrap_markers = (
+        "function Install-PrivatePython",
+        "function Ensure-Pip",
+        "function Get-PrivatePython",
+        "runtime\\python",
+        "python-3.12.10-amd64.exe",
+        "67B5635E80EA51072B87941312D00EC8927C4DB9BA18938F7AD2D27B328B95FB",
+        "https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe",
+        "ensurepip",
+        "Install-PrivatePython",
+    )
+    if any(marker not in installer for marker in python_bootstrap_markers):
+        fail("installer is missing private Python 3.12 / pip bootstrap from zero")
+    if "Get-Command python.exe" in installer.split("function Get-OfficialFile", 1)[0]:
+        fail("one-click installer still searches for a preinstalled system Python")
+    if 'Fail "未找到 64 位 Python 3.11/3.12。"' in installer:
+        fail("installer still requires a preinstalled system Python")
+    for rel in REMOVED_LAUNCHERS:
+        if (ROOT / rel).exists():
+            fail(f"{rel} is redundant and must be removed; use DEPLOY_ONE_CLICK_WINDOWS.bat only")
+    offline_install = (ROOT / "scripts/windows_install_offline.ps1").read_text(encoding="utf-8-sig")
+    if "Install-PrivatePythonFromWheelhouse" not in offline_install or "python-3.12.10-amd64.exe" not in offline_install:
+        fail("offline installer cannot bootstrap Python from wheelhouse")
+    if "Ensure-Pip" not in offline_install:
+        fail("offline installer does not bootstrap pip with ensurepip")
+    prepare_offline = (ROOT / "scripts/windows_prepare_offline.ps1").read_text(encoding="utf-8-sig")
+    if "python-3.12.10-amd64.exe" not in prepare_offline or "67B5635E80EA51072B87941312D00EC8927C4DB9BA18938F7AD2D27B328B95FB" not in prepare_offline:
+        fail("offline prepare script does not cache the official Python installer")
     torch_probe_function = installer.split("function Test-Torch", 1)[-1].split("function Remove-Torch", 1)[0]
     if "| Out-Host" not in torch_probe_function or "$ProbeExitCode = $LASTEXITCODE" not in torch_probe_function:
         fail("installer Test-Torch leaks probe output into its boolean return value")
     torch_remove_function = installer.split("function Remove-Torch", 1)[-1].split("function Install-TorchPlan", 1)[0]
     if '$ErrorActionPreference = "Continue"' not in torch_remove_function or "$UninstallExitCode = $LASTEXITCODE" not in torch_remove_function:
         fail("installer Remove-Torch treats harmless pip stderr warnings as fatal")
-    run = (ROOT / "RUN_WINDOWS.bat").read_text(encoding="ascii")
-    if "football_insight_install.mode" not in run:
-        fail("RUN_WINDOWS.bat does not require the completed-install marker")
+    one_click = (ROOT / "DEPLOY_ONE_CLICK_WINDOWS.bat").read_text(encoding="ascii")
+    if "windows_install.ps1" not in one_click or "-Mode AUTO" not in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat is not a silent AUTO installer")
+    if "windows_launcher.py" not in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat does not start the app itself")
+    if "RUN_WINDOWS.bat" in one_click or "INSTALL_WINDOWS.bat" in one_click or "START_WINDOWS.bat" in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat must not call redundant launchers")
+    if "deploy.ps1" in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat must be native online deploy, not Docker")
+    if "set /p" in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat still prompts instead of deploying automatically")
+    if "football_insight_install.mode" not in one_click:
+        fail("DEPLOY_ONE_CLICK_WINDOWS.bat does not require the completed-install marker")
+    if "自动回退到 CPU" not in installer:
+        fail("installer does not fall back from AUTO GPU to CPU")
 
     # Exercise the launcher with the same module path shape as `python scripts/windows_launcher.py`.
     # Stub uvicorn so this remains a dependency-free packaging check and does not start a server.

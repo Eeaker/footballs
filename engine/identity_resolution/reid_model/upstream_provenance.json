@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/valorheart-20/TransReID",
+  "commit": "205635f593fc913203a9e6bb2866934a4795a95f",
+  "local_changes": [
+    "strict pretrained loader with positional interpolation and unused classifier exception"
+  ]
+}

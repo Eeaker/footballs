@@ -4,12 +4,13 @@ cd /d "%~dp0"
 title Football Insight - Offline Package Builder
 
 echo ============================================================
-echo Football Insight V2.3.3 - Prepare Offline Dependencies
+echo Football Insight V3.0.0 - Prepare Offline Dependencies
 echo ============================================================
 echo.
 echo This step requires Internet access on this Windows PC.
-echo It downloads Python packages into the wheelhouse folder.
+echo It downloads Python 3.12, VC++ runtime, and pip wheels.
 echo Copy the whole system folder to the offline PC afterwards.
+echo The offline PC does not need Docker or a preinstalled Python.
 echo.
 echo 1. NVIDIA GPU / CUDA wheel set
 echo 2. CPU wheel set

@@ -4,7 +4,7 @@ cd /d "%~dp0"
 title Football Insight - Windows Diagnostics
 
 echo ============================================================
-echo Football Insight V2.3.3 - Windows Diagnostics
+echo Football Insight V3.0.0 - Windows Diagnostics
 echo ============================================================
 echo.
 

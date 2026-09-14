@@ -14,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from app.config import ALLOWED_VIDEO_SUFFIXES, STATIC_DIR, SYSTEM_VERSION, MODELS_ROOT, DEFAULT_SETTINGS
+from app.features.identity.avatar import select_clear_avatar
 from app.services.calibration import build_reference_calibration, dynamic_frame_visualization, normalize_uploaded_dynamic, summarize_dynamic
 from app.services.pipeline import cancel_pipeline, start_dynamic_calibration, start_pipeline
 from app.services.reporting import build_match_report, build_player_report
@@ -23,7 +24,7 @@ from app.services.results import (
 )
 from app.services.storage import (
     create_project, delete_project, ensure_demo_project, list_projects, load_project, mark_stale_running_projects_interrupted,
-    project_dir, save_project, now_iso,
+    persist_project_workspace, project_dir, save_project, now_iso,
 )
 from app.services.system_info import system_status
 from app.services.reviews import (
@@ -39,6 +40,21 @@ app.add_middleware(GZipMiddleware, minimum_size=1024, compresslevel=5)
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 mark_stale_running_projects_interrupted()
 ensure_demo_project()
+
+
+@app.middleware("http")
+async def persist_mutating_project_requests(request, call_next):
+    response = await call_next(request)
+    if request.method in {"POST", "PUT", "DELETE"} and response.status_code < 400:
+        parts = request.url.path.strip("/").split("/")
+        if len(parts) >= 3 and parts[:2] == ["api", "projects"] and parts[2] not in {"", "demo-reference-match"}:
+            try:
+                persist_project_workspace(parts[2])
+            except Exception:
+                # Pipeline status/API response must remain available; the
+                # durable flush is retried after pipeline completion.
+                pass
+    return response
 
 
 def _build_project_preview(project_id: str, source_path: str) -> None:
@@ -147,8 +163,14 @@ def _project_preflight(project: dict[str, Any]) -> dict[str, Any]:
     status = system_status()
     free_gb = status["disk"]["free_bytes"] / (1024**3)
     requested_device = str((project.get("settings") or {}).get("device") or "0").strip().lower()
-    compute_ok = requested_device == "cpu" or bool(status.get("gpu", {}).get("available"))
-    compute_message = "CPU 模式已选择" if requested_device == "cpu" else (f"GPU 已就绪：{status.get('gpu', {}).get('name') or 'CUDA'}" if compute_ok else "当前选择 GPU，但系统没有检测到可用 CUDA；请安装 GPU 版 PyTorch 或改为 CPU")
+    identity_enabled = bool((project.get("settings") or {}).get("identity_resolution_enabled", True))
+    if identity_enabled:
+        compute_ok = bool(status.get("gpu", {}).get("available") and status.get("gpu", {}).get("bf16"))
+        compute_message = (f"BF16 GPU 已就绪：{status.get('gpu', {}).get('name') or 'CUDA'}" if compute_ok
+                           else "正式 ReID 训练与推理仅使用 BF16，请使用 Ampere 或更新的 NVIDIA GPU")
+    else:
+        compute_ok = requested_device == "cpu" or bool(status.get("gpu", {}).get("available"))
+        compute_message = "CPU 模式已选择" if requested_device == "cpu" else (f"GPU 已就绪：{status.get('gpu', {}).get('name') or 'CUDA'}" if compute_ok else "当前选择 GPU，但系统没有检测到可用 CUDA")
     checks = [
         {"key": "video", "label": "比赛视频", "ok": bool(video) and video_path.is_file(), "message": "视频已读取" if bool(video) and video_path.is_file() else "请上传比赛视频"},
         {"key": "calibration", "label": "动态标定", "ok": calibration.get("status") == "ready" and calibration_path.is_file(), "message": cal_message if calibration.get("status") == "ready" and calibration_path.is_file() else "请上传或生成通过验证的动态标定"},
@@ -568,6 +590,23 @@ def api_overview(project_id: str): return overview(load_project(project_id))
 
 @app.get("/api/projects/{project_id}/players")
 def api_players(project_id: str): return players(load_project(project_id))
+
+
+@app.get("/api/projects/{project_id}/players/{global_id}/avatar.jpg")
+def api_player_avatar(project_id: str, global_id: int):
+    p = load_project(project_id)
+    player = next((row for row in players(p) if global_id in set(row.get("global_ids") or [])), None)
+    if player is None:
+        raise HTTPException(404, "该 ID 未合并为已确认球员")
+    video = Path(str((p.get("video") or {}).get("path") or ""))
+    mot = project_dir(project_id) / "outputs" / "tracking" / "tracking" / "tracking_mot.txt"
+    if not video.is_file() or not mot.is_file():
+        raise HTTPException(404, "球员头像源数据不存在")
+    try:
+        data = select_clear_avatar(video, mot, player["global_ids"])
+    except (FileNotFoundError, RuntimeError) as exc:
+        raise HTTPException(404, str(exc)) from exc
+    return Response(data, media_type="image/jpeg", headers={"Cache-Control": "private, max-age=3600"})
 
 @app.get("/api/projects/{project_id}/players/{player_index}/heatmap")
 def api_heatmap(project_id: str, player_index: int):

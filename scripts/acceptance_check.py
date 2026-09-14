@@ -22,14 +22,19 @@ def check(name: str, ok: bool, detail: str = "", category: str = "package") -> d
 def main() -> int:
     rows: list[dict] = []
     required_files = [
+        "DEPLOY_ONE_CLICK_WINDOWS.bat", "DEPLOY_DOCKER_WINDOWS.bat", "deploy.ps1", "deploy.sh", "deploy/Dockerfile", "deploy/compose.yaml", "deploy/compose.gpu.yaml",
+        "deploy/postgres/init/001_schema.sql", "app/features/projects/repository.py", "app/features/jobs/coordination.py",
+        "app/features/artifacts/store.py", "app/features/analytics/importer.py", "app/features/identity/policy.py", "app/features/identity/avatar.py",
         "app/app.py", "app/static/index.html", "app/static/app.js", "app/static/styles.css", "app/services/video_health.py",
         "engine/tracking/run_pipeline.py", "engine/tracking/onboard/video_health.py",
         "engine/football_metric_running/src/running_metrics_v1/build_multi_anchor_dynamic_calibration.py",
         "engine/match_analysis/run_integrated_analysis.py", "engine/match_analysis/run_jersey_ocr.py",
         "engine/match_analysis/generate_player_card.py",
         "engine/identity_audit/mode_split/audit_mot.py",
-        "CHAIN_AUDIT.json", "INSTALL_WINDOWS.bat", "START_WINDOWS.bat", "CHECK_WINDOWS.bat",
-        "DOWNLOAD_MODEL_WINDOWS.bat", "RUN_WINDOWS.bat", "REPAIR_WINDOWS.bat", "DIAGNOSE_WINDOWS.bat", "PRESENT_WINDOWS.vbs", "STOP_WINDOWS.bat", "PREPARE_OFFLINE_WINDOWS.bat", "INSTALL_OFFLINE_WINDOWS.bat", "scripts/windows_prepare_offline.ps1", "scripts/windows_install_offline.ps1", "scripts/windows_torch_probe.py", "scripts/install_default_model.py",
+        "engine/identity_resolution/scripts/run_full_match.py", "engine/identity_resolution/src/second_stage.py",
+        "engine/identity_resolution/src/features.py", "engine/identity_resolution/reid_model/train_adapt.py",
+        "CHAIN_AUDIT.json", "CHECK_WINDOWS.bat",
+        "DOWNLOAD_MODEL_WINDOWS.bat", "REPAIR_WINDOWS.bat", "DIAGNOSE_WINDOWS.bat", "PRESENT_WINDOWS.vbs", "STOP_WINDOWS.bat", "PREPARE_OFFLINE_WINDOWS.bat", "INSTALL_OFFLINE_WINDOWS.bat", "scripts/windows_prepare_offline.ps1", "scripts/windows_install_offline.ps1", "scripts/windows_torch_probe.py", "scripts/install_default_model.py", "scripts/windows_install.ps1",
         "docs/USER_GUIDE.md", "docs/DEPLOYMENT.md", "docs/OPERATIONS.md", "docs/ARCHITECTURE.md", "docs/DEVELOPMENT.md", "docs/MIGRATION.md",
     ]
     for rel in required_files:
@@ -59,17 +64,17 @@ def main() -> int:
     payload = {
         "schema_version": 2,
         "system": "Football Insight",
-        "version": "2.3.3",
+        "version": "3.0.0",
         "generated_at": now(),
         "package_and_product_ready": product_ok,
         "fresh_inference_environment_ready": inference_ready,
         "fresh_inference_verified": False,
-        "note": "fresh_inference_verified remains false until a new full match is run end-to-end on the target Windows GPU machine.",
+        "note": "fresh_inference_verified remains false until a new full match is run end-to-end on a BF16-capable NVIDIA deployment node.",
         "checks": rows,
     }
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-    print("Football Insight V2.3.3 acceptance")
+    print("Football Insight V3.0.0 acceptance")
     print("=" * 72)
     for row in rows:
         tag = "PASS" if row["ok"] else ("WAIT" if row["category"] == "environment" else "FAIL")
@@ -77,7 +82,7 @@ def main() -> int:
     print("=" * 72)
     print("系统源码/产品包：", "READY" if product_ok else "NOT READY")
     print("当前机器新视频推理：", "READY" if inference_ready else "WAITING FOR ENVIRONMENT/MODEL")
-    print("目标 Windows GPU 新素材端到端验收：NOT YET RECORDED")
+    print("目标 BF16 NVIDIA 节点新素材端到端验收：NOT YET RECORDED")
     print("报告：", REPORT)
     return 0 if product_ok else 1
 

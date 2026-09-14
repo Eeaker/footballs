@@ -1,21 +1,56 @@
 {
   "schema_version": 2,
-  "status": "passed",
+  "status": "verified",
   "source_repository": "Eeaker/football",
   "source_commit": "bfd54686703bd55a234b795c8123411bb30e55a2",
   "purpose": "Integrity manifest for canonical first-party production source after formal-source cleanup.",
   "critical_files": [
+    {
+      "path": "DEPLOY_ONE_CLICK_WINDOWS.bat",
+      "role": "venue_v3",
+      "sha256": "3e98148da0669c8da41f7193feabc6a3f633e4a3d8a14372922a481cb44bfc01"
+    },
     {
       "path": "app/__init__.py",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     },
     {
       "path": "app/app.py",
-      "sha256": "7b892c3a6c9dd5642c29dc8f7b81d410e39967bd43ed6dca78df4e434c102859"
+      "sha256": "659bd6949c2e2ba380a286aa55bd0c8fd02bb90806a64cf19472f84bc844afe2"
     },
     {
       "path": "app/config.py",
-      "sha256": "8642a5c74bea6463f382763109f5a1ec3aae5c4d2d13bdf3d50f0d1b48130bcb"
+      "sha256": "636bf897fc29d68b1075df0ea42066ec75906dbe326bfbddf82524c568a86c87"
+    },
+    {
+      "path": "app/features/analytics/importer.py",
+      "role": "venue_v3",
+      "sha256": "c65fdd78c2de6127e64ba7dbba1f0067e81ab0b4fa6654ea16a5de6beeee3d8e"
+    },
+    {
+      "path": "app/features/artifacts/store.py",
+      "role": "venue_v3",
+      "sha256": "334de2000810f8ce7859192c2be9dd221761458b6b2c51654cb62fb1bafe4c9d"
+    },
+    {
+      "path": "app/features/identity/avatar.py",
+      "role": "venue_v3",
+      "sha256": "652fdef93fdc982d196499f2b40370b9415698d5ad28fdfe363645ac106b8f81"
+    },
+    {
+      "path": "app/features/identity/policy.py",
+      "role": "venue_v3",
+      "sha256": "460c3149da53be038b0db7c5d4713a71aa2f3c963ff27342da29502216e252c2"
+    },
+    {
+      "path": "app/features/jobs/coordination.py",
+      "role": "venue_v3",
+      "sha256": "efd7d075130bb605ddbd7c7d989ab1b69c2ad96a7810163306c9ad95a21a7d24"
+    },
+    {
+      "path": "app/features/projects/repository.py",
+      "role": "venue_v3",
+      "sha256": "0a15798f7815224309b92dc020d71f9d5413ad89d20f753cb7651b308975262a"
     },
     {
       "path": "app/services/__init__.py",
@@ -27,7 +62,7 @@
     },
     {
       "path": "app/services/pipeline.py",
-      "sha256": "a8de92529bf18e5bd529c5ac0316e4f501ab0fe947d4d4c9de0a362bde461442"
+      "sha256": "d1bbc6b071420c9f12c7c679e710acfa98367be44ccf5dc278a8adf1d39ea27b"
     },
     {
       "path": "app/services/reporting.py",
@@ -35,7 +70,7 @@
     },
     {
       "path": "app/services/results.py",
-      "sha256": "4bd46764dd0b977d00a58f0b53f8b4dbe8b5d9a042058415e020117dab11310b"
+      "sha256": "e4563db52e6d03fbea2d20ad1920cee9682ca726f24f3b162a69d6e6dee2f312"
     },
     {
       "path": "app/services/reviews.py",
@@ -43,11 +78,11 @@
     },
     {
       "path": "app/services/storage.py",
-      "sha256": "32c25dec790a815b3b69a28891a2328dbd175ad326c35b20176d764e57b534cb"
+      "sha256": "fac0ad9dc7de3c8ade4f4cfb4bfd2e6a7eba90b51bdac7264ecd2eccd67d8b5f"
     },
     {
       "path": "app/services/system_info.py",
-      "sha256": "42f714206889eea039031e68c5120c23ea3b639c4bff422c7870e8f635d7e543"
+      "sha256": "63653323026888c05ac04d83097f048a9c4b4382f293450e80d15b381cc34616"
     },
     {
       "path": "app/services/team_hints.py",
@@ -63,7 +98,7 @@
     },
     {
       "path": "app/static/app.js",
-      "sha256": "e721c4a75cb00f6b66352be17ec3c3f018d138406763a41f7d1ce753c8ce23e8"
+      "sha256": "efaece8dc022c1d7257b7375f046dc71e63571ed13be8bc2dc08645fc4e1bbb7"
     },
     {
       "path": "app/static/index.html",
@@ -75,7 +110,7 @@
     },
     {
       "path": "app/static/styles.css",
-      "sha256": "cbc0915aad39f6980874cf963d634498d527947fd31ac86afa7c4f5937d96ccf"
+      "sha256": "261e0612637faa43bb7ebd7d1d2fc1e49839131833b5d4d0d443a0c744c0fce4"
     },
     {
       "path": "app/static/user_guide.html",
@@ -104,6 +139,36 @@
     {
       "path": "app/tests/test_team_hints.py",
       "sha256": "88832df186606d727f6e75a49dcfcd141040eeeda57cdd9e724b3e9bd67d107c"
+    },
+    {
+      "path": "deploy.ps1",
+      "role": "venue_v3",
+      "sha256": "22471b6b69b7b732dd51e584f7685341029f7d14d54eaab13470bb9c0f5aacd8"
+    },
+    {
+      "path": "deploy.sh",
+      "role": "venue_v3",
+      "sha256": "bf86c08e751d9ab82ebfc4aebd0be0e01709b8a57ee53f0d412e9076253972a3"
+    },
+    {
+      "path": "deploy/Dockerfile",
+      "role": "venue_v3",
+      "sha256": "d12171f21dcad2058aa38bcd70169f40c9283cf95658a2b6b3c5f6b32afe7d47"
+    },
+    {
+      "path": "deploy/compose.gpu.yaml",
+      "role": "venue_v3",
+      "sha256": "96fa6bb310e26f9efd1b223d7bb3104c24a45c929d30b5b6fe4e5ea8ee559fd3"
+    },
+    {
+      "path": "deploy/compose.yaml",
+      "role": "venue_v3",
+      "sha256": "f9820794ad8e39d746743d673a3e4da3ae26fcae503aaed6c232015c4f9e4cc7"
+    },
+    {
+      "path": "deploy/postgres/init/001_schema.sql",
+      "role": "venue_v3",
+      "sha256": "d946a077e6e031b8882b7d44eb7e970cbdd7352369ccda9f1167b01ca8390d17"
     },
     {
       "path": "engine/football_metric_running/pyproject.toml",
@@ -228,6 +293,26 @@
     {
       "path": "engine/identity_audit/tests/test_transitions.py",
       "sha256": "d99021ddd700c34594f7378ee7a35e09c7f24b1c875f3574ac078a01e5ed1abf"
+    },
+    {
+      "path": "engine/identity_resolution/reid_model/train_adapt.py",
+      "role": "venue_v3",
+      "sha256": "26731b8ac682244390620a4fb3dddc6e7429300b354489a59693731db08dc999"
+    },
+    {
+      "path": "engine/identity_resolution/scripts/run_full_match.py",
+      "role": "venue_v3",
+      "sha256": "c032ae13df78a604b36a7ce1745456bf692f7c5b274851653b04b2a712fe33e9"
+    },
+    {
+      "path": "engine/identity_resolution/src/features.py",
+      "role": "venue_v3",
+      "sha256": "90d1c4d53eaeefa670e53c745cdc65ec16e0f2caef4cc7031ea4852998a3ef8f"
+    },
+    {
+      "path": "engine/identity_resolution/src/second_stage.py",
+      "role": "venue_v3",
+      "sha256": "3d4fb35cfde296c6a1347e352616f501408a0ab123a590e53805a31b9fab2c53"
     },
     {
       "path": "engine/match_analysis/analysis_lib/__init__.py",
@@ -563,31 +648,31 @@
     },
     {
       "path": "scripts/acceptance_check.py",
-      "sha256": "9e9fa6cee4ac929508b432deac6f99659d8708add41c0680f8cde968aaee6c20"
+      "sha256": "aa92a2bdd7863eed2722792b1697ee14cc30d902010ce695480d80e9fc3565cf"
     },
     {
       "path": "scripts/audit_engine_chain.py",
-      "sha256": "a8c7e036dec540760b4baba6b775b8d79760e737179b3d18650edb6965f92ce9"
+      "sha256": "755437ff8974da41162d663450cd6664e9e16093767e1ceb4602cf359c1446b1"
     },
     {
       "path": "scripts/build_release.py",
-      "sha256": "8f406f4fb9ed35ef94aa4c662a9af73e2b728f26a049d92bf7c1b8715bb2db3d"
+      "sha256": "1715f9aa7bf7ab35f33cf993977779e23e326b4cdb3a56b68ce058c630ccf8e3"
     },
     {
       "path": "scripts/generate_release_metadata.py",
-      "sha256": "5b95cfde00745e88cf6bef24a82be4b8b66cd0776c34163d3fa6231be2b4ad93"
+      "sha256": "cdc271f189b0494397484b9e6b579479f8aed8295ce2c593e012adbb52a094aa"
     },
     {
       "path": "scripts/install_default_model.py",
-      "sha256": "e828b0bd2aede3613e38e7fd640337dad422a6967de32b63ec3710c83ab5646d"
+      "sha256": "72b341c8d26a8417e1bf4abd284cc520443c16a127be3e7a0f9a0c498940a333"
     },
     {
       "path": "scripts/system_check.py",
-      "sha256": "0c26d19c45f58443251835b5d6fca4b18e10e351506eedc680f489b3639d8295"
+      "sha256": "41adfb1667e5793d6b69a29017a93f2b87033148971c7a48ff95438e73720dab"
     },
     {
       "path": "scripts/validate_windows_launchers.py",
-      "sha256": "0c060807bedc0a23a99d781a4005b2a3ff9c6d781e96afcc7873bf6affae32f3"
+      "sha256": "e3a93414e2a3b8011270e6636cbbbd8a4a3b95771d04bb29c5244291531ad7e9"
     },
     {
       "path": "scripts/verify_dynamic_calibration.py",
@@ -599,7 +684,7 @@
     },
     {
       "path": "scripts/verify_product.py",
-      "sha256": "1696ae5983f3b3867ceef54f2f0a3ee4865a1ec9dafaa7f81d32eeb9286849c5"
+      "sha256": "23f400dbe850060bf16cee2d3b9557f40ff3a5abe802288ab3d657b9447b35ef"
     },
     {
       "path": "scripts/windows_launcher.py",
@@ -611,7 +696,8 @@
     }
   ],
   "summary": {
-    "critical_files_total": 151,
-    "critical_files_matched": 151
-  }
+    "critical_files_total": 168,
+    "critical_files_matched": 168
+  },
+  "generated_at": "2026-09-14T20:18:53+08:00"
 }

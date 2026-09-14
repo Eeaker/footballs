@@ -4,7 +4,8 @@ cd /d "%~dp0"
 title Football Insight - Offline Installer
 
 echo ============================================================
-echo Football Insight V2.3.3 - Windows Offline Installer
+echo Football Insight V3.0.0 - Windows Offline Installer
+echo No Docker. Python is taken from wheelhouse if missing.
 echo ============================================================
 
 if not exist "%~dp0wheelhouse\" (

@@ -39,7 +39,7 @@ def system_status() -> dict[str, Any]:
     RUNTIME_ROOT.mkdir(parents=True, exist_ok=True)
     disk = shutil.disk_usage(RUNTIME_ROOT)
     weights = MODELS_ROOT / "yolov8x.pt"
-    gpu = {"available": False, "name": None, "cuda": None, "device_count": 0}
+    gpu = {"available": False, "name": None, "cuda": None, "device_count": 0, "bf16": False}
     try:
         import torch
         gpu["available"] = bool(torch.cuda.is_available())
@@ -47,6 +47,7 @@ def system_status() -> dict[str, Any]:
         gpu["device_count"] = int(torch.cuda.device_count()) if gpu["available"] else 0
         if gpu["available"]:
             gpu["name"] = torch.cuda.get_device_name(0)
+            gpu["bf16"] = bool(torch.cuda.is_bf16_supported())
     except Exception:
         pass
 
@@ -72,6 +73,7 @@ def system_status() -> dict[str, Any]:
         "jersey_ocr": (SYSTEM_ROOT / "engine" / "match_analysis" / "run_jersey_ocr.py").is_file(),
         "player_cards": (SYSTEM_ROOT / "engine" / "match_analysis" / "generate_player_card.py").is_file(),
         "identity_audit": (SYSTEM_ROOT / "engine" / "identity_audit" / "mode_split" / "audit_mot.py").is_file(),
+        "identity_resolution": (SYSTEM_ROOT / "engine" / "identity_resolution" / "scripts" / "run_full_match.py").is_file(),
     }
     chain = _load_chain_audit()
     return {

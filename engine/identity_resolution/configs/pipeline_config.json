@@ -1,0 +1,168 @@
+{
+  "pipeline": {
+    "name": "football_reid_pipeline",
+    "version": "2.0",
+    "association_mode": "second_stage"
+  },
+  "paths": {
+    "audit_data": "data/audit_data.pkl",
+    "video": "data/video.mp4",
+    "reid_config": "configs/reid_config.json",
+    "reid_weights": "weights/reid_best.pth",
+    "manifest": "reid_model/data/manifest.csv",
+    "output_dir": "../reid_pipeline_runs"
+  },
+  "reassociation": {
+    "fps": 30,
+    "max_gap": 60,
+    "threshold": 0.75,
+    "ambiguity_margin": 0.05,
+    "hard_constraints": {
+      "distance_slack_m": 1,
+      "max_speed_m_s": 9,
+      "residual_slack_m": 0.7,
+      "residual_growth_m_s": 3,
+      "min_app_sim": 0.9,
+      "min_col_sim": 0.35,
+      "kit_match_required": true
+    },
+    "scoring_weights": {
+      "motion": 0.3,
+      "appearance": 0.5,
+      "colour": 0.2
+    },
+    "gt_filter": false
+  },
+  "reid": {
+    "model": "TransReID JPM",
+    "feature_dim": 3840,
+    "batch_size": 8
+  },
+  "quality": {
+    "confidence": 0.55,
+    "max_overlap": 0.15,
+    "sample_every_frames": 15,
+    "observation_policy": {
+      "audit_sha256": "6972552d29912c401327840c683a954563fc0f8eaf344b32c8c27eae24d5bd0f",
+      "invalid_detections": [
+        {
+          "source_local_id": 180,
+          "frames": [
+            353,
+            354,
+            355,
+            356,
+            357,
+            358
+          ]
+        }
+      ],
+      "compatible_audit_sha256": [
+        "6972552d29912c401327840c683a954563fc0f8eaf344b32c8c27eae24d5bd0f",
+        "735a9243340505df6e94bb456c2e64b5a9981a6c1d34a6b992fb641910d51dec"
+      ]
+    }
+  },
+  "selftrain": {
+    "enabled": false,
+    "epochs": 5,
+    "lr_backbone": 2e-06,
+    "lr_head": 2e-05,
+    "patience": 2,
+    "steps_per_epoch": 10,
+    "instances_per_identity": 2,
+    "max_rounds": 2,
+    "train_windows": [
+      [
+        0,
+        1049
+      ]
+    ],
+    "min_similarity": 0.9,
+    "teacher_margin": 0.1,
+    "max_pseudo_per_seed": 0.5,
+    "min_validation_gain": 0.002
+  },
+  "render": {
+    "fps": 30,
+    "sample_rate": 1,
+    "show_confidence": true,
+    "show_legend": true
+  },
+  "second_stage": {
+    "max_gap": 1800,
+    "fps": 30,
+    "min_samples": 2,
+    "max_samples": 16,
+    "min_affinity": 0.85,
+    "min_centroid": 0.7,
+    "appearance_floor": 0.65,
+    "short_appearance_floor": 0.65,
+    "long_appearance_floor": 0.7,
+    "gallery_rewrite_affinity": false,
+    "gallery_veto": true,
+    "gallery_floor": 0.65,
+    "unmatched_to_registered_long_floor": 0.8,
+    "absorb_affinity": 0.8,
+    "mutual_unique": true,
+    "min_colour": 0.25,
+    "component_min_centroid": 0.55,
+    "component_min_affinity": 0.62,
+    "ambiguity_margin": 0.05,
+    "distance_slack_m": 1.5,
+    "max_speed_m_s": 9.0,
+    "local_matching": true,
+    "sparse_bridge": true,
+    "occupancy_veto": false,
+    "mixed_box_exclude": true,
+    "gta_additive": true,
+    "gta_merge_dist": 0.4,
+    "rule_geometry": false,
+    "quarantine_bridge": false,
+    "use_training_references": true,
+    "reference_threshold": 0.7,
+    "reference_margin": 0.25,
+    "reference_vote": 0.6
+  },
+  "third_stage": {
+    "rule_only": true,
+    "rule_geometry": true,
+    "rule_max_gap": 60,
+    "rule_max_m": 3.5,
+    "quarantine_bridge": true,
+    "quarantine_max_gap": 120,
+    "mixed_box_exclude": true,
+    "sparse_bridge": true,
+    "gta_additive": false,
+    "gta_connect": false,
+    "use_training_references": false
+  },
+  "inference_quality": {
+    "confidence": 0.55,
+    "max_overlap": 0.15,
+    "sample_every_frames": 15,
+    "endpoint_guard_frames": 0,
+    "short_track_frames": 45,
+    "short_track_samples": 4,
+    "observation_policy": {
+      "audit_sha256": "6972552d29912c401327840c683a954563fc0f8eaf344b32c8c27eae24d5bd0f",
+      "invalid_detections": [
+        {
+          "source_local_id": 180,
+          "frames": [
+            353,
+            354,
+            355,
+            356,
+            357,
+            358
+          ]
+        }
+      ],
+      "compatible_audit_sha256": [
+        "6972552d29912c401327840c683a954563fc0f8eaf344b32c8c27eae24d5bd0f",
+        "735a9243340505df6e94bb456c2e64b5a9981a6c1d34a6b992fb641910d51dec"
+      ]
+    }
+  }
+}

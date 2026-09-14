@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from app.config import DEMO_ROOT
+from app.features.identity.policy import build_display_id, confirmed_jersey, load_identity_catalog
 from app.services.storage import project_dir
 
 
@@ -238,11 +239,9 @@ def team_overview(project: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def players(project: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return the full technical-player set, enriched by curated player-card rows and human identity mappings.
-
-    Formal output must not disappear just because only a subset of IDs has a curated card.
-    """
+    """Return real players only; unmerged technical IDs remain isolated."""
     paths = output_paths(project)
+    catalog = load_identity_catalog(paths["root"])
     cards = _read_csv(paths["cards"] / "player_running_summary.csv")
     running = _read_csv(paths["running"] / "player_running_summary.csv")
     team_rows = {_int(r.get("global_id"), -1): r.get("team_id", "") for r in _read_csv(paths["analysis"] / "player_team_map.csv")}
@@ -257,7 +256,6 @@ def players(project: dict[str, Any]) -> list[dict[str, Any]]:
         except Exception:
             identity_overrides = {}
             assessment_overrides = {}
-
     def apply_reviews(item: dict[str, Any]) -> dict[str, Any]:
         gids = item.get("global_ids") or []
         out = dict(item)
@@ -289,14 +287,20 @@ def players(project: dict[str, Any]) -> list[dict[str, Any]]:
     for row in cards:
         gids = [_int(x, -1) for x in str(row.get("metric_global_ids") or "").replace(";", ",").split(",") if x.strip()]
         gids = [g for g in gids if g >= 0]
+        canonical = gids[0] if gids else -1
+        resolved_sources = catalog.source_ids(canonical)
+        if resolved_sources:
+            gids = list(resolved_sources)
         card_gid_set.update(gids)
+        if canonical >= 0:
+            card_gid_set.add(canonical)
         team = row.get("team") or (team_rows.get(gids[0]) if gids else "")
         card_items.append({
             "player_id": row.get("player_id") or (f"ID {gids[0]}" if gids else "球员"),
             "jersey_number": row.get("jersey_number") or "—", "team_id": team, "team": _team_label(project, team), "global_ids": gids,
             "total_distance_m": _float(row.get("total_distance")), "sprint_count": _int(row.get("sprint_count")),
             "max_speed_mps": _float(row.get("max_speed_mps")), "speed_p95_mps": _float(row.get("speed_p95_mps")),
-            "visible_time_sec": _float(row.get("tracked_visible_time_sec")), "identity_status": row.get("identity_resolution_status") or "candidate",
+            "visible_time_sec": _float(row.get("tracked_visible_time_sec")), "identity_status": "reid_confirmed" if resolved_sources else (row.get("identity_resolution_status") or "candidate"),
             "quality": row.get("data_quality") or "", "heatmap_path": row.get("heatmap_data_path") or None, "card_available": True,
         })
 
@@ -305,14 +309,15 @@ def players(project: dict[str, Any]) -> list[dict[str, Any]]:
         gid = _int(row.get("global_id"), -1)
         if gid < 0 or gid in card_gid_set:
             continue
+        resolved_sources = catalog.source_ids(gid)
         team = team_rows.get(gid, ""); num = number_rows.get(gid, {})
         jersey = num.get("predicted_number") if "confirm" in str(num.get("status") or "").lower() else "待确认"
         item = {
-            "player_id": f"ID {gid}", "jersey_number": jersey or "待确认", "team_id": team, "team": _team_label(project, team), "global_ids": [gid],
+            "player_id": f"ID {gid}", "jersey_number": jersey or "待确认", "team_id": team, "team": _team_label(project, team), "global_ids": list(resolved_sources) if resolved_sources else [gid],
             "total_distance_m": _float(row.get("total_distance_m")), "sprint_count": _int(row.get("sprint_count")),
             "max_speed_mps": _float(row.get("peak_speed_mps_p95") or row.get("max_speed_mps")),
             "speed_p95_mps": _float(row.get("peak_speed_mps_p95")), "visible_time_sec": _float(row.get("valid_duration_sec")),
-            "identity_status": "candidate", "quality": row.get("quality_flags") or "", "heatmap_path": None, "card_available": False,
+            "identity_status": "reid_confirmed" if resolved_sources else "candidate", "quality": row.get("quality_flags") or "", "heatmap_path": None, "card_available": False,
         }
         out.append(apply_reviews(item))
     # Multiple fragmented technical IDs may be confirmed as one real player.
@@ -361,6 +366,26 @@ def players(project: dict[str, Any]) -> list[dict[str, Any]]:
         merged.append(base)
     for item in merged:
         item.pop("_person_key", None)
+    if project.get("kind") != "demo":
+        # A real player must be a confirmed merge. Long/short unmerged tracks,
+        # quarantine observations, and mere candidates stay in the audit views.
+        merged = [item for item in merged if len(set(item.get("global_ids") or ())) >= 2]
+    for item in merged:
+        gids = [int(gid) for gid in item.get("global_ids") or []]
+        ocr = next((number_rows.get(gid, {}) for gid in gids
+                    if confirmed_jersey(number_rows.get(gid, {}).get("predicted_number"), number_rows.get(gid, {}).get("status"))), {})
+        jersey = confirmed_jersey(ocr.get("predicted_number"), ocr.get("status")) or confirmed_jersey(item.get("jersey_number"))
+        if jersey:
+            item["jersey_number"] = jersey
+        ocr_team = str(ocr.get("team_label") or ocr.get("team") or "").strip()
+        if ocr_team:
+            item["team"] = ocr_team
+        fallback = str(item.get("player_id") or (f"ID {gids[0]}" if gids else "球员"))
+        item["display_id"] = build_display_id(item.get("team"), jersey, fallback)
+        item["player_id"] = item["display_id"]
+        item["avatar_url"] = (f"/api/projects/{project['id']}/players/{gids[0]}/avatar.jpg"
+                              if project.get("kind") != "demo" and project.get("id") and gids else None)
+        item["publication_status"] = "confirmed_merged"
     return sorted(merged, key=lambda r: (-r["total_distance_m"], str(r["player_id"])))
 
 

@@ -1,0 +1,202 @@
+{
+  "image_retrieval": {
+    "valid_queries": 101,
+    "total_queries": 101,
+    "covered_identities": 9,
+    "rank1_macro": 0.5931586931586932,
+    "mAP_macro": 0.51708355665411
+  },
+  "cross_algorithm_retrieval": {
+    "valid_queries": 89,
+    "total_queries": 101,
+    "covered_identities": 8,
+    "rank1_macro": 0.5008388670153376,
+    "mAP_macro": 0.48303660421883277
+  },
+  "track_rank1_macro": 0.7037037037037037,
+  "track_count": 19,
+  "cross_algorithm_track_count": 6,
+  "cross_algorithm_track_rank1": 0.5,
+  "same_kit_negative_pairs": 56,
+  "all_negative_pairs": 152,
+  "positive_pairs": 19,
+  "threshold_from_validation": 0.9480463266372682,
+  "TAR": 0.10526315789473684,
+  "same_kit_FAR": 0.0,
+  "all_FAR": 0.0,
+  "tracks": [
+    {
+      "pid": 0,
+      "algorithm_id": 129,
+      "source_local_id": 375,
+      "crops": 6,
+      "predicted_pid": 0,
+      "positive_score": 0.9341558814048767,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 0,
+      "algorithm_id": 129,
+      "source_local_id": 501,
+      "crops": 3,
+      "predicted_pid": 0,
+      "positive_score": 0.9290763139724731,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 0,
+      "algorithm_id": 129,
+      "source_local_id": 547,
+      "crops": 4,
+      "predicted_pid": 3,
+      "positive_score": 0.8885712027549744,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 1,
+      "algorithm_id": 31,
+      "source_local_id": 31,
+      "crops": 9,
+      "predicted_pid": 1,
+      "positive_score": 0.9015145301818848,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 1,
+      "algorithm_id": 31,
+      "source_local_id": 514,
+      "crops": 2,
+      "predicted_pid": 1,
+      "positive_score": 0.8566797971725464,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 1,
+      "algorithm_id": 31,
+      "source_local_id": 469,
+      "crops": 1,
+      "predicted_pid": 6,
+      "positive_score": 0.8510857224464417,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 2,
+      "algorithm_id": 120,
+      "source_local_id": 412,
+      "crops": 13,
+      "predicted_pid": 2,
+      "positive_score": 0.9411637783050537,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 2,
+      "algorithm_id": 120,
+      "source_local_id": 523,
+      "crops": 4,
+      "predicted_pid": 2,
+      "positive_score": 0.914252758026123,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 3,
+      "algorithm_id": 158,
+      "source_local_id": 343,
+      "crops": 14,
+      "predicted_pid": 3,
+      "positive_score": 0.9682087898254395,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 4,
+      "algorithm_id": 200,
+      "source_local_id": 431,
+      "crops": 6,
+      "predicted_pid": 4,
+      "positive_score": 0.9316408634185791,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 4,
+      "algorithm_id": 200,
+      "source_local_id": 505,
+      "crops": 1,
+      "predicted_pid": 8,
+      "positive_score": 0.8303884267807007,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 4,
+      "algorithm_id": 200,
+      "source_local_id": 511,
+      "crops": 4,
+      "predicted_pid": 4,
+      "positive_score": 0.9530754089355469,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 5,
+      "algorithm_id": 206,
+      "source_local_id": 468,
+      "crops": 1,
+      "predicted_pid": 8,
+      "positive_score": 0.8718932271003723,
+      "cross_algorithm": true
+    },
+    {
+      "pid": 5,
+      "algorithm_id": 206,
+      "source_local_id": 474,
+      "crops": 2,
+      "predicted_pid": 5,
+      "positive_score": 0.8828200101852417,
+      "cross_algorithm": true
+    },
+    {
+      "pid": 5,
+      "algorithm_id": 219,
+      "source_local_id": 495,
+      "crops": 2,
+      "predicted_pid": 0,
+      "positive_score": 0.8029524087905884,
+      "cross_algorithm": true
+    },
+    {
+      "pid": 6,
+      "algorithm_id": 161,
+      "source_local_id": 356,
+      "crops": 6,
+      "predicted_pid": 6,
+      "positive_score": 0.9162760376930237,
+      "cross_algorithm": false
+    },
+    {
+      "pid": 6,
+      "algorithm_id": 235,
+      "source_local_id": 520,
+      "crops": 1,
+      "predicted_pid": 6,
+      "positive_score": 0.8852986693382263,
+      "cross_algorithm": true
+    },
+    {
+      "pid": 7,
+      "algorithm_id": 181,
+      "source_local_id": 469,
+      "crops": 11,
+      "predicted_pid": 1,
+      "positive_score": 0.9223719835281372,
+      "cross_algorithm": true
+    },
+    {
+      "pid": 8,
+      "algorithm_id": 217,
+      "source_local_id": 494,
+      "crops": 11,
+      "predicted_pid": 8,
+      "positive_score": 0.9303109049797058,
+      "cross_algorithm": true
+    }
+  ],
+  "caveat": "Small correlated single-clip sample; empirical FAR is not a population guarantee.",
+  "note": "Existing OSNet participated in tracking/pseudo-label creation; human groups reviewed, single-clip development validation only."
+}

@@ -6,7 +6,7 @@ root = fso.GetParentFolderName(WScript.ScriptFullName)
 pythonw = fso.BuildPath(root, ".venv\Scripts\pythonw.exe")
 launcher = fso.BuildPath(root, "scripts\windows_launcher.py")
 If Not fso.FileExists(pythonw) Then
-  MsgBox "Runtime environment is not installed. Run RUN_WINDOWS.bat first.", 16, "Football Insight"
+  MsgBox "Runtime environment is not installed. Run DEPLOY_ONE_CLICK_WINDOWS.bat first.", 16, "Football Insight"
   WScript.Quit 1
 End If
 cmd = Chr(34) & pythonw & Chr(34) & " " & Chr(34) & launcher & Chr(34)

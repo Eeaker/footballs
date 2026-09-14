@@ -1,9 +1,9 @@
 {
   "schema_version": 4,
   "system": "赛场洞察 Football Insight",
-  "version": "2.3.3",
-  "generated_at": "2026-08-31T07:41:46+00:00",
-  "product_positioning": "Windows 优先的正式足球比赛视频分析系统；demo_data 仅为只读示例，不是正式工作流依赖。",
+  "version": "3.0.0",
+  "generated_at": "2026-09-14T17:53:08+08:00",
+  "product_positioning": "面向场馆的容器化足球比赛分析系统；管理端跨平台，正式 BF16 分析运行于 NVIDIA 节点。",
   "formal_workflow": [
     "新建项目",
     "上传视频/名单与视频体检",
@@ -20,6 +20,8 @@
     "onboarding_video_health": true,
     "field_filter_and_global_ids": true,
     "identity_quality_audit": true,
+    "identity_two_stage_recovery": true,
+    "reid_full_parameter_bf16": true,
     "jersey_number_ocr": true,
     "multi_anchor_dynamic_calibration": true,
     "metric_running": true,
@@ -30,9 +32,9 @@
     "player_cards": true,
     "formal_match_report": true,
     "source_sha256_audit": {
-      "status": "passed",
-      "matched": 151,
-      "total": 151
+      "status": "verified",
+      "matched": 168,
+      "total": 168
     }
   },
   "calibration": {
@@ -65,6 +67,9 @@
     "player_cards": true,
     "pass_human_review": true,
     "technical_id_to_real_player_confirmation": true,
+    "unmerged_identity_quarantine": true,
+    "clear_frame_player_avatar": true,
+    "ocr_team_jersey_display_id": true,
     "human_eight_dimension_assessment": true,
     "team_semantic_mapping": true,
     "html_report_print_to_pdf": true,
@@ -72,23 +77,18 @@
     "project_result_zip": true
   },
   "deployment": {
-    "primary_target": "Windows 10/11 x64 + NVIDIA GPU",
-    "python_recommended": "3.11 or 3.12 (64-bit)",
-    "local_venv": true,
-    "one_click_install": "INSTALL_WINDOWS.bat",
-    "first_run_entry": "RUN_WINDOWS.bat",
-    "one_click_start": "START_WINDOWS.bat",
-    "presentation_silent_start": "PRESENT_WINDOWS.vbs",
-    "one_click_stop": "STOP_WINDOWS.bat",
-    "offline_cache_builder": "PREPARE_OFFLINE_WINDOWS.bat",
-    "offline_installer": "INSTALL_OFFLINE_WINDOWS.bat",
-    "one_click_check": "CHECK_WINDOWS.bat",
-    "torch_diagnostics": "DIAGNOSE_WINDOWS.bat / runtime/diagnostics/windows_torch_probe.json",
-    "vc_runtime_bootstrap": "Microsoft Visual C++ v14 x64 redistributable is checked/installed before torch",
-    "pytorch_policy": "reuse healthy install; otherwise pinned torch 2.7.1 / torchvision 0.22.1 with CUDA channel fallback",
-    "default_model_installer": "DOWNLOAD_MODEL_WINDOWS.bat",
-    "required_model": "models/yolov8x.pt (installed/downloaded separately)",
-    "ffmpeg": "optional enhancement; OpenCV is the hard video I/O dependency",
+    "primary_target": "Windows one-click native runtime; Docker optional for venue Postgres/Redis/MinIO",
+    "host_python_required": false,
+    "one_click_windows": "DEPLOY_ONE_CLICK_WINDOWS.bat",
+    "one_click_posix": "deploy.sh",
+    "docker_windows": "DEPLOY_DOCKER_WINDOWS.bat",
+    "metadata_database": "PostgreSQL 16 / hash partitioned",
+    "coordination": "Redis 7 distributed leases",
+    "artifact_storage": "MinIO S3-compatible objects",
+    "workspace_policy": "tmpfs staging only; not durable storage",
+    "compute_policy": "CUDA BF16 only for ReID training and inference",
+    "default_model_installer": "automatic container startup download or UI upload",
+    "required_model": "models/yolov8x.pt",
     "default_max_concurrent_gpu_jobs": 1
   },
   "verification": {
@@ -100,7 +100,7 @@
     "multi_anchor_dynamic_calibration_smoke": "PASS (workflow smoke only, not a metric-accuracy claim)",
     "package_and_product_ready": true,
     "fresh_new_video_gpu_end_to_end_verified": false,
-    "fresh_inference_note": "Must be recorded on the target Windows GPU with AI dependencies and yolov8x.pt installed; demo results do not count."
+    "fresh_inference_note": "Must be recorded on a BF16-capable NVIDIA deployment node with yolov8x.pt installed; demo results do not count."
   },
   "docs": [
     "README.md",
@@ -118,19 +118,18 @@
     "top_level_folders": [
       "app",
       "engine",
-      "demo_data",
+      "deploy",
       "models",
-      "runtime",
       "scripts",
       "docs",
       "examples"
     ],
-    "distributable_file_count": 627,
-    "distributable_uncompressed_bytes": 24898823,
+    "distributable_file_count": 873,
+    "distributable_uncompressed_bytes": 395817340,
     "not_bundled_by_design": [
-      "Windows .venv / PyTorch / CUDA wheels (optionally cached by PREPARE_OFFLINE_WINDOWS.bat)",
-      "NVIDIA driver",
-      "yolov8x.pt unless user installs it",
+      "Docker runtime",
+      "NVIDIA driver/toolkit",
+      "yolov8x.pt when startup download is unavailable",
       "user full-match videos",
       "historical research outputs unrelated to runtime"
     ]

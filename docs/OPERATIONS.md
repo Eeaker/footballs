@@ -20,7 +20,7 @@
 
 ## 常见故障定位
 
-- **服务起不来**：先运行 `CHECK_WINDOWS.bat`。
+- **服务起不来**：双击 `DEPLOY_ONE_CLICK_WINDOWS.bat`；仍失败再运行 `CHECK_WINDOWS.bat`。
 - **Torch/CUDA 错误**：运行 `DIAGNOSE_WINDOWS.bat`，必要时 `REPAIR_WINDOWS.bat`。
 - **模型缺失**：运行 `DOWNLOAD_MODEL_WINDOWS.bat` 或在系统状态页上传。
 - **米制分析不启动**：检查动态标定的视频元数据、尺度验证和覆盖率。

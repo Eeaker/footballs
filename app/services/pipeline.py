@@ -17,7 +17,9 @@ import yaml
 
 from app.config import SYSTEM_ROOT, ENGINE_ROOT, PIPELINE_STEPS
 from app.services.calibration import summarize_dynamic
-from app.services.storage import load_project, project_dir, save_project, now_iso
+from app.services.storage import load_project, persist_project_workspace, project_dir, save_project, now_iso
+from app.features.jobs.coordination import JobLease, acquire_job_lease
+from app.features.analytics.importer import persist_analysis_tables
 
 _RUNNERS: dict[str, "PipelineRunner"] = {}
 _CALIBRATORS: dict[str, threading.Thread] = {}
@@ -399,13 +401,14 @@ def _clear_downstream(
 
 
 class PipelineRunner:
-    def __init__(self, project_id: str, from_step: str = "tracking"):
+    def __init__(self, project_id: str, from_step: str = "tracking", lease: JobLease | None = None):
         self.project_id = project_id
         self.from_step = from_step
         self.cancelled = threading.Event()
         self.process: subprocess.Popen | None = None
         self.thread: threading.Thread | None = None
         self.run_id = uuid.uuid4().hex[:12]
+        self.lease = lease
 
     def start(self) -> None:
         self.thread = threading.Thread(target=self.run, name=f"pipeline-{self.project_id}-{self.run_id}", daemon=True)
@@ -506,6 +509,22 @@ class PipelineRunner:
                 self._command([sys.executable, str(ENGINE_ROOT / "tracking" / "run_pipeline.py"), "--config", str(cfg), "--output", str(tracking_out),
                                "--device", str(project["settings"]["device"]), "--vid-stride", "1"], log, track_progress)
                 if not mot.is_file(): raise FileNotFoundError("追踪结果未生成")
+                if bool(project["settings"].get("identity_resolution_enabled", True)):
+                    _set_step(project, "tracking", state="running", progress=80, message="正在进行 BF16 全参 ReID 与两阶段身份找回…")
+                    identity_out = outputs / "identity_resolution"
+                    self._command([
+                        sys.executable, str(ENGINE_ROOT / "identity_resolution" / "scripts" / "run_full_match.py"),
+                        "--video", project["video"]["path"],
+                        "--calibration", project["calibration"]["path"],
+                        "--output", str(identity_out), "--device", "cuda",
+                        "--backbone", str(int(project["settings"].get("reid_backbone_identities", 10))),
+                        "--min-frames", str(int(project["settings"].get("min_track_frames", 10))),
+                    ], log)
+                    resolved_mot = identity_out / "filtered" / "tracking_filtered.txt"
+                    catalog = identity_out / "filtered" / "identity_catalog.json"
+                    if not resolved_mot.is_file() or not catalog.is_file():
+                        raise FileNotFoundError("ReID 身份解析未生成轨迹或隔离目录")
+                    shutil.copy2(resolved_mot, mot)
                 if bool(project["settings"].get("identity_audit_enabled", True)):
                     _set_step(project, "tracking", state="running", progress=96, message="正在进行身份质量审计…")
                     audit_out = outputs / "identity_audit"
@@ -650,6 +669,7 @@ class PipelineRunner:
             }
             project["artifact_manifest"] = str(manifest_path)
             self._record_finish(project, "complete")
+            persist_analysis_tables(project, outputs)
             save_project(project)
         except Exception as exc:
             project = load_project(self.project_id)
@@ -687,6 +707,19 @@ class PipelineRunner:
             try:
                 if log.is_file(): shutil.copy2(log, latest_log)
             except Exception: pass
+            try:
+                persist_project_workspace(self.project_id)
+            except Exception as storage_exc:
+                # Processing result remains in PostgreSQL as failed-to-persist
+                # on the next save; never mask the original pipeline outcome.
+                try:
+                    with log.open("a", encoding="utf-8") as handle:
+                        handle.write(f"\n[object-storage-warning] {storage_exc}\n")
+                except Exception:
+                    pass
+            if self.lease:
+                try: self.lease.release()
+                except Exception: pass
             with _LOCK:
                 _RUNNERS.pop(self.project_id, None)
 
@@ -707,7 +740,10 @@ def start_pipeline(project_id: str, from_step: str = "tracking") -> None:
                 _RUNNERS.pop(project_id, None)
         if len(_RUNNERS) >= _MAX_CONCURRENT_PIPELINES:
             raise RuntimeError(f"分析资源正在被其他比赛占用；当前最多同时运行 {_MAX_CONCURRENT_PIPELINES} 个正式任务")
-        runner = PipelineRunner(project_id, from_step=from_step)
+        lease = acquire_job_lease(project_id)
+        if lease is None:
+            raise RuntimeError("该比赛已由另一台分析节点处理")
+        runner = PipelineRunner(project_id, from_step=from_step, lease=lease)
         _RUNNERS[project_id] = runner
         runner.start()
 

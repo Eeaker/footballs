@@ -39,7 +39,7 @@ def main() -> None:
     checks: list[str] = []
 
     r = client.get("/api/health")
-    require(r.status_code == 200 and r.json().get("version") == "2.3.3", "health failed")
+    require(r.status_code == 200 and r.json().get("version") == "3.0.0", "health failed")
     checks.append("health")
 
     r = client.get("/api/system/status")
@@ -195,7 +195,7 @@ def main() -> None:
     finally:
         client.delete(f"/api/projects/{pid}")
 
-    print("Football Insight V2.3.3 product verification: PASS")
+    print("Football Insight V3.0.0 product verification: PASS")
     for item in checks:
         print("  PASS", item)
     print("NOTE: this verifier does not claim a fresh YOLO inference run; that requires models/yolov8x.pt.")

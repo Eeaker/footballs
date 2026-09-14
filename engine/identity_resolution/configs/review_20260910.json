@@ -1,0 +1,13 @@
+{
+  "purpose": "held-out evaluation only, never seed selection or training merges",
+  "groups": {
+    "129": [129,5,244], "31": [31,330,312,327], "120": [120,27],
+    "158": [158,1], "124": [124,9,78,200,303,107,118,264,291,122],
+    "150": [150,25,67,136,206,219,252,271,295],
+    "161": [161,7,51,97,235,321,115,225,93],
+    "142": [142,2,141,181,259,280],
+    "goalkeeper": [18,137,159,198,217,307]
+  },
+  "invalid_ids": [114],
+  "invalid_reason": "User reports merged blue/red person box; not a valid identity crop"
+}

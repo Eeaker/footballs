@@ -79,7 +79,7 @@ try:
 except Exception as exc:
     add("CUDA GPU", False, str(exc), required=False)
 
-print("\nFootball Insight V2.3.3 Windows/Production 系统检查\n" + "=" * 74)
+print("\nFootball Insight V3.0.0 Venue/Production 系统检查\n" + "=" * 74)
 for name, ok, detail, required in checks:
     state = "PASS" if ok else ("WARN" if not required else "FAIL")
     print(f"{state:<5} {name:<48} {detail}")

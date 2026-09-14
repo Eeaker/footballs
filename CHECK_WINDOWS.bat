@@ -5,7 +5,7 @@ title Football Insight - System Check
 
 if not exist ".venv\Scripts\python.exe" (
   echo [ERROR] Runtime environment is not installed.
-  echo Run RUN_WINDOWS.bat first.
+  echo Double-click DEPLOY_ONE_CLICK_WINDOWS.bat first.
   pause
   exit /b 1
 )
